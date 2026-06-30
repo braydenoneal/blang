@@ -1,0 +1,75 @@
+package parser.expression
+
+import parser.Program
+import parser.RunException
+import parser.expression.builtin.list.*
+import parser.expression.builtin.struct.StructEntriesBuiltin
+import parser.expression.builtin.struct.StructKeysBuiltin
+import parser.expression.builtin.struct.StructRemoveBuiltin
+import parser.expression.builtin.struct.StructValuesBuiltin
+import parser.expression.value.ListValue
+import parser.expression.value.StructValue
+import parser.expression.value.Value
+
+data class MemberCallExpression(
+    val member: Expression,
+    val functionName: String,
+    val arguments: Arguments
+) : Expression {
+    override fun evaluate(program: Program): Value<*> {
+        var value: Value<*>?
+
+        if (member is VariableExpression) {
+            for (importStatement in program.imports()) {
+                if (importStatement.identifiers.last() == member.name) {
+                    // TODO: Imports
+//                    var importProgram = program
+//
+//                    for (importName in importStatement.identifiers) {
+//                        for (controller in importProgram.context().entity!!.getConnectedControllerBlockEntities()) {
+//                            if (controller.program().name() == importName) {
+//                                importProgram = controller.program()
+//                            }
+//                        }
+//                    }
+
+                    val callExpression = CallExpression(functionName, arguments)
+                    return callExpression.call(program, program)
+                }
+            }
+
+            value = program.scope.get(member.name)
+        } else {
+            value = member.evaluate(program)
+        }
+
+        if (value is ListValue) {
+            when (functionName) {
+                "append" -> return ListAppendBuiltin(value, arguments).evaluate(program)
+                "insert" -> return ListInsertBuiltin(value, arguments).evaluate(program)
+                "remove" -> return ListRemoveBuiltin(value, arguments).evaluate(program)
+                "pop" -> return ListPopBuiltin(value, arguments).evaluate(program)
+                "contains" -> return ListContainsBuiltin(value, arguments).evaluate(program)
+                "containsAll" -> return ListContainsAllBuiltin(value, arguments).evaluate(program)
+            }
+        }
+
+        if (value is StructValue) {
+            when (functionName) {
+                "remove" -> return StructRemoveBuiltin(value, arguments).evaluate(program)
+                "keys" -> return StructKeysBuiltin(value, arguments).evaluate(program)
+                "values" -> return StructValuesBuiltin(value, arguments).evaluate(program)
+                "entries" -> return StructEntriesBuiltin(value, arguments).evaluate(program)
+            }
+        }
+
+        throw RunException("Member is not a variable nor a list")
+    }
+
+    companion object {
+        fun parse(program: Program, member: Expression, functionName: String): Expression {
+            val arguments: Arguments = Arguments.parse(program)
+            return MemberCallExpression(member, functionName, arguments)
+        }
+    }
+}
