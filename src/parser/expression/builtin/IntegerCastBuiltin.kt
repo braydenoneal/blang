@@ -8,7 +8,7 @@ import parser.expression.value.Value
 
 
 data class IntegerCastBuiltin(val arguments: Arguments) : Expression {
-    override fun evaluate(program: Program): Value<*> {
-        return IntegerValue(this.arguments.floatValue(program, "value", 0).value.toInt())
+    override fun evaluate(program: Program): Value<*>? {
+        return IntegerValue((this.arguments.floatValue(program, "value", 0) ?: return null).value.toInt())
     }
 }

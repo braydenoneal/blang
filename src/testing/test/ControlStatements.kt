@@ -2,7 +2,7 @@ package testing.test
 
 import parser.expression.value.BooleanValue
 import parser.expression.value.IntegerValue
-import parser.expression.value.Null.Companion.VALUE
+import parser.expression.value.Null
 
 class ControlStatements : Test() {
     override fun body(): String {
@@ -33,7 +33,7 @@ class ControlStatements : Test() {
         return listOf(
             Expect("a", BooleanValue(false)),
             Expect("b", IntegerValue(5)),
-            Expect("c", VALUE)
+            Expect("c", Null.VALUE)
         )
     }
 }

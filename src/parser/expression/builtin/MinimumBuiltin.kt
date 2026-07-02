@@ -11,9 +11,9 @@ import kotlin.math.min
 
 
 data class MinimumBuiltin(val arguments: Arguments) : Expression {
-    override fun evaluate(program: Program): Value<*> {
-        var a = arguments.anyValue(program, "a", 0)
-        var b = arguments.anyValue(program, "b", 1)
+    override fun evaluate(program: Program): Value<*>? {
+        var a = arguments.anyValue(program, "a", 0) ?: return null
+        var b = arguments.anyValue(program, "b", 1) ?: return null
 
         if (a is IntegerValue && b is FloatValue) {
             a = FloatValue(a.value.toFloat())

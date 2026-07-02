@@ -8,7 +8,7 @@ import parser.expression.value.Value
 
 
 data class LengthBuiltin(val arguments: Arguments) : Expression {
-    override fun evaluate(program: Program): Value<*> {
-        return IntegerValue(arguments.listValue(program, "value", 0).value.size)
+    override fun evaluate(program: Program): Value<*>? {
+        return IntegerValue((arguments.listValue(program, "value", 0) ?: return null).value.size)
     }
 }

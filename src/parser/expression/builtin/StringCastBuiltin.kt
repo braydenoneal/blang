@@ -8,7 +8,7 @@ import parser.expression.value.Value
 
 
 data class StringCastBuiltin(val arguments: Arguments) : Expression {
-    override fun evaluate(program: Program): Value<*> {
-        return StringValue(arguments.anyValue(program, "value", 0).value.toString())
+    override fun evaluate(program: Program): Value<*>? {
+        return StringValue((arguments.anyValue(program, "value", 0) ?: return null).value.toString())
     }
 }

@@ -11,33 +11,35 @@ import tokenizer.Type
 data class AssignmentExpression(
     val operator: String,
     val variableExpression: Expression,
-    val expression: Expression
+    val expression: Expression,
 ) : Expression {
-    override fun evaluate(program: Program): Value<*> {
-        val value = expression.evaluate(program)
+    override fun evaluate(program: Program): Value<*>? {
+        val value = expression.evaluate(program) ?: return null
 
         if (variableExpression is VariableExpression) {
             if (operator == "=") {
                 return program.scope.set(variableExpression.name, value)
             }
 
-            val prev = program.scope.get(variableExpression.name) ?: throw RunException("Variable '" + variableExpression.name + "' does not exist")
-            return program.scope.set(variableExpression.name, ArithmeticOperator(if (operator == "+=") "+" else "-", prev, value).evaluate(program))
+            val prev = program.scope.get(variableExpression.name)
+            val arithmetic = ArithmeticOperator(if (operator == "+=") "+" else "-", prev, value).evaluate(program) ?: return null
+            return program.scope.set(variableExpression.name, arithmetic)
         } else if (variableExpression is NamedListAccessExpression) {
-            val listValue: Value<*> = variableExpression.variableExpression.evaluate(program)
+            val listValue = variableExpression.variableExpression.evaluate(program) ?: return null
 
             if (listValue is ListValue) {
-                val indexValues = ListValue.toIndexValues(program, variableExpression.indices)
+                val indexValues = ListValue.toIndexValues(program, variableExpression.indices) ?: return null
 
                 if (operator == "=") {
                     return listValue.set(indexValues, value)
                 }
 
                 val prev = listValue.get(indexValues)
-                return listValue.set(indexValues, ArithmeticOperator(if (operator == "+=") "+" else "-", prev, value).evaluate(program))
+                val arithmetic = ArithmeticOperator(if (operator == "+=") "+" else "-", prev, value).evaluate(program) ?: return null
+                return listValue.set(indexValues, arithmetic)
             }
         } else if (variableExpression is MemberExpression) {
-            val struct = variableExpression.member.evaluate(program)
+            val struct = variableExpression.member.evaluate(program) ?: return null
 
             if (struct is StructValue) {
                 if (operator == "=") {
@@ -45,7 +47,8 @@ data class AssignmentExpression(
                 }
 
                 val prev = struct.get(variableExpression.property)
-                struct.set(variableExpression.property, ArithmeticOperator(if (operator == "+=") "+" else "-", prev, value).evaluate(program))
+                val arithmetic = ArithmeticOperator(if (operator == "+=") "+" else "-", prev, value).evaluate(program) ?: return null
+                struct.set(variableExpression.property, arithmetic)
             }
 
         }

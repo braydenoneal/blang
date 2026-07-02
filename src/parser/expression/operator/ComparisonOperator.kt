@@ -13,9 +13,9 @@ data class ComparisonOperator(
     val operandA: Expression,
     val operandB: Expression
 ) : Operator, Expression {
-    override fun evaluate(program: Program): Value<*> {
-        val a = operandA.evaluate(program)
-        val b = operandB.evaluate(program)
+    override fun evaluate(program: Program): Value<*>? {
+        val a = operandA.evaluate(program) ?: return null
+        val b = operandB.evaluate(program) ?: return null
 
         if (operator == "==") {
             return BooleanValue(a == b)

@@ -11,9 +11,9 @@ data class BooleanOperator(
     val operandA: Expression,
     val operandB: Expression
 ) : Operator, Expression {
-    override fun evaluate(program: Program): Value<*> {
-        val a = operandA.evaluate(program)
-        val b = operandB.evaluate(program)
+    override fun evaluate(program: Program): Value<*>? {
+        val a = operandA.evaluate(program) ?: return null
+        val b = operandB.evaluate(program) ?: return null
 
         if (a is BooleanValue && b is BooleanValue) {
             if (operator == "and") {

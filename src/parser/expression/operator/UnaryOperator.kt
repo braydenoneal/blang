@@ -7,8 +7,8 @@ import parser.expression.value.BooleanValue
 import parser.expression.value.Value
 
 data class UnaryOperator(val operand: Expression) : Operator, Expression {
-    override fun evaluate(program: Program): Value<*> {
-        val value = operand.evaluate(program)
+    override fun evaluate(program: Program): Value<*>? {
+        val value = operand.evaluate(program) ?: return null
 
         if (value is BooleanValue) {
             return BooleanValue(!value.value)

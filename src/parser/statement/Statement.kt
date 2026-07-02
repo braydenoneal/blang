@@ -55,20 +55,5 @@ interface Statement {
 
             throw ParseException("Unrecognized statement at $token")
         }
-
-        fun runStatements(program: Program, statements: MutableList<Statement>): Statement? {
-            for (statement in statements) {
-                val statementResult = statement.execute(program)
-
-                if (statementResult is ReturnStatement ||
-                    statementResult is BreakStatement ||
-                    statementResult is ContinueStatement
-                ) {
-                    return statementResult
-                }
-            }
-
-            return null
-        }
     }
 }

@@ -2,10 +2,10 @@ package parser
 
 import Context
 import Logger
-import parser.expression.Arguments
 import parser.statement.FunctionDeclaration
 import parser.statement.ImportStatement
 import parser.statement.Statement
+import parser.statement.StatementList
 import tokenizer.Token
 import tokenizer.Token.Companion.tokenize
 import tokenizer.Type
@@ -14,12 +14,11 @@ import java.util.*
 
 class Program(source: String, private val context: Context) {
     private val imports: MutableList<ImportStatement> = ArrayList()
-    private val statements: MutableList<Statement> = ArrayList()
+    private val statements: StatementList = StatementList()
     private val functions: MutableMap<String, FunctionDeclaration> = HashMap()
     private val topScope = Scope(null)
     private val scopes = Stack<Scope>()
 
-    private var hasRuntimeError = false
     private var position = 0
 
     private val tokens: MutableList<Token>
@@ -32,7 +31,7 @@ class Program(source: String, private val context: Context) {
             tokens = tokenize(source)
         } catch (e: Exception) {
             log.error("Tokenize error", e)
-            tokens = ArrayList<Token>()
+            tokens = ArrayList()
         }
 
         this.tokens = tokens
@@ -60,25 +59,13 @@ class Program(source: String, private val context: Context) {
 
     fun run() {
         try {
-            for (statement in statements) {
-                statement.execute(this)
+            var done = false
+
+            while (!done) {
+                done = statements.runNext(this) != null
             }
         } catch (e: Exception) {
             log.error("Run error", e)
-        }
-    }
-
-    fun runMain() {
-        if (hasRuntimeError) {
-            return
-        }
-
-        try {
-            val main = functions["main"]
-            main?.call(this, Arguments.EMPTY)
-        } catch (e: Exception) {
-            log.error("Run main error", e)
-            hasRuntimeError = true
         }
     }
 

@@ -4,35 +4,45 @@ import parser.Program
 import parser.RunException
 import parser.expression.Expression
 import parser.expression.value.BooleanValue
+import parser.expression.value.Value
 import tokenizer.Type
 
-data class WhileStatement(val condition: Expression, val statements: MutableList<Statement>) : Statement {
-    override fun execute(program: Program): Statement {
-        val start = System.currentTimeMillis()
-        var value = condition.evaluate(program)
-
-        while (value is BooleanValue && value.value) {
-            val statement: Statement? = Statement.runStatements(program, statements)
-
-            if (statement is ReturnStatement) {
-                return statement
-            } else if (statement is BreakStatement) {
-                break
-            }
-
-            if (System.currentTimeMillis() - start > 20) {
-                throw RunException("Maximum while statement iterations exceeded")
-            }
-
-            value = condition.evaluate(program)
+data class WhileStatement(
+    val condition: Expression,
+    val statements: StatementList,
+    var conditionValue: Value<*>? = null,
+) : Statement {
+    override fun execute(program: Program): Statement? {
+        if (conditionValue == null) {
+            val conditionResult = condition.evaluate(program) ?: return null
+            conditionValue = conditionResult
         }
 
-        return this
+        val value = conditionValue
+
+        if (value is BooleanValue) {
+            if (value.value) {
+                val statement = statements.runNext(program) ?: return null
+
+                if (statement is ReturnStatement || statement is BreakStatement) {
+                    conditionValue = null
+                    return statement
+                }
+
+                conditionValue = null
+                return null
+            }
+
+            conditionValue = null
+            return this
+        }
+
+        throw RunException("Expression is not a boolean")
     }
 
     companion object {
         fun parse(program: Program): Statement {
-            val statements: MutableList<Statement> = ArrayList()
+            val statements = StatementList()
 
             program.expect(Type.KEYWORD, "while")
             val condition = Expression.parse(program)

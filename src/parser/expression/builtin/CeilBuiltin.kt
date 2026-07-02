@@ -9,7 +9,7 @@ import kotlin.math.ceil
 
 
 data class CeilBuiltin(val arguments: Arguments) : Expression {
-    override fun evaluate(program: Program): Value<*> {
-        return FloatValue(ceil(arguments.floatValue(program, "value", 0).value.toDouble()).toFloat())
+    override fun evaluate(program: Program): Value<*>? {
+        return FloatValue(ceil((arguments.floatValue(program, "value", 0) ?: return null).value.toDouble()).toFloat())
     }
 }

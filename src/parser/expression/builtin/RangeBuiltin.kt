@@ -9,10 +9,10 @@ import parser.expression.value.Value
 
 
 data class RangeBuiltin(val arguments: Arguments) : Expression {
-    override fun evaluate(program: Program): Value<*> {
-        val end = if (arguments.arguments.size == 1) arguments.integerValue(program, "end", 0).value else arguments.integerValue(program, "end", 1).value
-        val start = if (arguments.arguments.size > 1) arguments.integerValue(program, "start", 0).value else 0
-        val step = if (arguments.arguments.size > 2) arguments.integerValue(program, "step", 2).value else 1
+    override fun evaluate(program: Program): Value<*>? {
+        val end = if (arguments.arguments.size == 1) (arguments.integerValue(program, "end", 0) ?: return null).value else (arguments.integerValue(program, "end", 1) ?: return null).value
+        val start = if (arguments.arguments.size > 1) (arguments.integerValue(program, "start", 0) ?: return null).value else 0
+        val step = if (arguments.arguments.size > 2) (arguments.integerValue(program, "step", 2) ?: return null).value else 1
 
         return RangeValue(Range(start, end, step))
     }

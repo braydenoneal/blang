@@ -3,39 +3,66 @@ package parser.statement
 import parser.Program
 import parser.expression.Expression
 import parser.expression.value.BooleanValue
+import parser.expression.value.Value
 import tokenizer.Type
 
 data class IfStatement(
     val condition: Expression,
-    val statements: MutableList<Statement>,
+    val statements: StatementList,
     val elseIfStatements: MutableList<ElseIfStatement>,
-    val elseStatement: ElseStatement?
+    val elseStatement: ElseStatement?,
+    var conditionValue: Value<*>?,
 ) : Statement {
     override fun execute(program: Program): Statement? {
-        val value = condition.evaluate(program)
+        if (conditionValue == null) {
+            val conditionResult = condition.evaluate(program) ?: return null
+            conditionValue = conditionResult
+        }
+
+        val value = conditionValue
 
         if (value is BooleanValue && value.value) {
-            return Statement.runStatements(program, statements)
+            val result = statements.runNext(program) ?: return null
+            reset()
+            return result
         }
 
         for (elseIfStatement in elseIfStatements) {
-            val elseIfValue = elseIfStatement.condition.evaluate(program)
+            if (elseIfStatement.conditionValue == null) {
+                val elseIfStatementConditionResult = elseIfStatement.condition.evaluate(program) ?: return null
+                elseIfStatement.conditionValue = elseIfStatementConditionResult
+            }
+
+            val elseIfValue = elseIfStatement.conditionValue
 
             if (elseIfValue is BooleanValue && elseIfValue.value) {
-                return Statement.runStatements(program, elseIfStatement.statements)
+                val result = elseIfStatement.statements.runNext(program) ?: return null
+                reset()
+                return result
             }
         }
 
         if (elseStatement == null) {
+            reset()
             return this
         }
 
-        return Statement.runStatements(program, elseStatement.statements)
+        val result = elseStatement.statements.runNext(program) ?: return null
+        reset()
+        return result
+    }
+
+    fun reset() {
+        conditionValue = null
+
+        for (elseIfStatement in elseIfStatements) {
+            elseIfStatement.conditionValue = null
+        }
     }
 
     companion object {
         fun parse(program: Program): Statement {
-            val statements: MutableList<Statement> = ArrayList()
+            val statements = StatementList()
             val elseIfStatements: MutableList<ElseIfStatement> = ArrayList()
             var elseStatement: ElseStatement? = null
 
@@ -57,8 +84,7 @@ data class IfStatement(
                 elseStatement = ElseStatement.parse(program)
             }
 
-            return IfStatement(condition, statements, elseIfStatements, elseStatement)
+            return IfStatement(condition, statements, elseIfStatements, elseStatement, null)
         }
     }
 }
-

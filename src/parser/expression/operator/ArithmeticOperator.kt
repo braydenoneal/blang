@@ -13,9 +13,9 @@ data class ArithmeticOperator(
     val operandA: Expression,
     val operandB: Expression
 ) : Operator, Expression {
-    override fun evaluate(program: Program): Value<*> {
-        var a = operandA.evaluate(program)
-        var b = operandB.evaluate(program)
+    override fun evaluate(program: Program): Value<*>? {
+        var a = operandA.evaluate(program) ?: return null
+        var b = operandB.evaluate(program) ?: return null
 
         if (a is IntegerValue && b is FloatValue) {
             a = FloatValue(a.value.toFloat())

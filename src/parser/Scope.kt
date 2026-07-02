@@ -13,14 +13,14 @@ class Scope(private val parent: Scope?) {
         this.variables = variables
     }
 
-    fun get(name: String): Value<*>? {
+    fun get(name: String): Value<*> {
         val value = variables[name]
 
         if (value == null && parent != null) {
             return parent.get(name)
         }
 
-        return value
+        return value ?: throw RunException("Variable '$name' does not exist")
     }
 
     private fun parentWithVariable(name: String): Scope? {

@@ -3,10 +3,10 @@ package parser.statement
 import parser.Program
 import tokenizer.Type
 
-data class ElseStatement(val statements: MutableList<Statement>) {
+data class ElseStatement(val statements: StatementList) {
     companion object {
         fun parse(program: Program): ElseStatement {
-            val statements: MutableList<Statement> = ArrayList()
+            val statements = StatementList()
 
             program.expect(Type.KEYWORD, "else")
             program.expect(Type.CURLY_BRACE, "{")

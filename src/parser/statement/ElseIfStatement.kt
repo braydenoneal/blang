@@ -2,12 +2,13 @@ package parser.statement
 
 import parser.Program
 import parser.expression.Expression
+import parser.expression.value.Value
 import tokenizer.Type
 
-data class ElseIfStatement(val condition: Expression, val statements: MutableList<Statement>) {
+data class ElseIfStatement(val condition: Expression, val statements: StatementList, var conditionValue: Value<*>?) {
     companion object {
         fun parse(program: Program): ElseIfStatement {
-            val statements: MutableList<Statement> = ArrayList()
+            val statements = StatementList()
 
             program.expect(Type.KEYWORD, "elif")
             val condition = Expression.parse(program)
@@ -19,7 +20,7 @@ data class ElseIfStatement(val condition: Expression, val statements: MutableLis
 
             program.expect(Type.CURLY_BRACE, "}")
 
-            return ElseIfStatement(condition, statements)
+            return ElseIfStatement(condition, statements, null)
         }
     }
 }

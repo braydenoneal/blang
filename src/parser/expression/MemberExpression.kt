@@ -6,8 +6,8 @@ import parser.expression.value.StructValue
 import parser.expression.value.Value
 
 data class MemberExpression(val member: Expression, val property: String) : Expression {
-    override fun evaluate(program: Program): Value<*> {
-        val value = member.evaluate(program)
+    override fun evaluate(program: Program): Value<*>? {
+        val value = member.evaluate(program) ?: return null
 
         if (value is StructValue) {
             return value.get(property)

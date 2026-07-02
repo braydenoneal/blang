@@ -11,7 +11,7 @@ import tokenizer.Type
 import java.util.*
 
 interface Expression {
-    fun evaluate(program: Program): Value<*>
+    fun evaluate(program: Program): Value<*>?
 
     interface Output
 

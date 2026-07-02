@@ -9,11 +9,11 @@ data class NamedListAccessExpression(
     val variableExpression: Expression,
     val indices: MutableList<Expression>
 ) : Expression {
-    override fun evaluate(program: Program): Value<*> {
-        val listValue = variableExpression.evaluate(program)
+    override fun evaluate(program: Program): Value<*>? {
+        val listValue = variableExpression.evaluate(program) ?: return null
 
         if (listValue is ListValue) {
-            return listValue.get(ListValue.toIndexValues(program, indices))
+            return listValue.get(ListValue.toIndexValues(program, indices) ?: return null)
         }
 
         throw RunException("Variable is not a list")

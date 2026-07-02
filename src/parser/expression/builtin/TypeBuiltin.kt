@@ -7,8 +7,8 @@ import parser.expression.value.*
 
 
 data class TypeBuiltin(val arguments: Arguments) : Expression {
-    override fun evaluate(program: Program): Value<*> {
-        val value = arguments.anyValue(program, "value", 0)
+    override fun evaluate(program: Program): Value<*>? {
+        val value = arguments.anyValue(program, "value", 0) ?: return null
 
         val string = when (value) {
             is BooleanValue -> "boolean"

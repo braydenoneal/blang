@@ -9,8 +9,8 @@ import parser.expression.value.Value
 
 
 data class PrintBuiltin(val arguments: Arguments) : Expression {
-    override fun evaluate(program: Program): Value<*> {
-        val value = if (arguments.arguments.isEmpty()) StringValue("") else this.arguments.anyValue(program, "value", 0)
+    override fun evaluate(program: Program): Value<*>? {
+        val value = if (arguments.arguments.isEmpty()) StringValue("") else this.arguments.anyValue(program, "value", 0) ?: return null
         var string = value.toString()
 
         if (value is StringValue) {

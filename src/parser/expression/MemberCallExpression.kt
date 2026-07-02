@@ -16,8 +16,8 @@ data class MemberCallExpression(
     val functionName: String,
     val arguments: Arguments
 ) : Expression {
-    override fun evaluate(program: Program): Value<*> {
-        var value: Value<*>?
+    override fun evaluate(program: Program): Value<*>? {
+        var value: Value<*>
 
         if (member is VariableExpression) {
             for (importStatement in program.imports()) {
@@ -40,7 +40,7 @@ data class MemberCallExpression(
 
             value = program.scope.get(member.name)
         } else {
-            value = member.evaluate(program)
+            value = member.evaluate(program) ?: return null
         }
 
         if (value is ListValue) {

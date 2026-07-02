@@ -6,11 +6,11 @@ import parser.expression.value.FunctionValue
 import parser.expression.value.Value
 
 data class CallExpression(val name: String, val arguments: Arguments) : Expression {
-    override fun evaluate(program: Program): Value<*> {
+    override fun evaluate(program: Program): Value<*>? {
         return call(program, program)
     }
 
-    fun call(program: Program, functionProgram: Program): Value<*> {
+    fun call(program: Program, functionProgram: Program): Value<*>? {
         val function = functionProgram.getFunction(name)
 
         if (function != null) {

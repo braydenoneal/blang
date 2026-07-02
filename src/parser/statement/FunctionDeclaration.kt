@@ -13,7 +13,7 @@ data class FunctionDeclaration(val name: String, val function: Funct) : Statemen
         return this
     }
 
-    fun call(program: Program, arguments: Arguments): Value<*> {
+    fun call(program: Program, arguments: Arguments): Value<*>? {
         return this.function.call(program, arguments)
     }
 
@@ -53,7 +53,7 @@ data class FunctionDeclaration(val name: String, val function: Funct) : Statemen
 
             program.expect(Type.PARENTHESIS, ")")
             program.expect(Type.CURLY_BRACE, "{")
-            val statements: MutableList<Statement> = ArrayList()
+            val statements = StatementList()
 
             while (!program.peekIs(Type.CURLY_BRACE, "}")) {
                 statements.add(Statement.parse(program))

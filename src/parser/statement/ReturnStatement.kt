@@ -11,7 +11,7 @@ data class ReturnStatement(val expression: Expression) : Statement {
         return this
     }
 
-    fun returnValue(program: Program): Value<*> {
+    fun returnValue(program: Program): Value<*>? {
         return expression.evaluate(program)
     }
 

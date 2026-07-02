@@ -6,10 +6,11 @@ import parser.expression.Arguments
 import parser.expression.Expression
 import parser.statement.ReturnStatement
 import parser.statement.Statement
+import parser.statement.StatementList
 import tokenizer.Type
 
 class FunctionValue(value: Funct) : Value<Funct>(value) {
-    fun call(program: Program, arguments: Arguments): Value<*> {
+    fun call(program: Program, arguments: Arguments): Value<*>? {
         return value.call(program, arguments)
     }
 
@@ -49,7 +50,7 @@ class FunctionValue(value: Funct) : Value<Funct>(value) {
             }
 
             program.expect(Type.COLON)
-            val statements: MutableList<Statement> = ArrayList()
+            val statements = StatementList()
 
             if (program.peekIs(Type.CURLY_BRACE, "{")) {
                 program.next()

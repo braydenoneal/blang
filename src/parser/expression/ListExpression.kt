@@ -6,8 +6,8 @@ import parser.expression.value.Value
 import tokenizer.Type
 
 data class ListExpression(val expressions: MutableList<Expression>) : Expression {
-    override fun evaluate(program: Program): Value<*> {
-        return ListValue(ListValue.toIndexValues(program, expressions) as MutableList<Value<*>>)
+    override fun evaluate(program: Program): Value<*>? {
+        return ListValue(ListValue.toIndexValues(program, expressions) ?: return null)
     }
 
     companion object {
