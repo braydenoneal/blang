@@ -23,6 +23,7 @@ class Program(source: String, private val context: Context) {
 
     private val tokens: MutableList<Token>
     private val name: String
+    private var wait = false
 
     init {
         var tokens: MutableList<Token>
@@ -59,14 +60,38 @@ class Program(source: String, private val context: Context) {
 
     fun run() {
         try {
-            var done = false
+            while (true) {
+                val result = tick()
 
-            while (!done) {
-                done = statements.runNext(this) != null
+                if (result != null) {
+                    break
+                }
             }
         } catch (e: Exception) {
             log.error("Run error", e)
         }
+    }
+
+    fun tick(): Statement? {
+        wait = false
+
+        var result = statements.runNext(this)
+
+        while (true) {
+            if (wait || result != null) {
+                break
+            }
+
+            result = statements.runNext(this)
+        }
+
+        Thread.sleep(1_000 / 5)
+
+        return result
+    }
+
+    fun waitUntilNextTick() {
+        wait = true
     }
 
     fun name(): String {

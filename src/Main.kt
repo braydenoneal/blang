@@ -1,8 +1,16 @@
-fun main() {
-    val name = "Kotlin"
-    println("Hello, $name!")
+import parser.Program
 
-    for (i in 1..5) {
-        println("i = $i")
-    }
+fun main() {
+    Thread.sleep(1_000)
+    Program(
+        """
+        fileName;
+        
+        for i in range(10) {
+            print(i);
+            wait(5);
+        }
+        """.trimIndent(),
+        Context(0, 0),
+    ).run()
 }

@@ -21,6 +21,7 @@ object BuiltinExpression {
             "max" -> MaximumBuiltin(Arguments.parse(program))
             "range" -> RangeBuiltin(Arguments.parse(program))
             "type" -> TypeBuiltin(Arguments.parse(program))
+            "wait" -> WaitBuiltin(Arguments.parse(program))
             else -> CallExpression(name, Arguments.parse(program))
         }
     }
