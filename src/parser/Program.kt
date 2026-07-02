@@ -78,7 +78,11 @@ class Program(source: String, private val context: Context) {
         var result = statements.runNext(this)
 
         while (true) {
-            if (wait || result != null) {
+            if (result != null) {
+                return result
+            }
+
+            if (wait) {
                 break
             }
 
