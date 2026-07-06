@@ -2,6 +2,7 @@ package parser
 
 import Logger
 import parser.expression.Expression
+import parser.expression.value.Value
 import parser.statement.FunctionDeclaration
 import parser.statement.ImportStatement
 import parser.statement.Statement
@@ -170,6 +171,10 @@ open class Program(source: String) {
     }
 
     open fun parseCustomBuiltins(name: String): Expression? {
+        return null
+    }
+
+    open fun getCustomType(value: Value<*>): String? {
         return null
     }
 
