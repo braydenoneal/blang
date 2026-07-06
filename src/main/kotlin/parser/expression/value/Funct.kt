@@ -11,10 +11,13 @@ data class Funct(
     val parameters: MutableList<String>,
     val defaultParameters: MutableList<Pair<String, Expression>>,
     val statements: StatementList,
+    var running: Boolean = false,
 ) {
     fun call(program: Program, arguments: Arguments): Value<*>? {
-        // TODO: Check if scope already exists, end scope before returning null
-        program.newScope()
+        if (!running) {
+            running = true
+            program.newScope()
+        }
 
         arguments.namedArguments.forEach { (name: String, expression: Expression) ->
             val hasDefault = this.defaultParameters.stream().anyMatch { it.first == name }
@@ -31,7 +34,7 @@ data class Funct(
                 if (arguments.arguments.size > i) {
                     program.scope.setLocal(
                         parameters[i],
-                        arguments.arguments[i].evaluate(program) ?: return null
+                        arguments.arguments[i].evaluate(program) ?: return null,
                     )
                 } else {
                     throw RunException("Missing argument '" + parameters[i] + "'")
@@ -43,7 +46,7 @@ data class Funct(
             if (defaultParameters.size > i - parameters.size) {
                 program.scope.setLocal(
                     defaultParameters[i - parameters.size].first,
-                    arguments.arguments[i].evaluate(program) ?: return null
+                    arguments.arguments[i].evaluate(program) ?: return null,
                 )
             } else {
                 throw RunException("Provided extra argument")
@@ -63,6 +66,7 @@ data class Funct(
             returnValue = statement.returnValue(program) ?: return null
         }
 
+        running = false
         program.endScope()
         return returnValue
     }
