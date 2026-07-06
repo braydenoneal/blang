@@ -7,7 +7,7 @@ import parser.expression.Expression
 
 object BuiltinExpression {
     fun parse(program: Program, name: String): Expression {
-        return when (name) {
+        return program.parseCustomBuiltins(name) ?: when (name) {
             "abs" -> AbsoluteValueBuiltin(Arguments.parse(program))
             "int" -> IntegerCastBuiltin(Arguments.parse(program))
             "float" -> FloatCastBuiltin(Arguments.parse(program))

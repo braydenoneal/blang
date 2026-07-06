@@ -1,6 +1,7 @@
 package parser
 
 import Logger
+import parser.expression.Expression
 import parser.statement.FunctionDeclaration
 import parser.statement.ImportStatement
 import parser.statement.Statement
@@ -10,19 +11,18 @@ import tokenizer.Token.Companion.tokenize
 import tokenizer.Type
 import java.util.*
 
+open class Program(source: String) {
+    val imports: MutableList<ImportStatement> = ArrayList()
+    val statements: StatementList = StatementList()
+    val functions: MutableMap<String, FunctionDeclaration> = HashMap()
+    val topScope = Scope(null)
+    val scopes = Stack<Scope>()
 
-class Program(source: String) {
-    private val imports: MutableList<ImportStatement> = ArrayList()
-    private val statements: StatementList = StatementList()
-    private val functions: MutableMap<String, FunctionDeclaration> = HashMap()
-    private val topScope = Scope(null)
-    private val scopes = Stack<Scope>()
+    var position = 0
 
-    private var position = 0
-
-    private val tokens: MutableList<Token>
-    private val name: String
-    private var wait = false
+    val tokens: MutableList<Token>
+    val name: String
+    var wait = false
 
     init {
         var tokens: MutableList<Token>
@@ -84,7 +84,7 @@ class Program(source: String) {
             result = statements.runNext(this)
         }
 
-        Thread.sleep(1_000 / 5)
+//        Thread.sleep(1_000 / 5)
 
         return result
     }
@@ -169,9 +169,13 @@ class Program(source: String) {
         return topScope
     }
 
+    open fun parseCustomBuiltins(name: String): Expression? {
+        return null
+    }
+
     val scope: Scope get() = scopes.peek()
 
     companion object {
-        private val log: Logger = Logger()
+        val log: Logger = Logger()
     }
 }
