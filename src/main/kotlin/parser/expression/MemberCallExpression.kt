@@ -14,7 +14,7 @@ import parser.expression.value.Value
 data class MemberCallExpression(
     val member: Expression,
     val functionName: String,
-    val arguments: Arguments
+    val arguments: Arguments,
 ) : Expression {
     override fun evaluate(program: Program): Value<*>? {
         var value: Value<*>
@@ -22,19 +22,9 @@ data class MemberCallExpression(
         if (member is VariableExpression) {
             for (importStatement in program.imports()) {
                 if (importStatement.identifiers.last() == member.name) {
-                    // TODO: Imports
-//                    var importProgram = program
-//
-//                    for (importName in importStatement.identifiers) {
-//                        for (controller in importProgram.context().entity!!.getConnectedControllerBlockEntities()) {
-//                            if (controller.program().name() == importName) {
-//                                importProgram = controller.program()
-//                            }
-//                        }
-//                    }
-
+                    val importProgram = program.getCustomImportProgram(importStatement)
                     val callExpression = CallExpression(functionName, arguments)
-                    return callExpression.call(program, program)
+                    return callExpression.call(program, importProgram)
                 }
             }
 

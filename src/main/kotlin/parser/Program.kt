@@ -178,6 +178,10 @@ open class Program(source: String) {
         return null
     }
 
+    open fun getCustomImportProgram(importStatement: ImportStatement): Program {
+        return this
+    }
+
     val scope: Scope get() = scopes.peek()
 
     companion object {
