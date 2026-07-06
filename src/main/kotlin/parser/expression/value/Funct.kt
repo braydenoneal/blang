@@ -13,6 +13,7 @@ data class Funct(
     val statements: StatementList,
 ) {
     fun call(program: Program, arguments: Arguments): Value<*>? {
+        // TODO: Check if scope already exists, end scope before returning null
         program.newScope()
 
         arguments.namedArguments.forEach { (name: String, expression: Expression) ->
