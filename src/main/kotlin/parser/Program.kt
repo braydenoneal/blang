@@ -57,7 +57,7 @@ open class Program(source: String) {
     fun run() {
         try {
             while (true) {
-                val result = tick()
+                val result = tick(true)
 
                 if (result != null) {
                     break
@@ -68,7 +68,7 @@ open class Program(source: String) {
         }
     }
 
-    fun tick(): Statement? {
+    fun tick(sleep: Boolean = false): Statement? {
         wait = false
 
         var result = statements.runNext(this)
@@ -85,7 +85,9 @@ open class Program(source: String) {
             result = statements.runNext(this)
         }
 
-//        Thread.sleep(1_000 / 5)
+        if (sleep) {
+            Thread.sleep(1_000 / 5)
+        }
 
         return result
     }
