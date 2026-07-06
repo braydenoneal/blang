@@ -10,7 +10,6 @@ fun main() {
             print(i);
             wait(5);
         }
-        """.trimIndent(),
-        Context(0, 0),
+        """.trimIndent()
     ).run()
 }

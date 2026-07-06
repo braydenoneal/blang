@@ -1,6 +1,5 @@
 package parser
 
-import Context
 import Logger
 import parser.statement.FunctionDeclaration
 import parser.statement.ImportStatement
@@ -12,7 +11,7 @@ import tokenizer.Type
 import java.util.*
 
 
-class Program(source: String, private val context: Context) {
+class Program(source: String) {
     private val imports: MutableList<ImportStatement> = ArrayList()
     private val statements: StatementList = StatementList()
     private val functions: MutableMap<String, FunctionDeclaration> = HashMap()
@@ -52,10 +51,6 @@ class Program(source: String, private val context: Context) {
         }
 
         this.name = name
-    }
-
-    fun context(): Context {
-        return context
     }
 
     fun run() {

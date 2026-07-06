@@ -1,11 +1,10 @@
 package testing.test
 
-import Context
 import parser.Program
 import parser.expression.value.Value
 
 abstract class Test {
-    private val program = Program("fileName;\n\n" + body(), Context(0, 0))
+    private val program = Program("fileName;\n\n" + body())
 
     abstract fun body(): String
 
