@@ -5,7 +5,11 @@ import parser.expression.Expression
 import parser.expression.value.Value
 import tokenizer.Type
 
-data class ElseIfStatement(val condition: Expression, val statements: StatementList, var conditionValue: Value<*>?) {
+data class ElseIfStatement(
+    val condition: Expression,
+    val statements: StatementList,
+    var conditionValue: Value<*>?,
+) {
     companion object {
         fun parse(program: Program): ElseIfStatement {
             val statements = StatementList()

@@ -2,9 +2,10 @@ package parser.statement
 
 import parser.Program
 
-class StatementList {
-    val ran: MutableList<Statement> = mutableListOf()
-    val toRun: MutableList<Statement> = mutableListOf()
+data class StatementList(
+    val ran: MutableList<Statement> = mutableListOf(),
+    val toRun: MutableList<Statement> = mutableListOf(),
+) {
 
     fun runNext(program: Program): Statement? {
         if (toRun.isEmpty()) {
