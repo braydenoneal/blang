@@ -17,7 +17,7 @@ abstract class Test {
 
         for (expect in expects) {
 
-            val value = program.topScope().get(expect.name)
+            val value = program.topScope.get(expect.name)
 
             if (expect.value == value) {
                 passed++

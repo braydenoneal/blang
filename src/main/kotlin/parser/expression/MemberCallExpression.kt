@@ -20,7 +20,7 @@ data class MemberCallExpression(
         var value: Value<*>
 
         if (member is VariableExpression) {
-            for (importStatement in program.imports()) {
+            for (importStatement in program.imports) {
                 if (importStatement.identifiers.last() == member.name) {
                     val importProgram = program.getCustomImportProgram(importStatement)
                     val callExpression = CallExpression(functionName, arguments)

@@ -2,17 +2,10 @@ package parser
 
 import parser.expression.value.Value
 
-class Scope(private val parent: Scope?) {
-    private var variables: MutableMap<String, Value<*>> = HashMap()
-
-    fun variables(): MutableMap<String, Value<*>> {
-        return variables
-    }
-
-    fun setVariables(variables: MutableMap<String, Value<*>>) {
-        this.variables = variables
-    }
-
+class Scope(
+    val parent: Scope?,
+    var variables: MutableMap<String, Value<*>> = mutableMapOf(),
+) {
     fun get(name: String): Value<*> {
         val value = variables[name]
 
@@ -23,7 +16,7 @@ class Scope(private val parent: Scope?) {
         return value ?: throw RunException("Variable '$name' does not exist")
     }
 
-    private fun parentWithVariable(name: String): Scope? {
+    fun parentWithVariable(name: String): Scope? {
         if (variables.containsKey(name)) {
             return this
         }

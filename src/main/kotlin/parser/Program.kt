@@ -10,40 +10,42 @@ import parser.statement.StatementList
 import tokenizer.Token
 import tokenizer.Token.Companion.tokenize
 import tokenizer.Type
-import java.util.*
 
-open class Program(source: String) {
-    val imports: MutableList<ImportStatement> = ArrayList()
-    val statements: StatementList = StatementList()
-    val functions: MutableMap<String, FunctionDeclaration> = HashMap()
-    val topScope = Scope(null)
-    val scopes = Stack<Scope>()
-
+open class Program(
+    open var source: String = "",
+    open var name: String = "",
+    open val imports: MutableList<ImportStatement> = mutableListOf(),
+    open val statements: StatementList = StatementList(),
+    open val functions: MutableMap<String, FunctionDeclaration> = mutableMapOf(),
+    open val scopes: MutableList<Scope> = mutableListOf(),
+) {
+    var tokens: MutableList<Token> = mutableListOf()
+    var parsed = false
     var position = 0
-
-    val tokens: MutableList<Token>
-    val name: String
     var wait = false
 
-    init {
-        var tokens: MutableList<Token>
+    fun parse() {
+        imports.clear()
+        statements.clear()
+        functions.clear()
+        scopes.clear()
 
         try {
             tokens = tokenize(source)
         } catch (e: Exception) {
             log.error("Tokenize error", e)
-            tokens = ArrayList()
         }
 
-        this.tokens = tokens
-        scopes.push(topScope)
-        var name = ""
+        scopes.add(Scope(null))
 
         try {
             if (!tokens.isEmpty()) {
                 name = expect(Type.IDENTIFIER)
                 expect(Type.SEMICOLON)
-                parse()
+
+                while (position < tokens.size) {
+                    statements.add(Statement.parse(this))
+                }
             }
         } catch (e: Exception) {
             log.error("Parse error", e)
@@ -51,10 +53,14 @@ open class Program(source: String) {
             functions.clear()
         }
 
-        this.name = name
+        parsed = true
     }
 
     fun run() {
+        if (!parsed) {
+            parse()
+        }
+
         try {
             while (true) {
                 val result = tick(true)
@@ -96,22 +102,8 @@ open class Program(source: String) {
         wait = true
     }
 
-    fun name(): String {
-        return name
-    }
-
-    fun imports(): MutableList<ImportStatement> {
-        return imports
-    }
-
     fun addImport(importStatement: ImportStatement) {
         imports.add(importStatement)
-    }
-
-    fun parse() {
-        while (position < tokens.size) {
-            statements.add(Statement.parse(this))
-        }
     }
 
     fun peek(): Token {
@@ -161,15 +153,11 @@ open class Program(source: String) {
     }
 
     fun newScope() {
-        scopes.add(Scope(scopes.peek()))
+        scopes.add(Scope(scopes.last()))
     }
 
     fun endScope() {
-        scopes.pop()
-    }
-
-    fun topScope(): Scope {
-        return topScope
+        scopes.removeLast()
     }
 
     open fun parseCustomBuiltins(name: String): Expression? {
@@ -184,7 +172,8 @@ open class Program(source: String) {
         return this
     }
 
-    val scope: Scope get() = scopes.peek()
+    val scope: Scope get() = scopes.last()
+    val topScope: Scope get() = scopes.first()
 
     companion object {
         val log: Logger = Logger()
