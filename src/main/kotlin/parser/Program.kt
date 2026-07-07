@@ -13,6 +13,7 @@ import tokenizer.Type
 
 open class Program(
     open var source: String = "",
+    open var parsed: Boolean = false,
     open var name: String = "",
     open val imports: MutableList<ImportStatement> = mutableListOf(),
     open val statements: StatementList = StatementList(),
@@ -20,7 +21,6 @@ open class Program(
     open val scopes: MutableList<Scope> = mutableListOf(),
 ) {
     var tokens: MutableList<Token> = mutableListOf()
-    var parsed = false
     var position = 0
     var wait = false
 
