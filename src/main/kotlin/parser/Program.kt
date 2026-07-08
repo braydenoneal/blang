@@ -29,6 +29,8 @@ open class Program(
         statements.clear()
         functions.clear()
         scopes.clear()
+        tokens.clear()
+        position = 0
 
         try {
             tokens = tokenize(source)
