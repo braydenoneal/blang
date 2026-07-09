@@ -1,20 +1,35 @@
 ## Todo
 
+- random and random choice functions
+- switch statement
+- list slicing
 - separate the parsing and execution logic a bit more
 - add empty/null statement for empty statement lists
 - fix array access after call: someFunc()[0]
-- random function
 - add properties to many values to replace some functions (item.tag instead of tag(item), etc)
 - rewrite expression parsing
+- optional/nullable or just null handling features
+- new line instead of semicolon
 - struct this keyword in functions
 - struct access by ["id"]
-- struct destructuring?
+- struct destructuring? (order dependant)
+- struct destructuring? (name dependant)
+- list destructuring?
 - struct get function? (key: get { return this.a + 1; })
 - struct variable name shorthand (id instead of id: id)
-- allow del as an alternative to remove functions
+- struct operator overloading
+- allow del as an alternative to .remove() functions
+- surround keyword with backticks to use as an identifier
+- underscore for unused variables
+- import renames (import x as y)
 - better error context (source location, etc)
 - unify some of the logic between custom and builtin functions (parsing and arguments)
 - static types?
+- method overloading?
+- method annotations?
 - enums?
+- generics?
 - list comprehension?
 - in-language errors, exceptions?
+- interfaces?
+- struct inheritance/traits?
