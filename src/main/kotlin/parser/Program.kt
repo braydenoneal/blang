@@ -89,7 +89,7 @@ open class Program(
         scopes.removeLast()
     }
 
-    open fun parseCustomBuiltins(name: String): Expression? {
+    open fun parseCustomBuiltins(parser: Parser, name: String): Expression? {
         return null
     }
 
