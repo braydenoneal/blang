@@ -8,8 +8,7 @@ fun main() {
         
         for i in range(10) {
             print(i);
-            wait(5);
         }
-        """.trimIndent()
+        """.trimIndent(),
     ).run()
 }

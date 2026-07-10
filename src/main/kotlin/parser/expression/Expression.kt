@@ -46,12 +46,19 @@ interface Expression {
             var openedParenthesis = false
             var operand = true
 
-            while (!(program.peekIs(Type.PARENTHESIS, ")") ||
-                        program.peekIs(Type.SEMICOLON) ||
-                        program.peekIs(Type.CURLY_BRACE) ||
-                        program.peekIs(Type.SQUARE_BRACE, "]") ||
-                        program.peekIs(Type.COMMA) ||
-                        program.peekIs(Type.KEYWORD, "else")) || openedParenthesis || operand
+            while (!(program.peekIs(
+                    Type.PARENTHESIS, ")",
+                ) || program.peekIs(
+                    Type.SEMICOLON,
+                ) || program.peekIs(
+                    Type.CURLY_BRACE,
+                ) || program.peekIs(
+                    Type.SQUARE_BRACE, "]",
+                ) || program.peekIs(
+                    Type.COMMA,
+                ) || program.peekIs(
+                    Type.KEYWORD, "else",
+                )) || openedParenthesis || operand
             ) {
                 when (program.peek().type) {
                     Type.BOOLEAN_OPERATOR, Type.COMPARISON_OPERATOR, Type.ARITHMETIC_OPERATOR -> {
@@ -158,7 +165,7 @@ interface Expression {
                             "and", "or" -> BooleanOperator(operator, left, right)
                             "==", "!=", "<=", ">=", "<", ">" -> ComparisonOperator(operator, left, right)
                             else -> ArithmeticOperator(operator, left, right)
-                        }
+                        },
                     )
                 }
             }

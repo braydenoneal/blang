@@ -30,9 +30,7 @@ data class ForStatement(
             program.scope.set(itemName, item)
             val result = statements.runNext(program) ?: return null
 
-            if (result is ReturnStatement
-                || result is BreakStatement
-            ) {
+            if (result is ReturnStatement || result is BreakStatement) {
                 listValue = null
                 index = 0
                 return result as? ReturnStatement ?: this
@@ -53,9 +51,7 @@ data class ForStatement(
             program.scope.set(itemName, IntegerValue(number))
             val result = statements.runNext(program) ?: return null
 
-            if (result is ReturnStatement
-                || result is BreakStatement
-            ) {
+            if (result is ReturnStatement || result is BreakStatement) {
                 listValue = null
                 index = 0
                 return result as? ReturnStatement ?: this
@@ -85,7 +81,7 @@ data class ForStatement(
             val expression = Expression.parse(program)
             program.expect(Type.CURLY_BRACE, "{")
 
-            while (!program.peekIs(Type.CURLY_BRACE, "}")) {
+            while (!(program.peekIs(Type.CURLY_BRACE, "}"))) {
                 statements.add(Statement.parse(program))
             }
 
