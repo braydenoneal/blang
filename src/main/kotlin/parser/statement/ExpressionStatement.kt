@@ -1,5 +1,6 @@
 package parser.statement
 
+import parser.Parser
 import parser.Program
 import parser.expression.Expression
 import tokenizer.Type
@@ -11,9 +12,9 @@ data class ExpressionStatement(val expression: Expression) : Statement {
     }
 
     companion object {
-        fun parse(program: Program): Statement {
-            val expression = Expression.parse(program)
-            program.expect(Type.SEMICOLON)
+        fun parse(parser: Parser): Statement {
+            val expression = Expression.parse(parser)
+            parser.expect(Type.SEMICOLON)
             return ExpressionStatement(expression)
         }
     }

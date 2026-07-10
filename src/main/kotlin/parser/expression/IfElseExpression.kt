@@ -1,5 +1,6 @@
 package parser.expression
 
+import parser.Parser
 import parser.Program
 import parser.RunException
 import parser.expression.value.BooleanValue
@@ -9,7 +10,7 @@ import tokenizer.Type
 data class IfElseExpression(
     val condition: Expression,
     val expressionA: Expression,
-    val expressionB: Expression
+    val expressionB: Expression,
 ) : Expression {
     override fun evaluate(program: Program): Value<*>? {
         val conditionValue = condition.evaluate(program) ?: return null
@@ -22,11 +23,11 @@ data class IfElseExpression(
     }
 
     companion object {
-        fun parse(program: Program, expressionA: Expression): Expression {
-            program.expect(Type.KEYWORD, "if")
-            val condition: Expression = Expression.parse(program)
-            program.expect(Type.KEYWORD, "else")
-            val expressionB: Expression = Expression.parse(program)
+        fun parse(parser: Parser, expressionA: Expression): Expression {
+            parser.expect(Type.KEYWORD, "if")
+            val condition: Expression = Expression.parse(parser)
+            parser.expect(Type.KEYWORD, "else")
+            val expressionB: Expression = Expression.parse(parser)
             return IfElseExpression(condition, expressionA, expressionB)
         }
     }

@@ -1,5 +1,6 @@
 package parser.expression
 
+import parser.Parser
 import parser.Program
 import parser.RunException
 import parser.expression.operator.ArithmeticOperator
@@ -57,9 +58,9 @@ data class AssignmentExpression(
     }
 
     companion object {
-        fun parse(program: Program, variableExpression: Expression): Expression {
-            val type = program.expect(Type.ASSIGN)
-            val expression = Expression.parse(program)
+        fun parse(parser: Parser, variableExpression: Expression): Expression {
+            val type = parser.expect(Type.ASSIGN)
+            val expression = Expression.parse(parser)
             return AssignmentExpression(type, variableExpression, expression)
         }
     }

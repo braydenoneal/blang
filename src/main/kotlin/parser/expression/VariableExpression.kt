@@ -1,5 +1,6 @@
 package parser.expression
 
+import parser.Parser
 import parser.Program
 import parser.expression.builtin.BuiltinExpression
 import parser.expression.value.Value
@@ -11,11 +12,11 @@ data class VariableExpression(val name: String) : Expression {
     }
 
     companion object {
-        fun parse(program: Program): Expression {
-            val token = program.next()
+        fun parse(parser: Parser): Expression {
+            val token = parser.next()
 
-            if (program.peekIs(Type.PARENTHESIS, "(")) {
-                return BuiltinExpression.parse(program, token.value)
+            if (parser.peekIs(Type.PARENTHESIS, "(")) {
+                return BuiltinExpression.parse(parser, token.value)
             }
 
             return VariableExpression(token.value)

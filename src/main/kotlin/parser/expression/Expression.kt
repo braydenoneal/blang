@@ -1,6 +1,7 @@
 package parser.expression
 
 import parser.ParseException
+import parser.Parser
 import parser.Program
 import parser.expression.operator.ArithmeticOperator
 import parser.expression.operator.BooleanOperator
@@ -40,30 +41,30 @@ interface Expression {
             Pair("^", 2),
         )
 
-        fun parse(program: Program): Expression {
+        fun parse(parser: Parser): Expression {
             val outputs: Deque<Output> = ArrayDeque()
             val operators: Stack<Operator> = Stack()
             var openedParenthesis = false
             var operand = true
 
-            while (!(program.peekIs(
+            while (!(parser.peekIs(
                     Type.PARENTHESIS, ")",
-                ) || program.peekIs(
+                ) || parser.peekIs(
                     Type.SEMICOLON,
-                ) || program.peekIs(
+                ) || parser.peekIs(
                     Type.CURLY_BRACE,
-                ) || program.peekIs(
+                ) || parser.peekIs(
                     Type.SQUARE_BRACE, "]",
-                ) || program.peekIs(
+                ) || parser.peekIs(
                     Type.COMMA,
-                ) || program.peekIs(
+                ) || parser.peekIs(
                     Type.KEYWORD, "else",
                 )) || openedParenthesis || operand
             ) {
-                when (program.peek().type) {
+                when (parser.peek().type) {
                     Type.BOOLEAN_OPERATOR, Type.COMPARISON_OPERATOR, Type.ARITHMETIC_OPERATOR -> {
                         operand = true
-                        val operator = program.next().value
+                        val operator = parser.next().value
 
                         if (!operators.empty() && operatorPrecedence[operator]!! <= operatorPrecedence[operators.peek().operator]!!) {
                             outputs.push(operators.pop())
@@ -72,7 +73,7 @@ interface Expression {
                         operators.push(Operator(operator))
                     }
 
-                    Type.PARENTHESIS -> if (program.next().value == "(") {
+                    Type.PARENTHESIS -> if (parser.next().value == "(") {
                         operand = true
                         openedParenthesis = true
                         operators.push(Operator("("))
@@ -88,30 +89,30 @@ interface Expression {
 
                     else -> {
                         operand = false
-                        val token = program.peek()
+                        val token = parser.peek()
 
-                        if (program.peekIs(Type.KEYWORD, "fn")) {
-                            return FunctionValue.parse(program)
+                        if (parser.peekIs(Type.KEYWORD, "fn")) {
+                            return FunctionValue.parse(parser)
                         }
 
                         var expression = when (token.type) {
-                            Type.BOOLEAN -> BooleanValue(program.next().value == "true")
-                            Type.QUOTE -> StringValue(program.next().value)
-                            Type.FLOAT -> FloatValue(program.next().value.toFloat())
-                            Type.INTEGER -> IntegerValue(program.next().value.toInt())
-                            Type.SQUARE_BRACE -> ListExpression.parse(program)
-                            Type.CURLY_BRACE -> StructExpression.parse(program)
-                            Type.UNARY_OPERATOR -> UnaryOperator.parse(program)
-                            Type.NULL -> Null.parse(program)
-                            else -> VariableExpression.parse(program)
+                            Type.BOOLEAN -> BooleanValue(parser.next().value == "true")
+                            Type.QUOTE -> StringValue(parser.next().value)
+                            Type.FLOAT -> FloatValue(parser.next().value.toFloat())
+                            Type.INTEGER -> IntegerValue(parser.next().value.toInt())
+                            Type.SQUARE_BRACE -> ListExpression.parse(parser)
+                            Type.CURLY_BRACE -> StructExpression.parse(parser)
+                            Type.UNARY_OPERATOR -> UnaryOperator.parse(parser)
+                            Type.NULL -> Null.parse(parser)
+                            else -> VariableExpression.parse(parser)
                         }
 
                         val indices: MutableList<Expression> = ArrayList<Expression>()
 
-                        while (program.peekIs(Type.SQUARE_BRACE, "[")) {
-                            program.next()
-                            indices.add(parse(program))
-                            program.expect(Type.SQUARE_BRACE, "]")
+                        while (parser.peekIs(Type.SQUARE_BRACE, "[")) {
+                            parser.next()
+                            indices.add(parse(parser))
+                            parser.expect(Type.SQUARE_BRACE, "]")
                         }
 
                         if (!indices.isEmpty()) {
@@ -122,21 +123,21 @@ interface Expression {
                             }
                         }
 
-                        while (program.peekIs(Type.DOT)) {
-                            program.expect(Type.DOT)
-                            val name = program.expect(Type.IDENTIFIER)
+                        while (parser.peekIs(Type.DOT)) {
+                            parser.expect(Type.DOT)
+                            val name = parser.expect(Type.IDENTIFIER)
 
-                            expression = if (program.peekIs(Type.PARENTHESIS, "(")) {
-                                MemberCallExpression.parse(program, expression, name)
+                            expression = if (parser.peekIs(Type.PARENTHESIS, "(")) {
+                                MemberCallExpression.parse(parser, expression, name)
                             } else {
                                 MemberExpression(expression, name)
                             }
                         }
 
-                        if (program.peekIs(Type.KEYWORD, "if")) {
-                            expression = IfElseExpression.parse(program, expression)
-                        } else if (program.peekIs(Type.ASSIGN)) {
-                            expression = AssignmentExpression.parse(program, expression)
+                        if (parser.peekIs(Type.KEYWORD, "if")) {
+                            expression = IfElseExpression.parse(parser, expression)
+                        } else if (parser.peekIs(Type.ASSIGN)) {
+                            expression = AssignmentExpression.parse(parser, expression)
                         }
 
                         outputs.push(Operand(expression))
@@ -171,7 +172,7 @@ interface Expression {
             }
 
             if (expressions.isEmpty()) {
-                throw ParseException("Incomplete expression at " + program.peek())
+                throw ParseException("Incomplete expression at " + parser.peek())
             }
 
             return expressions.peek()

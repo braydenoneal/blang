@@ -1,5 +1,6 @@
 package parser.expression
 
+import parser.Parser
 import parser.Program
 import parser.expression.value.ListValue
 import parser.expression.value.Value
@@ -11,19 +12,19 @@ data class ListExpression(val expressions: MutableList<Expression>) : Expression
     }
 
     companion object {
-        fun parse(program: Program): Expression {
+        fun parse(parser: Parser): Expression {
             val expressions: MutableList<Expression> = ArrayList()
-            program.expect(Type.SQUARE_BRACE, "[")
+            parser.expect(Type.SQUARE_BRACE, "[")
 
-            while (!program.peekIs(Type.SQUARE_BRACE, "]")) {
-                expressions.add(Expression.parse(program))
+            while (!parser.peekIs(Type.SQUARE_BRACE, "]")) {
+                expressions.add(Expression.parse(parser))
 
-                if (!program.peekIs(Type.SQUARE_BRACE, "]")) {
-                    program.expect(Type.COMMA)
+                if (!parser.peekIs(Type.SQUARE_BRACE, "]")) {
+                    parser.expect(Type.COMMA)
                 }
             }
 
-            program.expect(Type.SQUARE_BRACE, "]")
+            parser.expect(Type.SQUARE_BRACE, "]")
             return ListExpression(expressions)
         }
     }

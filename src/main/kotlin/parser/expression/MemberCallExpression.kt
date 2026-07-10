@@ -1,5 +1,6 @@
 package parser.expression
 
+import parser.Parser
 import parser.Program
 import parser.RunException
 import parser.expression.builtin.list.*
@@ -57,8 +58,8 @@ data class MemberCallExpression(
     }
 
     companion object {
-        fun parse(program: Program, member: Expression, functionName: String): Expression {
-            val arguments: Arguments = Arguments.parse(program)
+        fun parse(parser: Parser, member: Expression, functionName: String): Expression {
+            val arguments: Arguments = Arguments.parse(parser)
             return MemberCallExpression(member, functionName, arguments)
         }
     }

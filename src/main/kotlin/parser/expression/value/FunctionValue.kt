@@ -1,6 +1,7 @@
 package parser.expression.value
 
 import parser.ParseException
+import parser.Parser
 import parser.Program
 import parser.expression.Arguments
 import parser.expression.Expression
@@ -19,24 +20,24 @@ class FunctionValue(value: Funct) : Value<Funct>(value) {
     }
 
     companion object {
-        fun parse(program: Program): Expression {
+        fun parse(parser: Parser): Expression {
             val parameters: MutableList<String> = ArrayList()
             val defaultParameters: MutableList<Pair<String, Expression>> = ArrayList()
             var parseDefaults = false
 
-            program.expect(Type.KEYWORD, "fn")
+            parser.expect(Type.KEYWORD, "fn")
 
-            while (program.peek().type !== Type.COLON) {
-                val parameterName = program.expect(Type.IDENTIFIER)
+            while (parser.peek().type !== Type.COLON) {
+                val parameterName = parser.expect(Type.IDENTIFIER)
 
-                if (program.peekIs(Type.ASSIGN, "=")) {
+                if (parser.peekIs(Type.ASSIGN, "=")) {
                     parseDefaults = true
                 }
 
                 if (parseDefaults) {
                     try {
-                        program.expect(Type.ASSIGN, "=")
-                        defaultParameters.add(Pair(parameterName, Expression.parse(program)))
+                        parser.expect(Type.ASSIGN, "=")
+                        defaultParameters.add(Pair(parameterName, Expression.parse(parser)))
                     } catch (_: ParseException) {
                         throw ParseException("Function cannot have parameter with default after parameter without default")
                     }
@@ -44,24 +45,24 @@ class FunctionValue(value: Funct) : Value<Funct>(value) {
                     parameters.add(parameterName)
                 }
 
-                if (program.peek().type !== Type.COLON) {
-                    program.expect(Type.COMMA)
+                if (parser.peek().type !== Type.COLON) {
+                    parser.expect(Type.COMMA)
                 }
             }
 
-            program.expect(Type.COLON)
+            parser.expect(Type.COLON)
             val statements = StatementList()
 
-            if (program.peekIs(Type.CURLY_BRACE, "{")) {
-                program.next()
+            if (parser.peekIs(Type.CURLY_BRACE, "{")) {
+                parser.next()
 
-                while (!program.peekIs(Type.CURLY_BRACE, "}")) {
-                    statements.add(Statement.parse(program))
+                while (!parser.peekIs(Type.CURLY_BRACE, "}")) {
+                    statements.add(Statement.parse(parser))
                 }
 
-                program.expect(Type.CURLY_BRACE, "}")
+                parser.expect(Type.CURLY_BRACE, "}")
             } else {
-                statements.add(ReturnStatement(Expression.parse(program)))
+                statements.add(ReturnStatement(Expression.parse(parser)))
             }
 
             return FunctionValue(Funct(parameters, defaultParameters, statements))

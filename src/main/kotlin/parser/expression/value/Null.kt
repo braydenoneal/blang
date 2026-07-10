@@ -1,14 +1,14 @@
 package parser.expression.value
 
-import parser.Program
+import parser.Parser
 import parser.expression.Expression
 
 class Null {
     companion object {
         val VALUE = NullValue(Null())
 
-        fun parse(program: Program): Expression {
-            program.next()
+        fun parse(parser: Parser): Expression {
+            parser.next()
             return VALUE
         }
     }

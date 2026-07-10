@@ -1,6 +1,7 @@
 package parser.statement
 
 import parser.ParseException
+import parser.Parser
 import parser.Program
 import parser.expression.Arguments
 import parser.expression.Expression
@@ -18,27 +19,27 @@ data class FunctionDeclaration(val name: String, val function: Funct) : Statemen
     }
 
     companion object {
-        fun parse(program: Program): Statement {
+        fun parse(parser: Parser): Statement {
             val parameters: MutableList<String> = ArrayList()
             val defaultParameters: MutableList<Pair<String, Expression>> = ArrayList()
             var parseDefaults = false
 
-            program.expect(Type.KEYWORD, "fn")
-            val name = program.expect(Type.IDENTIFIER)
-            program.expect(Type.PARENTHESIS, "(")
+            parser.expect(Type.KEYWORD, "fn")
+            val name = parser.expect(Type.IDENTIFIER)
+            parser.expect(Type.PARENTHESIS, "(")
 
 
-            while (!program.peekIs(Type.PARENTHESIS, ")")) {
-                val parameterName = program.expect(Type.IDENTIFIER)
+            while (!parser.peekIs(Type.PARENTHESIS, ")")) {
+                val parameterName = parser.expect(Type.IDENTIFIER)
 
-                if (program.peekIs(Type.ASSIGN, "=")) {
+                if (parser.peekIs(Type.ASSIGN, "=")) {
                     parseDefaults = true
                 }
 
                 if (parseDefaults) {
                     try {
-                        program.expect(Type.ASSIGN, "=")
-                        defaultParameters.add(Pair(parameterName, Expression.parse(program)))
+                        parser.expect(Type.ASSIGN, "=")
+                        defaultParameters.add(Pair(parameterName, Expression.parse(parser)))
                     } catch (_: ParseException) {
                         throw ParseException("Function cannot have parameter with default after parameter without default")
                     }
@@ -46,23 +47,23 @@ data class FunctionDeclaration(val name: String, val function: Funct) : Statemen
                     parameters.add(parameterName)
                 }
 
-                if (!program.peekIs(Type.PARENTHESIS, ")")) {
-                    program.expect(Type.COMMA)
+                if (!parser.peekIs(Type.PARENTHESIS, ")")) {
+                    parser.expect(Type.COMMA)
                 }
             }
 
-            program.expect(Type.PARENTHESIS, ")")
-            program.expect(Type.CURLY_BRACE, "{")
+            parser.expect(Type.PARENTHESIS, ")")
+            parser.expect(Type.CURLY_BRACE, "{")
             val statements = StatementList()
 
-            while (!program.peekIs(Type.CURLY_BRACE, "}")) {
-                statements.add(Statement.parse(program))
+            while (!parser.peekIs(Type.CURLY_BRACE, "}")) {
+                statements.add(Statement.parse(parser))
             }
 
-            program.expect(Type.CURLY_BRACE, "}")
+            parser.expect(Type.CURLY_BRACE, "}")
 
             val functionDeclaration = FunctionDeclaration(name, Funct(parameters, defaultParameters, statements))
-            program.addFunction(name, functionDeclaration)
+            parser.program.addFunction(name, functionDeclaration)
             return functionDeclaration
         }
     }

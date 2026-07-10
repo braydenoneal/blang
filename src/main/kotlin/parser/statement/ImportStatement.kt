@@ -1,5 +1,6 @@
 package parser.statement
 
+import parser.Parser
 import parser.Program
 import tokenizer.Type
 
@@ -10,19 +11,19 @@ data class ImportStatement(val identifiers: MutableList<String>) : Statement {
     }
 
     companion object {
-        fun parse(program: Program): Statement {
+        fun parse(parser: Parser): Statement {
             val identifiers: MutableList<String> = ArrayList()
-            program.expect(Type.KEYWORD, "import")
+            parser.expect(Type.KEYWORD, "import")
 
-            while (program.peekIs(Type.IDENTIFIER)) {
-                identifiers.add(program.next().value)
+            while (parser.peekIs(Type.IDENTIFIER)) {
+                identifiers.add(parser.next().value)
 
-                if (program.peek().type != Type.SEMICOLON) {
-                    program.expect(Type.DOT)
+                if (parser.peek().type != Type.SEMICOLON) {
+                    parser.expect(Type.DOT)
                 }
             }
 
-            program.expect(Type.SEMICOLON)
+            parser.expect(Type.SEMICOLON)
             return ImportStatement(identifiers)
         }
     }

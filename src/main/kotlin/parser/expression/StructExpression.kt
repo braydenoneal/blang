@@ -1,6 +1,7 @@
 package parser.expression
 
 import parser.ParseException
+import parser.Parser
 import parser.Program
 import parser.expression.value.StructValue
 import parser.expression.value.Value
@@ -12,26 +13,26 @@ data class StructExpression(val expressions: List<Pair<String, Expression>>) : E
     }
 
     companion object {
-        fun parse(program: Program): Expression {
+        fun parse(parser: Parser): Expression {
             val expressions: MutableList<Pair<String, Expression>> = ArrayList()
-            program.expect(Type.CURLY_BRACE, "{")
+            parser.expect(Type.CURLY_BRACE, "{")
 
-            while (!program.peekIs(Type.CURLY_BRACE, "}")) {
-                val name = program.next()
+            while (!parser.peekIs(Type.CURLY_BRACE, "}")) {
+                val name = parser.next()
 
                 if (name.type != Type.IDENTIFIER) {
                     throw ParseException("Struct key is not an identifier")
                 }
 
-                program.expect(Type.COLON)
-                expressions.add(Pair(name.value, Expression.parse(program)))
+                parser.expect(Type.COLON)
+                expressions.add(Pair(name.value, Expression.parse(parser)))
 
-                if (!program.peekIs(Type.CURLY_BRACE, "}")) {
-                    program.expect(Type.COMMA)
+                if (!parser.peekIs(Type.CURLY_BRACE, "}")) {
+                    parser.expect(Type.COMMA)
                 }
             }
 
-            program.expect(Type.CURLY_BRACE, "}")
+            parser.expect(Type.CURLY_BRACE, "}")
             return StructExpression(expressions)
         }
     }

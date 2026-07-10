@@ -1,5 +1,6 @@
 package parser.statement
 
+import parser.Parser
 import parser.Program
 import parser.RunException
 import parser.expression.Expression
@@ -72,20 +73,20 @@ data class ForStatement(
     }
 
     companion object {
-        fun parse(program: Program): Statement {
+        fun parse(parser: Parser): Statement {
             val statements = StatementList()
 
-            program.expect(Type.KEYWORD, "for")
-            val itemName = program.expect(Type.IDENTIFIER)
-            program.expect(Type.KEYWORD, "in")
-            val expression = Expression.parse(program)
-            program.expect(Type.CURLY_BRACE, "{")
+            parser.expect(Type.KEYWORD, "for")
+            val itemName = parser.expect(Type.IDENTIFIER)
+            parser.expect(Type.KEYWORD, "in")
+            val expression = Expression.parse(parser)
+            parser.expect(Type.CURLY_BRACE, "{")
 
-            while (!(program.peekIs(Type.CURLY_BRACE, "}"))) {
-                statements.add(Statement.parse(program))
+            while (!(parser.peekIs(Type.CURLY_BRACE, "}"))) {
+                statements.add(Statement.parse(parser))
             }
 
-            program.expect(Type.CURLY_BRACE, "}")
+            parser.expect(Type.CURLY_BRACE, "}")
             return ForStatement(itemName, expression, statements)
         }
     }

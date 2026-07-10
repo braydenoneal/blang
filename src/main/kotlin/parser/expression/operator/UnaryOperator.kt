@@ -1,5 +1,6 @@
 package parser.expression.operator
 
+import parser.Parser
 import parser.Program
 import parser.RunException
 import parser.expression.Expression
@@ -18,9 +19,9 @@ data class UnaryOperator(val operand: Expression) : Operator, Expression {
     }
 
     companion object {
-        fun parse(program: Program): Expression {
-            program.next()
-            return UnaryOperator(Expression.parse(program))
+        fun parse(parser: Parser): Expression {
+            parser.next()
+            return UnaryOperator(Expression.parse(parser))
         }
     }
 }

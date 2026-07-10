@@ -1,6 +1,7 @@
 package parser.statement
 
 import parser.ParseException
+import parser.Parser
 import parser.Program
 import tokenizer.Type
 
@@ -8,49 +9,49 @@ interface Statement {
     fun execute(program: Program): Statement?
 
     companion object {
-        fun parse(program: Program): Statement {
-            val token = program.peek()
+        fun parse(parser: Parser): Statement {
+            val token = parser.peek()
 
             if (token.type == Type.KEYWORD) {
                 when (token.value) {
                     "import" -> {
-                        return ImportStatement.parse(program)
+                        return ImportStatement.parse(parser)
                     }
 
                     "fn" -> {
-                        return FunctionDeclaration.parse(program)
+                        return FunctionDeclaration.parse(parser)
                     }
 
                     "if" -> {
-                        return IfStatement.parse(program)
+                        return IfStatement.parse(parser)
                     }
 
                     "while" -> {
-                        return WhileStatement.parse(program)
+                        return WhileStatement.parse(parser)
                     }
 
                     "for" -> {
-                        return ForStatement.parse(program)
+                        return ForStatement.parse(parser)
                     }
 
                     "del" -> {
-                        return DeleteStatement.parse(program)
+                        return DeleteStatement.parse(parser)
                     }
 
                     "break" -> {
-                        return BreakStatement.parse(program)
+                        return BreakStatement.parse(parser)
                     }
 
                     "continue" -> {
-                        return ContinueStatement.parse(program)
+                        return ContinueStatement.parse(parser)
                     }
 
                     "return" -> {
-                        return ReturnStatement.parse(program)
+                        return ReturnStatement.parse(parser)
                     }
                 }
             } else {
-                return ExpressionStatement.parse(program)
+                return ExpressionStatement.parse(parser)
             }
 
             throw ParseException("Unrecognized statement at $token")

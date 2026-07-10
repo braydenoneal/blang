@@ -3,7 +3,6 @@
 - random and random choice functions
 - switch statement
 - list slicing
-- separate the parsing and execution logic a bit more
 - fix array access after call: someFunc()[0]
 - add properties to many values to replace some functions (item.tag instead of tag(item), etc)
 - rewrite expression parsing

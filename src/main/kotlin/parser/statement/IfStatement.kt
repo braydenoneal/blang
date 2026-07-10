@@ -1,5 +1,6 @@
 package parser.statement
 
+import parser.Parser
 import parser.Program
 import parser.expression.Expression
 import parser.expression.value.BooleanValue
@@ -61,27 +62,27 @@ data class IfStatement(
     }
 
     companion object {
-        fun parse(program: Program): Statement {
+        fun parse(parser: Parser): Statement {
             val statements = StatementList()
             val elseIfStatements: MutableList<ElseIfStatement> = ArrayList()
             var elseStatement: ElseStatement? = null
 
-            program.expect(Type.KEYWORD, "if")
-            val condition = Expression.parse(program)
-            program.expect(Type.CURLY_BRACE, "{")
+            parser.expect(Type.KEYWORD, "if")
+            val condition = Expression.parse(parser)
+            parser.expect(Type.CURLY_BRACE, "{")
 
-            while (!program.peekIs(Type.CURLY_BRACE, "}")) {
-                statements.add(Statement.parse(program))
+            while (!parser.peekIs(Type.CURLY_BRACE, "}")) {
+                statements.add(Statement.parse(parser))
             }
 
-            program.expect(Type.CURLY_BRACE, "}")
+            parser.expect(Type.CURLY_BRACE, "}")
 
-            while (program.peekIs(Type.KEYWORD, "elif")) {
-                elseIfStatements.add(ElseIfStatement.parse(program))
+            while (parser.peekIs(Type.KEYWORD, "elif")) {
+                elseIfStatements.add(ElseIfStatement.parse(parser))
             }
 
-            if (program.peekIs(Type.KEYWORD, "else")) {
-                elseStatement = ElseStatement.parse(program)
+            if (parser.peekIs(Type.KEYWORD, "else")) {
+                elseStatement = ElseStatement.parse(parser)
             }
 
             return IfStatement(condition, statements, elseIfStatements, elseStatement, null)

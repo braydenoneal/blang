@@ -7,9 +7,6 @@ import parser.statement.FunctionDeclaration
 import parser.statement.ImportStatement
 import parser.statement.Statement
 import parser.statement.StatementList
-import tokenizer.Token
-import tokenizer.Token.Companion.tokenize
-import tokenizer.Type
 
 open class Program(
     open var source: String = "",
@@ -20,47 +17,11 @@ open class Program(
     open val functions: MutableMap<String, FunctionDeclaration> = mutableMapOf(),
     open val scopes: MutableList<Scope> = mutableListOf(),
 ) {
-    var tokens: MutableList<Token> = mutableListOf()
-    var position = 0
     var wait = false
-
-    fun parse() {
-        imports.clear()
-        statements.clear()
-        functions.clear()
-        scopes.clear()
-        tokens.clear()
-        position = 0
-
-        try {
-            tokens = tokenize(source)
-        } catch (e: Exception) {
-            log.error("Tokenize error", e)
-        }
-
-        scopes.add(Scope(null))
-
-        try {
-            if (!tokens.isEmpty()) {
-                name = expect(Type.IDENTIFIER)
-                expect(Type.SEMICOLON)
-
-                while (position < tokens.size) {
-                    statements.add(Statement.parse(this))
-                }
-            }
-        } catch (e: Exception) {
-            log.error("Parse error", e)
-            statements.clear()
-            functions.clear()
-        }
-
-        parsed = true
-    }
 
     fun run() {
         if (!parsed) {
-            parse()
+            Parser(this)
         }
 
         try {
@@ -74,6 +35,10 @@ open class Program(
         } catch (e: Exception) {
             log.error("Run error", e)
         }
+    }
+
+    fun parse() {
+        Parser(this)
     }
 
     fun tick(sleep: Boolean = false): Statement? {
@@ -106,44 +71,6 @@ open class Program(
 
     fun addImport(importStatement: ImportStatement) {
         imports.add(importStatement)
-    }
-
-    fun peek(): Token {
-        return tokens[position]
-    }
-
-    fun peekIs(type: Type, value: String): Boolean {
-        val token = peek()
-        return token.type == type && token.value == value
-    }
-
-    fun peekIs(type: Type): Boolean {
-        val token = peek()
-        return token.type == type
-    }
-
-    fun next(): Token {
-        return tokens[position++]
-    }
-
-    fun expect(type: Type, value: String) {
-        val token = next()
-
-        if (token.type == type && token.value == value) {
-            return
-        }
-
-        throw ParseException("Expected token of type $type and value $value")
-    }
-
-    fun expect(type: Type): String {
-        val token = next()
-
-        if (token.type == type) {
-            return token.value
-        }
-
-        throw ParseException("Expected token of type $type")
     }
 
     fun addFunction(name: String, function: FunctionDeclaration) {

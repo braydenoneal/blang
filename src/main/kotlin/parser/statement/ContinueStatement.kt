@@ -1,5 +1,6 @@
 package parser.statement
 
+import parser.Parser
 import parser.Program
 import tokenizer.Type
 
@@ -9,9 +10,9 @@ class ContinueStatement : Statement {
     }
 
     companion object {
-        fun parse(program: Program): Statement {
-            program.expect(Type.KEYWORD, "continue")
-            program.expect(Type.SEMICOLON)
+        fun parse(parser: Parser): Statement {
+            parser.expect(Type.KEYWORD, "continue")
+            parser.expect(Type.SEMICOLON)
             return ContinueStatement()
         }
     }

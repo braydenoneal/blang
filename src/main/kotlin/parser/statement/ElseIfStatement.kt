@@ -1,6 +1,6 @@
 package parser.statement
 
-import parser.Program
+import parser.Parser
 import parser.expression.Expression
 import parser.expression.value.Value
 import tokenizer.Type
@@ -11,18 +11,18 @@ data class ElseIfStatement(
     var conditionValue: Value<*>?,
 ) {
     companion object {
-        fun parse(program: Program): ElseIfStatement {
+        fun parse(parser: Parser): ElseIfStatement {
             val statements = StatementList()
 
-            program.expect(Type.KEYWORD, "elif")
-            val condition = Expression.parse(program)
-            program.expect(Type.CURLY_BRACE, "{")
+            parser.expect(Type.KEYWORD, "elif")
+            val condition = Expression.parse(parser)
+            parser.expect(Type.CURLY_BRACE, "{")
 
-            while (!program.peekIs(Type.CURLY_BRACE, "}")) {
-                statements.add(Statement.parse(program))
+            while (!parser.peekIs(Type.CURLY_BRACE, "}")) {
+                statements.add(Statement.parse(parser))
             }
 
-            program.expect(Type.CURLY_BRACE, "}")
+            parser.expect(Type.CURLY_BRACE, "}")
 
             return ElseIfStatement(condition, statements, null)
         }

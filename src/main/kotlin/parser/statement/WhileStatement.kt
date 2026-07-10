@@ -1,5 +1,6 @@
 package parser.statement
 
+import parser.Parser
 import parser.Program
 import parser.RunException
 import parser.expression.Expression
@@ -41,18 +42,18 @@ data class WhileStatement(
     }
 
     companion object {
-        fun parse(program: Program): Statement {
+        fun parse(parser: Parser): Statement {
             val statements = StatementList()
 
-            program.expect(Type.KEYWORD, "while")
-            val condition = Expression.parse(program)
-            program.expect(Type.CURLY_BRACE, "{")
+            parser.expect(Type.KEYWORD, "while")
+            val condition = Expression.parse(parser)
+            parser.expect(Type.CURLY_BRACE, "{")
 
-            while (!program.peekIs(Type.CURLY_BRACE, "}")) {
-                statements.add(Statement.parse(program))
+            while (!parser.peekIs(Type.CURLY_BRACE, "}")) {
+                statements.add(Statement.parse(parser))
             }
 
-            program.expect(Type.CURLY_BRACE, "}")
+            parser.expect(Type.CURLY_BRACE, "}")
 
             return WhileStatement(condition, statements)
         }

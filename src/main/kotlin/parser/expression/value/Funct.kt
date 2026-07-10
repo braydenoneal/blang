@@ -31,10 +31,10 @@ data class Funct(
 
         for (i in parameters.indices) {
             if (program.scope.getLocal(parameters[i]) == null) {
-                if (arguments.arguments.size > i) {
+                if (arguments.namelessArguments.size > i) {
                     program.scope.setLocal(
                         parameters[i],
-                        arguments.arguments[i].evaluate(program) ?: return null,
+                        arguments.namelessArguments[i].evaluate(program) ?: return null,
                     )
                 } else {
                     throw RunException("Missing argument '" + parameters[i] + "'")
@@ -42,11 +42,11 @@ data class Funct(
             }
         }
 
-        for (i in parameters.size..<arguments.arguments.size) {
+        for (i in parameters.size..<arguments.namelessArguments.size) {
             if (defaultParameters.size > i - parameters.size) {
                 program.scope.setLocal(
                     defaultParameters[i - parameters.size].first,
-                    arguments.arguments[i].evaluate(program) ?: return null,
+                    arguments.namelessArguments[i].evaluate(program) ?: return null,
                 )
             } else {
                 throw RunException("Provided extra argument")

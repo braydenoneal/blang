@@ -1,21 +1,21 @@
 package parser.statement
 
-import parser.Program
+import parser.Parser
 import tokenizer.Type
 
 data class ElseStatement(val statements: StatementList) {
     companion object {
-        fun parse(program: Program): ElseStatement {
+        fun parse(parser: Parser): ElseStatement {
             val statements = StatementList()
 
-            program.expect(Type.KEYWORD, "else")
-            program.expect(Type.CURLY_BRACE, "{")
+            parser.expect(Type.KEYWORD, "else")
+            parser.expect(Type.CURLY_BRACE, "{")
 
-            while (!program.peekIs(Type.CURLY_BRACE, "}")) {
-                statements.add(Statement.parse(program))
+            while (!parser.peekIs(Type.CURLY_BRACE, "}")) {
+                statements.add(Statement.parse(parser))
             }
 
-            program.expect(Type.CURLY_BRACE, "}")
+            parser.expect(Type.CURLY_BRACE, "}")
 
             return ElseStatement(statements)
         }

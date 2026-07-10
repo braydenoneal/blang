@@ -1,23 +1,23 @@
 package parser.expression
 
 import parser.ParseException
+import parser.Parser
 import parser.Program
 import parser.RunException
 import parser.expression.value.*
 import tokenizer.Type
 import java.util.*
 
-
-data class Arguments(val arguments: MutableList<Expression>, val namedArguments: MutableMap<String, Expression>) {
+data class Arguments(val namelessArguments: MutableList<Expression>, val namedArguments: MutableMap<String, Expression>) {
     fun anyValue(program: Program, name: String, index: Int): Value<*>? {
         var expression = namedArguments[name]
 
         if (expression == null) {
-            if (index >= arguments.size) {
+            if (index >= namelessArguments.size) {
                 throw RunException("Missing argument $name")
             }
 
-            expression = arguments[index]
+            expression = namelessArguments[index]
         }
 
         return expression.evaluate(program)
@@ -94,15 +94,15 @@ data class Arguments(val arguments: MutableList<Expression>, val namedArguments:
     }
 
     companion object {
-        fun parse(program: Program): Arguments {
+        fun parse(parser: Parser): Arguments {
             val arguments: MutableList<Expression> = Stack()
             val namedArguments: MutableMap<String, Expression> = HashMap()
             var parseDefaults = false
 
-            program.expect(Type.PARENTHESIS, "(")
+            parser.expect(Type.PARENTHESIS, "(")
 
-            while (!program.peekIs(Type.PARENTHESIS, ")")) {
-                val expression: Expression = Expression.parse(program)
+            while (!parser.peekIs(Type.PARENTHESIS, ")")) {
+                val expression: Expression = Expression.parse(parser)
 
                 if (expression is AssignmentExpression) {
                     parseDefaults = true
@@ -125,12 +125,12 @@ data class Arguments(val arguments: MutableList<Expression>, val namedArguments:
                     arguments.add(expression)
                 }
 
-                if (!program.peekIs(Type.PARENTHESIS, ")")) {
-                    program.expect(Type.COMMA)
+                if (!parser.peekIs(Type.PARENTHESIS, ")")) {
+                    parser.expect(Type.COMMA)
                 }
             }
 
-            program.expect(Type.PARENTHESIS, ")")
+            parser.expect(Type.PARENTHESIS, ")")
             return Arguments(arguments, namedArguments)
         }
 

@@ -1,6 +1,7 @@
 package parser.statement
 
 import parser.ParseException
+import parser.Parser
 import parser.Program
 import parser.RunException
 import tokenizer.Type
@@ -12,15 +13,15 @@ data class DeleteStatement(val name: String) : Statement {
     }
 
     companion object {
-        fun parse(program: Program): Statement {
-            program.expect(Type.KEYWORD, "del")
+        fun parse(parser: Parser): Statement {
+            parser.expect(Type.KEYWORD, "del")
 
-            if (program.peek().type != Type.IDENTIFIER) {
+            if (parser.peek().type != Type.IDENTIFIER) {
                 throw ParseException("Expression is not an identifier")
             }
 
-            val name = program.next().value
-            program.expect(Type.SEMICOLON)
+            val name = parser.next().value
+            parser.expect(Type.SEMICOLON)
             return DeleteStatement(name)
         }
     }

@@ -1,5 +1,6 @@
 package parser.statement
 
+import parser.Parser
 import parser.Program
 import parser.expression.Expression
 import parser.expression.value.Null
@@ -16,10 +17,10 @@ data class ReturnStatement(val expression: Expression) : Statement {
     }
 
     companion object {
-        fun parse(program: Program): Statement {
-            program.expect(Type.KEYWORD, "return")
-            val expression = if (program.peekIs(Type.SEMICOLON)) Null.VALUE else Expression.parse(program)
-            program.expect(Type.SEMICOLON)
+        fun parse(parser: Parser): Statement {
+            parser.expect(Type.KEYWORD, "return")
+            val expression = if (parser.peekIs(Type.SEMICOLON)) Null.VALUE else Expression.parse(parser)
+            parser.expect(Type.SEMICOLON)
             return ReturnStatement(expression)
         }
     }
