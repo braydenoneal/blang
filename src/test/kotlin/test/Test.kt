@@ -33,7 +33,7 @@ abstract class Test {
             print("\u001B[32m")
         }
 
-        println("Passed " + passed + " of " + expects.size + ": " + this.javaClass.getSimpleName() + "\u001B[0m")
+        println("Passed " + passed + " of " + expects.size + ": " + javaClass.getSimpleName() + "\u001B[0m")
         return Result(passed, expects.size)
     }
 

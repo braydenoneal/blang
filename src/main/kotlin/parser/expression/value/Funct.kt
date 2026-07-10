@@ -20,7 +20,7 @@ data class Funct(
         }
 
         arguments.namedArguments.forEach { (name: String, expression: Expression) ->
-            val hasDefault = this.defaultParameters.stream().anyMatch { it.first == name }
+            val hasDefault = defaultParameters.stream().anyMatch { it.first == name }
 
             if (parameters.contains(name) || hasDefault) {
                 program.scope.setLocal(name, expression.evaluate(program) ?: return null)

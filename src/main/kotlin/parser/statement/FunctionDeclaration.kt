@@ -14,7 +14,7 @@ data class FunctionDeclaration(val name: String, val function: Funct) : Statemen
     }
 
     fun call(program: Program, arguments: Arguments): Value<*>? {
-        return this.function.call(program, arguments)
+        return function.call(program, arguments)
     }
 
     companion object {

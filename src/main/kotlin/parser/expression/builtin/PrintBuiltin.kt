@@ -7,10 +7,9 @@ import parser.expression.value.Null
 import parser.expression.value.StringValue
 import parser.expression.value.Value
 
-
 data class PrintBuiltin(val arguments: Arguments) : Expression {
     override fun evaluate(program: Program): Value<*>? {
-        val value = if (arguments.arguments.isEmpty()) StringValue("") else this.arguments.anyValue(program, "value", 0) ?: return null
+        val value = if (arguments.arguments.isEmpty()) StringValue("") else arguments.anyValue(program, "value", 0) ?: return null
         var string = value.toString()
 
         if (value is StringValue) {

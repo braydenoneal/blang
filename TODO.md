@@ -9,6 +9,7 @@
 - rewrite expression parsing
 - optional/nullable or just null handling features
 - new line instead of semicolon
+- multiline comments
 - struct this keyword in functions
 - struct access by ["id"]
 - struct destructuring? (order dependant)

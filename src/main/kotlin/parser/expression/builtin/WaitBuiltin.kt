@@ -7,10 +7,9 @@ import parser.expression.value.IntegerValue
 import parser.expression.value.Null
 import parser.expression.value.Value
 
-
 data class WaitBuiltin(val arguments: Arguments, var counter: Int = 0) : Expression {
     override fun evaluate(program: Program): Value<*>? {
-        val value = if (arguments.arguments.isEmpty()) IntegerValue(1) else this.arguments.integerValue(program, "value", 0) ?: return null
+        val value = if (arguments.arguments.isEmpty()) IntegerValue(1) else arguments.integerValue(program, "value", 0) ?: return null
 
         counter++
 
