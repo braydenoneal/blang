@@ -8,28 +8,28 @@ import parser.expression.value.StringValue
 class Lists : Test() {
     override fun body(): String {
         return """
-                list = [false, 0, ""];
-                list2 = [0];
-                list2.append(2);
-                list2.insert(1, 1);
-                list2.pop();
-                list2.remove(1);
-                contains = list2.contains(0);
-                notContains = list2.contains(1);
-                containsAll = list.containsAll([false, 0]);
-                notContainsAll = list.containsAll([false, 0, 1]);
-                list3 = [0];
-                list3 += [1];
-                listOfList = [0, [0, 0]];
-                listOfList[1][1] = 1;
-                nested = listOfList[1][1];
-                nameless = [[[0]]][0][0][0];
-                length = len([0, 1, 2]);
-                nestedCall = [0, [0]];
-                nestedCall[1].append(2);
-                nestedCall[1].insert(1, 1);
-                nestedCall[1].pop();
-                nestedCall[1].remove(1);
+                list = [false, 0, ""]
+                list2 = [0]
+                list2.append(2)
+                list2.insert(1, 1)
+                list2.pop()
+                list2.remove(1)
+                contains = list2.contains(0)
+                notContains = list2.contains(1)
+                containsAll = list.containsAll([false, 0])
+                notContainsAll = list.containsAll([false, 0, 1])
+                list3 = [0]
+                list3 += [1]
+                listOfList = [0, [0, 0]]
+                listOfList[1][1] = 1
+                nested = listOfList[1][1]
+                nameless = [[[0]]][0][0][0]
+                length = len([0, 1, 2])
+                nestedCall = [0, [0]]
+                nestedCall[1].append(2)
+                nestedCall[1].insert(1, 1)
+                nestedCall[1].pop()
+                nestedCall[1].remove(1)
                 """.trimIndent()
     }
 

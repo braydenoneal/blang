@@ -5,28 +5,28 @@ import parser.expression.value.IntegerValue
 class ForLoops : Test() {
     override fun body(): String {
         return """
-                a = 0;
+                a = 0
                 
                 for i in [0, 1, 2] {
-                    a = i;
+                    a = i
                 }
                 
-                b = 0;
+                b = 0
                 
                 for i in range(3) {
-                    b = i;
+                    b = i
                 }
                 
-                c = 0;
+                c = 0
                 
                 for i in range(0, 3) {
-                    c = i;
+                    c = i
                 }
                 
-                d = 0;
+                d = 0
                 
                 for i in range(0, 3, 1) {
-                    d = i;
+                    d = i
                 }
                 """.trimIndent()
     }
@@ -36,7 +36,7 @@ class ForLoops : Test() {
             Expect("a", IntegerValue(2)),
             Expect("b", IntegerValue(2)),
             Expect("c", IntegerValue(2)),
-            Expect("d", IntegerValue(2))
+            Expect("d", IntegerValue(2)),
         )
     }
 }

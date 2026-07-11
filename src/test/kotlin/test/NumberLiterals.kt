@@ -6,14 +6,14 @@ import parser.expression.value.IntegerValue
 class NumberLiterals : Test() {
     override fun body(): String {
         return """
-                a = 1;
-                b = -1;
-                c = 1.0123;
-                d = 1.;
-                e = .1;
-                f = -1.0123;
-                g = -1.;
-                h = -.1;
+                a = 1
+                b = -1
+                c = 1.0123
+                d = 1.
+                e = .1
+                f = -1.0123
+                g = -1.
+                h = -.1
                 """.trimIndent()
     }
 
@@ -26,7 +26,7 @@ class NumberLiterals : Test() {
             Expect("e", FloatValue(.1f)),
             Expect("f", FloatValue(-1.0123f)),
             Expect("g", FloatValue(-1f)),
-            Expect("h", FloatValue(-.1f))
+            Expect("h", FloatValue(-.1f)),
         )
     }
 }

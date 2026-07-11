@@ -8,16 +8,16 @@ import parser.expression.value.StructValue
 class Structs : Test() {
     override fun body(): String {
         return """
-                a = { a: 1 };
-                b = a.a;
-                c = { a: { a: 1 }};
-                d = { a: 1 };
-                d.remove("a");
-                e = c.keys();
-                f = c.values();
-                g = c.entries();
-                h = { a: { a: 0 }};
-                h.a.a = 1;
+                a = { a: 1 }
+                b = a.a
+                c = { a: { a: 1 }}
+                d = { a: 1 }
+                d.remove("a")
+                e = c.keys()
+                f = c.values()
+                g = c.entries()
+                h = { a: { a: 0 }}
+                h.a.a = 1
                 """.trimIndent()
     }
 

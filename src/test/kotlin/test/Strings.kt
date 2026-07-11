@@ -5,10 +5,10 @@ import parser.expression.value.StringValue
 class Strings : Test() {
     override fun body(): String {
         return """
-                a = "a";
-                b = 'b';
-                c = a + b;
-                d = "1" + 6;
+                a = "a"
+                b = 'b'
+                c = a + b
+                d = "1" + 6
                 """.trimIndent()
     }
 
@@ -17,7 +17,7 @@ class Strings : Test() {
             Expect("a", StringValue("a")),
             Expect("b", StringValue("b")),
             Expect("c", StringValue("ab")),
-            Expect("d", StringValue("16"))
+            Expect("d", StringValue("16")),
         )
     }
 }

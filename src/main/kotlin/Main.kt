@@ -4,10 +4,10 @@ fun main() {
     Thread.sleep(1_000)
     Program(
         """
-        fileName;
+        fileName
         
         for i in range(10) {
-            print(i);
+            print(i)
         }
         """.trimIndent(),
     ).run()

@@ -19,10 +19,18 @@ class ExpressionParser(val parser: Parser) {
     var operand = true
 
     fun parse(): Expression {
-        while (expressionContinues()) {
-            when (parser.peek().type) {
+        while (expressionContinues() && parser.position < parser.tokens.size) {
+            when (parser.peekAllowNewline().type) {
                 Type.BOOLEAN_OPERATOR, Type.COMPARISON_OPERATOR, Type.ARITHMETIC_OPERATOR -> parseOperator()
                 Type.PARENTHESIS -> parseParenthesis()
+                Type.NEWLINE -> if (openedParenthesis) {
+                    continue
+                } else if (outputs.isEmpty()) {
+                    parser.nextAllowNewline()
+                } else {
+                    break
+                }
+
                 else -> parseOperand()
             }
         }
@@ -151,7 +159,7 @@ class ExpressionParser(val parser: Parser) {
     fun parseInlineIfElse(expression: Expression): Expression {
         var expression = expression
 
-        if (parser.peekIs(Type.KEYWORD, "if")) {
+        if (parser.peekIsAllowNewline(Type.KEYWORD, "if")) {
             expression = IfElseExpression.parse(parser, expression)
         } else if (parser.peekIs(Type.ASSIGN)) {
             expression = AssignmentExpression.parse(parser, expression)

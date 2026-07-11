@@ -7,25 +7,25 @@ import parser.expression.value.Null
 class ControlStatements : Test() {
     override fun body(): String {
         return """
-                list = [];
+                list = []
                 
                 for i in range(10) {
-                    if i == 5 { continue; }
-                    list.append(i);
+                    if i == 5 { continue }
+                    list.append(i)
                 }
                 
-                a = list.contains(5);
+                a = list.contains(5)
                 
-                b = 0;
+                b = 0
                 
                 for i in range(10) {
-                    b = i;
-                    if i == 5 { break; }
+                    b = i
+                    if i == 5 { break }
                 }
                 
-                fn emptyReturn() { return; }
+                fn emptyReturn() { return }
                 
-                c = emptyReturn();
+                c = emptyReturn()
                 """.trimIndent()
     }
 
@@ -33,7 +33,7 @@ class ControlStatements : Test() {
         return listOf(
             Expect("a", BooleanValue(false)),
             Expect("b", IntegerValue(5)),
-            Expect("c", Null.VALUE)
+            Expect("c", Null.VALUE),
         )
     }
 }

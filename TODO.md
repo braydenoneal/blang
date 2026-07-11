@@ -7,7 +7,7 @@
 - add properties to many values to replace some functions (item.tag instead of tag(item), etc)
 - rewrite expression parsing
 - optional/nullable or just null handling features
-- new line instead of semicolon
+- cleanup new line/semicolon statement terminal parsing
 - multiline comments
 - struct this keyword in functions
 - struct access by ["id"]

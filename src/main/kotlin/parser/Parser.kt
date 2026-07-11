@@ -27,7 +27,7 @@ open class Parser(val program: Program) {
         try {
             if (!tokens.isEmpty()) {
                 program.name = expect(Type.IDENTIFIER)
-                expect(Type.SEMICOLON)
+                expectStatementEnd()
 
                 while (position < tokens.size) {
                     program.statements.add(Statement.parse(this))
@@ -43,20 +43,60 @@ open class Parser(val program: Program) {
     }
 
     fun peek(): Token {
+        var position = position
+
+        while (tokens[position].type == Type.NEWLINE) {
+            position++
+        }
+
+        return tokens[position]
+    }
+
+    fun peekAllowNewline(): Token {
         return tokens[position]
     }
 
     fun peekIs(type: Type, value: String): Boolean {
+        if (position >= tokens.size) {
+            return false
+        }
+
         val token = peek()
         return token.type == type && token.value == value
     }
 
     fun peekIs(type: Type): Boolean {
+        if (position >= tokens.size) {
+            return false
+        }
+
         val token = peek()
         return token.type == type
     }
 
+    fun peekIsAllowNewline(type: Type, value: String): Boolean {
+        if (position >= tokens.size) {
+            return false
+        }
+
+        val token = peekAllowNewline()
+        return token.type == type && token.value == value
+    }
+
+    fun peekIsAllowNewline(type: Type): Boolean {
+        val token = peekAllowNewline()
+        return token.type == type
+    }
+
     fun next(): Token {
+        while (tokens[position].type == Type.NEWLINE) {
+            position++
+        }
+
+        return tokens[position++]
+    }
+
+    fun nextAllowNewline(): Token {
         return tokens[position++]
     }
 
@@ -78,5 +118,19 @@ open class Parser(val program: Program) {
         }
 
         throw ParseException("Expected token of type $type")
+    }
+
+    fun expectStatementEnd() {
+        if (position >= tokens.size || peekIsAllowNewline(Type.CURLY_BRACE)) {
+            return
+        }
+
+        val token = nextAllowNewline()
+
+        if (token.type == Type.SEMICOLON || token.type == Type.NEWLINE) {
+            return
+        }
+
+        throw ParseException("Expected semicolon or newline")
     }
 }

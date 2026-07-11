@@ -18,12 +18,12 @@ data class ImportStatement(val identifiers: MutableList<String>) : Statement {
             while (parser.peekIs(Type.IDENTIFIER)) {
                 identifiers.add(parser.next().value)
 
-                if (parser.peek().type != Type.SEMICOLON) {
+                if (!parser.peekIs(Type.SEMICOLON) && !parser.peekIsAllowNewline(Type.NEWLINE)) {
                     parser.expect(Type.DOT)
                 }
             }
 
-            parser.expect(Type.SEMICOLON)
+            parser.expectStatementEnd()
             return ImportStatement(identifiers)
         }
     }

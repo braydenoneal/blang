@@ -12,7 +12,7 @@ class BreakStatement : Statement {
     companion object {
         fun parse(parser: Parser): Statement {
             parser.expect(Type.KEYWORD, "break")
-            parser.expect(Type.SEMICOLON)
+            parser.expectStatementEnd()
             return BreakStatement()
         }
     }

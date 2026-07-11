@@ -1,7 +1,7 @@
 package tokenizer
 
 enum class Type(val regex: String) {
-    WHITESPACE("([ \\n\\t\\r])"),
+    WHITESPACE("([ \\t\\r])"),
     COMMENT("(#([^\\n]*))"),
     KEYWORD("(import|fn|return|if|else|elif|while|for|in|break|continue|del)([^A-Za-z0-9_]{1})"),
     BOOLEAN_OPERATOR("(and|or)([^A-Za-z0-9_]{1})"),
@@ -19,6 +19,7 @@ enum class Type(val regex: String) {
     ASSIGN("(=|\\+=|-=)"),
     COMMA("(,)"),
     SEMICOLON("(;)"),
+    NEWLINE("(\\n)"),
     COLON("(:)"),
     UNARY_OPERATOR("(!)"),
     ARITHMETIC_OPERATOR("(\\+|\\-|\\*|\\/\\/|\\/|%|\\^)"),

@@ -6,30 +6,30 @@ class Functions : Test() {
     override fun body(): String {
         return """
                 fn add(a, b) {
-                    return a + b;
+                    return a + b
                 }
                 
-                a = add(12, 4);
+                a = add(12, 4)
                 
-                nameless = fn a: a + 1;
+                nameless = fn a: a + 1
                 
-                b = nameless(1);
+                b = nameless(1)
                 
-                c = 0;
+                c = 0
                 
                 fn local(c) {
-                    return c;
+                    return c
                 }
                 
-                local(1);
+                local(1)
                 
                 fn withDefaults(a, b, c=0) {
-                    return c;
+                    return c
                 }
                 
-                d = withDefaults(1, 2);
-                e = withDefaults(1, b=2, c=3);
-                f = withDefaults(1, 2, 3);
+                d = withDefaults(1, 2)
+                e = withDefaults(1, b=2, c=3)
+                f = withDefaults(1, 2, 3)
                 """.trimIndent()
     }
 
@@ -40,7 +40,7 @@ class Functions : Test() {
             Expect("c", IntegerValue(0)),
             Expect("d", IntegerValue(0)),
             Expect("e", IntegerValue(3)),
-            Expect("f", IntegerValue(3))
+            Expect("f", IntegerValue(3)),
         )
     }
 }

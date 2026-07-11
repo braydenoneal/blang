@@ -5,31 +5,31 @@ import parser.expression.value.IntegerValue
 class IfStatements : Test() {
     override fun body(): String {
         return """
-                a = 0;
+                a = 0
                 
                 if true {
-                    a = 1;
+                    a = 1
                 }
                 
-                b = 0;
+                b = 0
                 
                 if false {
-                    b = 1;
+                    b = 1
                 } else {
-                    b  = 2;
+                    b  = 2
                 }
                 
-                c = 0;
+                c = 0
                 
                 if false {
-                    c = 1;
+                    c = 1
                 } elif true {
-                    c = 3;
+                    c = 3
                 } else {
-                    c = 2;
+                    c = 2
                 }
                 
-                d = 4 if true else 0;
+                d = 4 if true else 0
                 """.trimIndent()
     }
 
@@ -38,7 +38,7 @@ class IfStatements : Test() {
             Expect("a", IntegerValue(1)),
             Expect("b", IntegerValue(2)),
             Expect("c", IntegerValue(3)),
-            Expect("d", IntegerValue(4))
+            Expect("d", IntegerValue(4)),
         )
     }
 }

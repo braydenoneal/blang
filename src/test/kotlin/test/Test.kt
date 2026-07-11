@@ -4,7 +4,7 @@ import parser.Program
 import parser.expression.value.Value
 
 abstract class Test {
-    private val program = Program("fileName;\n\n" + body())
+    private val program = Program("fileName\n\n" + body())
 
     abstract fun body(): String
 

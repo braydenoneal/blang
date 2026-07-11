@@ -21,7 +21,7 @@ data class DeleteStatement(val name: String) : Statement {
             }
 
             val name = parser.next().value
-            parser.expect(Type.SEMICOLON)
+            parser.expectStatementEnd()
             return DeleteStatement(name)
         }
     }
