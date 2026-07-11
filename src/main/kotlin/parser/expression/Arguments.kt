@@ -73,6 +73,7 @@ data class Arguments(val namelessArguments: MutableList<Expression>, val namedAr
         throw RunException("$name is not a list")
     }
 
+    @Suppress("unused")
     fun rangeValue(program: Program, name: String, index: Int): RangeValue? {
         val value = anyValue(program, name, index) ?: return null
 
