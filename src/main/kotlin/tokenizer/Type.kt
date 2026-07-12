@@ -19,7 +19,7 @@ enum class Type(val regex: String) {
     ASSIGN("(=|\\+=|-=)"),
     COMMA("(,)"),
     SEMICOLON("(;)"),
-    NEWLINE("(\\n)"),
+    NEWLINE("(\\n+)([ \\n\\t\\r]*)"),
     COLON("(:)"),
     UNARY_OPERATOR("(!)"),
     ARITHMETIC_OPERATOR("(\\+|\\-|\\*|\\/\\/|\\/|%|\\^)"),

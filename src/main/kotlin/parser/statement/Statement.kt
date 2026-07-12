@@ -10,7 +10,12 @@ interface Statement {
 
     companion object {
         fun parse(parser: Parser): Statement {
-            val token = parser.peek()
+            val token = parser.peekAllowNewline()
+
+            if (token.type == Type.NEWLINE) {
+                parser.nextAllowNewline()
+                return EmptyStatement()
+            }
 
             if (token.type == Type.KEYWORD) {
                 when (token.value) {

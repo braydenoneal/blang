@@ -60,7 +60,7 @@ data class Funct(
         }
 
         var returnValue: Value<*> = Null.VALUE
-        val statement = statements.runNext(program)
+        val statement = statements.runNext(program) ?: return null
 
         if (statement is ReturnStatement) {
             returnValue = statement.returnValue(program) ?: return null

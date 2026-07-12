@@ -3,11 +3,13 @@
 - random and random choice functions
 - switch statement
 - list slicing
+- get file name builtin
+- .blang file extension
 - fix array access after call: someFunc()[0]
 - add properties to many values to replace some functions (item.tag instead of tag(item), etc)
 - rewrite expression parsing
 - optional/nullable or just null handling features
-- cleanup new line/semicolon statement terminal parsing
+- cleanup new line/semicolon end-of-statement parsing
 - multiline comments
 - struct this keyword in functions
 - struct access by ["id"]
@@ -17,6 +19,7 @@
 - struct get function? (key: get { return this.a + 1; })
 - struct variable name shorthand (id instead of id: id)
 - struct operator overloading
+- breakpoints
 - allow del as an alternative to .remove() functions
 - surround keyword with backticks to use as an identifier
 - underscore for unused variables

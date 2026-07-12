@@ -11,7 +11,7 @@ import parser.statement.StatementList
 open class Program(
     open var source: String = "",
     open var parsed: Boolean = false,
-    open var name: String = "",
+    open var name: String = "name",
     open val imports: MutableList<ImportStatement> = mutableListOf(),
     open val statements: StatementList = StatementList(),
     open val functions: MutableMap<String, FunctionDeclaration> = mutableMapOf(),

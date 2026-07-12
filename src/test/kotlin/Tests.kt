@@ -28,7 +28,7 @@ object Tests {
         tests().forEach(Consumer { results.add(it.run()) })
 
         val result = results.stream().reduce(
-            Test.Result(0, 0)
+            Test.Result(0, 0),
         ) { total: Test.Result, current: Test.Result ->
             Test.Result(total.passed + current.passed, total.total + current.total)
         }

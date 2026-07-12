@@ -17,7 +17,7 @@ open class Parser(val program: Program) {
         program.scopes.clear()
 
         try {
-            tokens = tokenize(program.source)
+            tokens = tokenize("${program.source}\n")
         } catch (e: Exception) {
             log.error("Tokenize error", e)
         }
@@ -26,9 +26,6 @@ open class Parser(val program: Program) {
 
         try {
             if (!tokens.isEmpty()) {
-                program.name = expect(Type.IDENTIFIER)
-                expectStatementEnd()
-
                 while (position < tokens.size) {
                     program.statements.add(Statement.parse(this))
                 }
@@ -56,22 +53,32 @@ open class Parser(val program: Program) {
         return tokens[position]
     }
 
-    fun peekIs(type: Type, value: String): Boolean {
+    fun peekNullable(): Token? {
         if (position >= tokens.size) {
-            return false
+            return null
         }
 
-        val token = peek()
-        return token.type == type && token.value == value
+        var position = position
+
+        while (tokens[position].type == Type.NEWLINE) {
+            position++
+
+            if (position >= tokens.size) {
+                return null
+            }
+        }
+
+        return tokens[position]
+    }
+
+    fun peekIs(type: Type, value: String): Boolean {
+        val token = peekNullable()
+        return token != null && token.type == type && token.value == value
     }
 
     fun peekIs(type: Type): Boolean {
-        if (position >= tokens.size) {
-            return false
-        }
-
-        val token = peek()
-        return token.type == type
+        val token = peekNullable()
+        return token != null && token.type == type
     }
 
     fun peekIsAllowNewline(type: Type, value: String): Boolean {
