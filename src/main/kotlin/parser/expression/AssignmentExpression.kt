@@ -25,8 +25,8 @@ data class AssignmentExpression(
             val prev = program.scope.get(variableExpression.name)
             val arithmetic = ArithmeticOperator(if (operator == "+=") "+" else "-", prev, value).evaluate(program) ?: return null
             return program.scope.set(variableExpression.name, arithmetic)
-        } else if (variableExpression is NamedListAccessExpression) {
-            val listValue = variableExpression.variableExpression.evaluate(program) ?: return null
+        } else if (variableExpression is ListAccessExpression && variableExpression.listExpression is VariableExpression) {
+            val listValue = variableExpression.listExpression.evaluate(program)
 
             if (listValue is ListValue) {
                 val indexValues = ListValue.toIndexValues(program, variableExpression.indices) ?: return null

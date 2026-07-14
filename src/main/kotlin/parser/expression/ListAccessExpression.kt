@@ -5,7 +5,10 @@ import parser.RunException
 import parser.expression.value.ListValue
 import parser.expression.value.Value
 
-data class ListAccessExpression(val listExpression: Expression, val indices: MutableList<Expression>) : Expression {
+data class ListAccessExpression(
+    val listExpression: Expression,
+    val indices: MutableList<Expression>,
+) : Expression {
     override fun evaluate(program: Program): Value<*>? {
         val listValue = listExpression.evaluate(program) ?: return null
 

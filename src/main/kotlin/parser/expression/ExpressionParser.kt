@@ -129,11 +129,7 @@ class ExpressionParser(val parser: Parser) {
         }
 
         if (!indices.isEmpty()) {
-            if (expression is VariableExpression) {
-                expression = NamedListAccessExpression(expression, indices)
-            } else if (expression is ListExpression) {
-                expression = ListAccessExpression(expression, indices)
-            }
+            expression = ListAccessExpression(expression, indices)
         }
 
         return expression
