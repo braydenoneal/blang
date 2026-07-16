@@ -85,15 +85,6 @@ open class Parser(val program: Program) {
         return token != null && token.type == type
     }
 
-    fun peekIsAllowNewline(type: Type, value: String): Boolean {
-        if (position >= tokens.size) {
-            return false
-        }
-
-        val token = peekAllowNewline()
-        return token.type == type && token.value == value
-    }
-
     fun peekIsAllowNewline(type: Type): Boolean {
         val token = peekAllowNewline()
         return token.type == type
