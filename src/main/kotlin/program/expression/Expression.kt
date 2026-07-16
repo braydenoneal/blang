@@ -1,7 +1,7 @@
 package program.expression
 
-import parser.ExpressionParser
 import parser.Parser
+import parser.expression.ExpressionParser
 import program.Program
 import program.expression.value.Value
 

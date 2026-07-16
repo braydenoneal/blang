@@ -1,5 +1,6 @@
-package parser
+package parser.statement
 
+import parser.Parser
 import parser.tokenizer.Type
 import program.statement.*
 

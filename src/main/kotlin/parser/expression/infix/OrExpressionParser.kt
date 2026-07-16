@@ -1,15 +1,15 @@
-package parser.infix
+package parser.expression.infix
 
-import parser.ExpressionParser
 import parser.Parser
+import parser.expression.ExpressionParser
 import parser.tokenizer.Type
 import program.expression.Expression
 import program.expression.operator.BooleanOperator
 
-class AndExpressionParser(override val precedence: Int) : InfixParser {
+class OrExpressionParser(override val precedence: Int) : InfixParser {
     override fun parse(parser: Parser, left: Expression): Expression {
-        parser.expect(Type.AND)
+        parser.expect(Type.OR)
         val right = ExpressionParser.parse(parser, precedence)
-        return BooleanOperator("and", left, right)
+        return BooleanOperator("or", left, right)
     }
 }

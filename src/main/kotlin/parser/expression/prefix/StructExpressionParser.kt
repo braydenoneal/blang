@@ -1,4 +1,4 @@
-package parser.prefix
+package parser.expression.prefix
 
 import parser.ParseException
 import parser.Parser

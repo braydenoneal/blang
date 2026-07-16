@@ -2,7 +2,7 @@ package program.expression.value
 
 import parser.ParseException
 import parser.Parser
-import parser.StatementParser
+import parser.statement.StatementParser
 import parser.tokenizer.Type
 import program.Program
 import program.expression.Arguments

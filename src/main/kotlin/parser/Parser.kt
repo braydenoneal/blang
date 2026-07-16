@@ -1,5 +1,6 @@
 package parser
 
+import parser.statement.StatementParser
 import parser.tokenizer.Token
 import parser.tokenizer.Token.Companion.tokenize
 import parser.tokenizer.Type

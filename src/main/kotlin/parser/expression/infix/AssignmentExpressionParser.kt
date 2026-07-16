@@ -1,7 +1,7 @@
-package parser.infix
+package parser.expression.infix
 
-import parser.ExpressionParser
 import parser.Parser
+import parser.expression.ExpressionParser
 import program.expression.AssignmentExpression
 import program.expression.Expression
 

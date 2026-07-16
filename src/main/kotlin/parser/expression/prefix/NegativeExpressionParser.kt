@@ -1,7 +1,7 @@
-package parser.prefix
+package parser.expression.prefix
 
-import parser.ExpressionParser
 import parser.Parser
+import parser.expression.ExpressionParser
 import parser.tokenizer.Type
 import program.expression.Expression
 import program.expression.operator.NegativeOperator

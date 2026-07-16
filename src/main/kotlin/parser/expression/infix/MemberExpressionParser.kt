@@ -1,4 +1,4 @@
-package parser.infix
+package parser.expression.infix
 
 import parser.Parser
 import parser.tokenizer.Type

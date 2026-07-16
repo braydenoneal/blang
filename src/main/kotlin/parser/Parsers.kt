@@ -1,7 +1,7 @@
 package parser
 
-import parser.infix.*
-import parser.prefix.*
+import parser.expression.infix.*
+import parser.expression.prefix.*
 import parser.tokenizer.Type
 
 object Parsers {
