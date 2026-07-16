@@ -6,7 +6,7 @@ import parser.tokenizer.Type
 import program.expression.Expression
 import program.expression.value.*
 
-class LiteralExpressionParser(override val precedence: Int) : PrefixParser {
+class LiteralExpressionParser : PrefixParser {
     override fun parse(parser: Parser, skipNewline: Boolean): Expression {
         val token = parser.peek(skipNewline)
 

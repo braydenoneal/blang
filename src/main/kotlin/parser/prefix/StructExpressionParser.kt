@@ -6,7 +6,7 @@ import parser.tokenizer.Type
 import program.expression.Expression
 import program.expression.StructExpression
 
-class StructExpressionParser(override val precedence: Int) : PrefixParser {
+class StructExpressionParser : PrefixParser {
     override fun parse(parser: Parser, skipNewline: Boolean): Expression {
         val expressions: MutableList<Pair<String, Expression>> = mutableListOf()
         parser.expect(Type.LEFT_CURLY_BRACE)
