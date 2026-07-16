@@ -1,6 +1,5 @@
 package program
 
-import Logger
 import parser.Parser
 import program.expression.Expression
 import program.expression.value.Value
