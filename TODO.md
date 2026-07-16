@@ -1,5 +1,10 @@
 ## Todo
 
+- remove unnecessary operator interface
+- define precedence when registering parsers
+- consume starting tokens before parsing expressions?
+- move all parsing logic outside the expression and statement classes
+- separate keyword token types
 - use singleton with register function for builtins and statements
 - random and random choice functions
 - switch statement
