@@ -1,6 +1,7 @@
 package program.statement
 
 import parser.Parser
+import parser.StatementParser
 import parser.tokenizer.Type
 import program.Program
 import program.expression.Expression
@@ -72,16 +73,16 @@ data class IfStatement(
             parser.expect(Type.LEFT_CURLY_BRACE)
 
             while (!parser.peekIs(Type.RIGHT_CURLY_BRACE)) {
-                statements.add(Statement.parse(parser))
+                statements.add(StatementParser.parse(parser))
             }
 
             parser.expect(Type.RIGHT_CURLY_BRACE)
 
-            while (parser.peekIs(Type.KEYWORD, "elif")) {
+            while (parser.peekIs(Type.ELIF_KEYWORD)) {
                 elseIfStatements.add(ElseIfStatement.parse(parser))
             }
 
-            if (parser.peekIs(Type.KEYWORD, "else")) {
+            if (parser.peekIs(Type.ELSE_KEYWORD)) {
                 elseStatement = ElseStatement.parse(parser)
             }
 

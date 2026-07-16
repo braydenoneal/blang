@@ -11,7 +11,7 @@ class BreakStatement : Statement {
 
     companion object {
         fun parse(parser: Parser): Statement {
-            parser.expect(Type.KEYWORD, "break")
+            parser.expect(Type.BREAK_KEYWORD)
             parser.expectStatementEnd()
             return BreakStatement()
         }

@@ -2,6 +2,7 @@ package program.statement
 
 import parser.ParseException
 import parser.Parser
+import parser.StatementParser
 import parser.tokenizer.Type
 import program.Program
 import program.expression.Arguments
@@ -57,7 +58,7 @@ data class FunctionDeclaration(val name: String, val function: Funct) : Statemen
             val statements = StatementList()
 
             while (!parser.peekIs(Type.RIGHT_CURLY_BRACE)) {
-                statements.add(Statement.parse(parser))
+                statements.add(StatementParser.parse(parser))
             }
 
             parser.expect(Type.RIGHT_CURLY_BRACE)

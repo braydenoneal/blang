@@ -14,7 +14,7 @@ data class DeleteStatement(val name: String) : Statement {
 
     companion object {
         fun parse(parser: Parser): Statement {
-            parser.expect(Type.KEYWORD, "del")
+            parser.expect(Type.DEL_KEYWORD)
 
             if (parser.peek().type != Type.IDENTIFIER) {
                 throw ParseException("Expression is not an identifier")

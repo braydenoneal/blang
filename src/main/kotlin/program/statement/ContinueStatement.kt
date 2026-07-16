@@ -11,7 +11,7 @@ class ContinueStatement : Statement {
 
     companion object {
         fun parse(parser: Parser): Statement {
-            parser.expect(Type.KEYWORD, "continue")
+            parser.expect(Type.CONTINUE_KEYWORD)
             parser.expectStatementEnd()
             return ContinueStatement()
         }

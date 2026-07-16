@@ -10,7 +10,7 @@ class ConditionalExpressionParser(override val precedence: Int) : InfixParser {
     override fun parse(parser: Parser, left: Expression): Expression {
         parser.expect(Type.IF_KEYWORD)
         val middle = ExpressionParser.parse(parser, precedence)
-        parser.expect(Type.KEYWORD, "else")
+        parser.expect(Type.ELSE_KEYWORD)
         val right = ExpressionParser.parse(parser, precedence - 1)
         return IfElseExpression(middle, left, right)
     }

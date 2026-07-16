@@ -2,12 +2,12 @@ package program.expression.value
 
 import parser.ParseException
 import parser.Parser
+import parser.StatementParser
 import parser.tokenizer.Type
 import program.Program
 import program.expression.Arguments
 import program.expression.Expression
 import program.statement.ReturnStatement
-import program.statement.Statement
 import program.statement.StatementList
 
 class FunctionValue(value: Funct) : Value<Funct>(value) {
@@ -57,7 +57,7 @@ class FunctionValue(value: Funct) : Value<Funct>(value) {
                 parser.next()
 
                 while (!parser.peekIs(Type.RIGHT_CURLY_BRACE)) {
-                    statements.add(Statement.parse(parser))
+                    statements.add(StatementParser.parse(parser))
                 }
 
                 parser.expect(Type.RIGHT_CURLY_BRACE)

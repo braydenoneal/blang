@@ -1,6 +1,7 @@
 package program.statement
 
 import parser.Parser
+import parser.StatementParser
 import parser.tokenizer.Type
 
 data class ElseStatement(val statements: StatementList) {
@@ -8,11 +9,11 @@ data class ElseStatement(val statements: StatementList) {
         fun parse(parser: Parser): ElseStatement {
             val statements = StatementList()
 
-            parser.expect(Type.KEYWORD, "else")
+            parser.expect(Type.ELSE_KEYWORD)
             parser.expect(Type.LEFT_CURLY_BRACE)
 
             while (!parser.peekIs(Type.RIGHT_CURLY_BRACE)) {
-                statements.add(Statement.parse(parser))
+                statements.add(StatementParser.parse(parser))
             }
 
             parser.expect(Type.RIGHT_CURLY_BRACE)

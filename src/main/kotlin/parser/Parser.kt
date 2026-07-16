@@ -6,7 +6,6 @@ import parser.tokenizer.Type
 import program.Program
 import program.Program.Companion.log
 import program.Scope
-import program.statement.Statement
 
 open class Parser(val program: Program) {
     var tokens: MutableList<Token> = mutableListOf()
@@ -29,7 +28,7 @@ open class Parser(val program: Program) {
         try {
             if (!tokens.isEmpty()) {
                 while (position < tokens.size) {
-                    program.statements.add(Statement.parse(this))
+                    program.statements.add(StatementParser.parse(this))
                 }
             }
         } catch (e: Exception) {
