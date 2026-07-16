@@ -6,9 +6,7 @@ import parser.tokenizer.Type
 import program.expression.Expression
 import program.expression.IfElseExpression
 
-class ConditionalExpressionParser : InfixParser {
-    override val precedence = 2
-
+class ConditionalExpressionParser(override val precedence: Int) : InfixParser {
     override fun parse(parser: Parser, left: Expression): Expression {
         parser.expect(Type.IF_KEYWORD)
         val middle = ExpressionParser.parse(parser, precedence)

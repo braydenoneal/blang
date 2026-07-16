@@ -6,9 +6,7 @@ import program.expression.Expression
 import program.expression.VariableExpression
 import program.expression.builtin.BuiltinExpression
 
-class VariableExpressionParser : PrefixParser {
-    override val precedence = 0
-
+class VariableExpressionParser(override val precedence: Int) : PrefixParser {
     override fun parse(parser: Parser, skipNewline: Boolean): Expression {
         val name = parser.expect(Type.IDENTIFIER)
 

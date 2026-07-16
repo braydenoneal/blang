@@ -6,9 +6,7 @@ import parser.tokenizer.Type
 import program.expression.Expression
 import program.expression.ListAccessExpression
 
-class ListAccessExpressionParser : InfixParser {
-    override val precedence = 7
-
+class ListAccessExpressionParser(override val precedence: Int) : InfixParser {
     override fun parse(parser: Parser, left: Expression): Expression {
         val indices: MutableList<Expression> = mutableListOf()
 

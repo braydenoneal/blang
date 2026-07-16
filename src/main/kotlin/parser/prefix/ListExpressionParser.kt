@@ -5,9 +5,7 @@ import parser.tokenizer.Type
 import program.expression.Expression
 import program.expression.ListExpression
 
-class ListExpressionParser : PrefixParser {
-    override val precedence = 0
-
+class ListExpressionParser(override val precedence: Int) : PrefixParser {
     override fun parse(parser: Parser, skipNewline: Boolean): Expression {
         val expressions: MutableList<Expression> = mutableListOf()
         parser.expect(Type.LEFT_SQUARE_BRACE)

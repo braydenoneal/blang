@@ -6,9 +6,7 @@ import parser.tokenizer.Type
 import program.expression.Expression
 import program.expression.operator.BangOperator
 
-class BangExpressionParser : PrefixParser {
-    override val precedence = 6
-
+class BangExpressionParser(override val precedence: Int) : PrefixParser {
     override fun parse(parser: Parser, skipNewline: Boolean): Expression {
         parser.expect(Type.BANG)
         val expression = ExpressionParser.parse(parser, precedence)

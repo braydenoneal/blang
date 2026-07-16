@@ -6,9 +6,7 @@ import parser.tokenizer.Type
 import program.expression.Expression
 import program.expression.operator.ArithmeticOperator
 
-class AddExpressionParser : InfixParser {
-    override val precedence = 3
-
+class AddExpressionParser(override val precedence: Int) : InfixParser {
     override fun parse(parser: Parser, left: Expression): Expression {
         parser.expect(Type.PLUS)
         val right = ExpressionParser.parse(parser, precedence)

@@ -5,9 +5,7 @@ import parser.Parser
 import program.expression.Expression
 import program.expression.operator.ComparisonOperator
 
-class ComparisonExpressionParser : InfixParser {
-    override val precedence = 4
-
+class ComparisonExpressionParser(override val precedence: Int) : InfixParser {
     override fun parse(parser: Parser, left: Expression): Expression {
         val operator = parser.next()
         val right = ExpressionParser.parse(parser, precedence)
