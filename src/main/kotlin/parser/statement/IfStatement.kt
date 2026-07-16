@@ -64,18 +64,18 @@ data class IfStatement(
     companion object {
         fun parse(parser: Parser): Statement {
             val statements = StatementList()
-            val elseIfStatements: MutableList<ElseIfStatement> = ArrayList()
+            val elseIfStatements: MutableList<ElseIfStatement> = mutableListOf()
             var elseStatement: ElseStatement? = null
 
-            parser.expect(Type.KEYWORD, "if")
+            parser.expect(Type.IF_KEYWORD)
             val condition = Expression.parse(parser)
-            parser.expect(Type.CURLY_BRACE, "{")
+            parser.expect(Type.LEFT_CURLY_BRACE)
 
-            while (!parser.peekIs(Type.CURLY_BRACE, "}")) {
+            while (!parser.peekIs(Type.RIGHT_CURLY_BRACE)) {
                 statements.add(Statement.parse(parser))
             }
 
-            parser.expect(Type.CURLY_BRACE, "}")
+            parser.expect(Type.RIGHT_CURLY_BRACE)
 
             while (parser.peekIs(Type.KEYWORD, "elif")) {
                 elseIfStatements.add(ElseIfStatement.parse(parser))

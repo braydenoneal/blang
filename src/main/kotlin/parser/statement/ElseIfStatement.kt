@@ -16,13 +16,13 @@ data class ElseIfStatement(
 
             parser.expect(Type.KEYWORD, "elif")
             val condition = Expression.parse(parser)
-            parser.expect(Type.CURLY_BRACE, "{")
+            parser.expect(Type.LEFT_CURLY_BRACE)
 
-            while (!parser.peekIs(Type.CURLY_BRACE, "}")) {
+            while (!parser.peekIs(Type.RIGHT_CURLY_BRACE)) {
                 statements.add(Statement.parse(parser))
             }
 
-            parser.expect(Type.CURLY_BRACE, "}")
+            parser.expect(Type.RIGHT_CURLY_BRACE)
 
             return ElseIfStatement(condition, statements, null)
         }

@@ -12,7 +12,7 @@ data class ImportStatement(val identifiers: MutableList<String>) : Statement {
 
     companion object {
         fun parse(parser: Parser): Statement {
-            val identifiers: MutableList<String> = ArrayList()
+            val identifiers: MutableList<String> = mutableListOf()
             parser.expect(Type.KEYWORD, "import")
 
             while (parser.peekIs(Type.IDENTIFIER)) {

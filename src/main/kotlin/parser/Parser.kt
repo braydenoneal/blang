@@ -53,6 +53,10 @@ open class Parser(val program: Program) {
         return tokens[position]
     }
 
+    fun peek(skipNewline: Boolean): Token {
+        return if (skipNewline) peek() else peekAllowNewline()
+    }
+
     fun peekNullable(): Token? {
         if (position >= tokens.size) {
             return null
@@ -128,7 +132,7 @@ open class Parser(val program: Program) {
     }
 
     fun expectStatementEnd() {
-        if (position >= tokens.size || peekIsAllowNewline(Type.CURLY_BRACE)) {
+        if (position >= tokens.size || peekIsAllowNewline(Type.RIGHT_CURLY_BRACE)) {
             return
         }
 

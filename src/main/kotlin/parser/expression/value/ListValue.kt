@@ -62,7 +62,7 @@ class ListValue(value: MutableList<Value<*>>) : Value<MutableList<Value<*>>>(val
 
     companion object {
         fun toIndexValues(program: Program, expressions: MutableList<Expression>): MutableList<Value<*>>? {
-            val indices: MutableList<Value<*>> = ArrayList()
+            val indices: MutableList<Value<*>> = mutableListOf()
 
             for (expression in expressions) {
                 indices.add(expression.evaluate(program) ?: return null)

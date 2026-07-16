@@ -1,5 +1,6 @@
 package testing
 
+import parser.pratt.Parsers
 import testing.test.*
 import java.util.function.Consumer
 
@@ -24,7 +25,9 @@ object Tests {
 
     @JvmStatic
     fun main(args: Array<String>) {
-        val results: MutableList<Test.Result> = ArrayList()
+        Parsers.initialize()
+
+        val results: MutableList<Test.Result> = mutableListOf()
         tests().forEach(Consumer { results.add(it.run()) })
 
         val result = results.stream().reduce(
@@ -32,7 +35,6 @@ object Tests {
         ) { total: Test.Result, current: Test.Result ->
             Test.Result(total.passed + current.passed, total.total + current.total)
         }
-
 
         print("\u001B[31m")
 

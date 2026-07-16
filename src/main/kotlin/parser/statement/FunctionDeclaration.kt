@@ -20,16 +20,16 @@ data class FunctionDeclaration(val name: String, val function: Funct) : Statemen
 
     companion object {
         fun parse(parser: Parser): Statement {
-            val parameters: MutableList<String> = ArrayList()
-            val defaultParameters: MutableList<Pair<String, Expression>> = ArrayList()
+            val parameters: MutableList<String> = mutableListOf()
+            val defaultParameters: MutableList<Pair<String, Expression>> = mutableListOf()
             var parseDefaults = false
 
-            parser.expect(Type.KEYWORD, "fn")
+            parser.expect(Type.FN_KEYWORD)
             val name = parser.expect(Type.IDENTIFIER)
-            parser.expect(Type.PARENTHESIS, "(")
+            parser.expect(Type.LEFT_PARENTHESIS)
 
 
-            while (!parser.peekIs(Type.PARENTHESIS, ")")) {
+            while (!parser.peekIs(Type.RIGHT_PARENTHESIS)) {
                 val parameterName = parser.expect(Type.IDENTIFIER)
 
                 if (parser.peekIs(Type.ASSIGN, "=")) {
@@ -47,20 +47,20 @@ data class FunctionDeclaration(val name: String, val function: Funct) : Statemen
                     parameters.add(parameterName)
                 }
 
-                if (!parser.peekIs(Type.PARENTHESIS, ")")) {
+                if (!parser.peekIs(Type.RIGHT_PARENTHESIS)) {
                     parser.expect(Type.COMMA)
                 }
             }
 
-            parser.expect(Type.PARENTHESIS, ")")
-            parser.expect(Type.CURLY_BRACE, "{")
+            parser.expect(Type.RIGHT_PARENTHESIS)
+            parser.expect(Type.LEFT_CURLY_BRACE)
             val statements = StatementList()
 
-            while (!parser.peekIs(Type.CURLY_BRACE, "}")) {
+            while (!parser.peekIs(Type.RIGHT_CURLY_BRACE)) {
                 statements.add(Statement.parse(parser))
             }
 
-            parser.expect(Type.CURLY_BRACE, "}")
+            parser.expect(Type.RIGHT_CURLY_BRACE)
 
             val functionDeclaration = FunctionDeclaration(name, Funct(parameters, defaultParameters, statements))
             parser.program.addFunction(name, functionDeclaration)

@@ -8,13 +8,12 @@ import parser.expression.value.StringValue
 import parser.expression.value.StructValue
 import parser.expression.value.Value
 
-
 data class StructEntriesBuiltin(
     val struct: StructValue,
-    val arguments: Arguments
+    val arguments: Arguments,
 ) : Expression {
     override fun evaluate(program: Program): Value<*> {
-        val list: MutableList<Value<*>> = ArrayList()
+        val list: MutableList<Value<*>> = mutableListOf()
 
         for (entry in struct.value) {
             list.add(StructValue(mutableListOf(Pair("key", StringValue(entry.first)), Pair("value", entry.second))))

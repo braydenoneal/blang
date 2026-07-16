@@ -1,7 +1,8 @@
 import parser.Program
+import parser.pratt.Parsers
 
 fun main() {
-    Thread.sleep(1_000)
+    Parsers.initialize()
     Program(
         """
         for i in range(10) {

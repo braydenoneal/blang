@@ -17,46 +17,50 @@ interface Statement {
                 return EmptyStatement()
             }
 
-            if (token.type == Type.KEYWORD) {
-                when (token.value) {
-                    "import" -> {
-                        return ImportStatement.parse(parser)
-                    }
+            when (token.type) {
+                Type.FN_KEYWORD -> {
+                    return FunctionDeclaration.parse(parser)
+                }
 
-                    "fn" -> {
-                        return FunctionDeclaration.parse(parser)
-                    }
+                Type.IF_KEYWORD -> {
+                    return IfStatement.parse(parser)
+                }
 
-                    "if" -> {
-                        return IfStatement.parse(parser)
-                    }
+                Type.KEYWORD -> {
+                    when (token.value) {
+                        "import" -> {
+                            return ImportStatement.parse(parser)
+                        }
 
-                    "while" -> {
-                        return WhileStatement.parse(parser)
-                    }
+                        "while" -> {
+                            return WhileStatement.parse(parser)
+                        }
 
-                    "for" -> {
-                        return ForStatement.parse(parser)
-                    }
+                        "for" -> {
+                            return ForStatement.parse(parser)
+                        }
 
-                    "del" -> {
-                        return DeleteStatement.parse(parser)
-                    }
+                        "del" -> {
+                            return DeleteStatement.parse(parser)
+                        }
 
-                    "break" -> {
-                        return BreakStatement.parse(parser)
-                    }
+                        "break" -> {
+                            return BreakStatement.parse(parser)
+                        }
 
-                    "continue" -> {
-                        return ContinueStatement.parse(parser)
-                    }
+                        "continue" -> {
+                            return ContinueStatement.parse(parser)
+                        }
 
-                    "return" -> {
-                        return ReturnStatement.parse(parser)
+                        "return" -> {
+                            return ReturnStatement.parse(parser)
+                        }
                     }
                 }
-            } else {
-                return ExpressionStatement.parse(parser)
+
+                else -> {
+                    return ExpressionStatement.parse(parser)
+                }
             }
 
             throw ParseException("Unrecognized statement at $token")

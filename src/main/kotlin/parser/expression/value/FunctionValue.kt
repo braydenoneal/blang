@@ -21,11 +21,11 @@ class FunctionValue(value: Funct) : Value<Funct>(value) {
 
     companion object {
         fun parse(parser: Parser): Expression {
-            val parameters: MutableList<String> = ArrayList()
-            val defaultParameters: MutableList<Pair<String, Expression>> = ArrayList()
+            val parameters: MutableList<String> = mutableListOf()
+            val defaultParameters: MutableList<Pair<String, Expression>> = mutableListOf()
             var parseDefaults = false
 
-            parser.expect(Type.KEYWORD, "fn")
+            parser.expect(Type.FN_KEYWORD)
 
             while (parser.peek().type !== Type.COLON) {
                 val parameterName = parser.expect(Type.IDENTIFIER)
@@ -53,14 +53,14 @@ class FunctionValue(value: Funct) : Value<Funct>(value) {
             parser.expect(Type.COLON)
             val statements = StatementList()
 
-            if (parser.peekIs(Type.CURLY_BRACE, "{")) {
+            if (parser.peekIs(Type.LEFT_CURLY_BRACE)) {
                 parser.next()
 
-                while (!parser.peekIs(Type.CURLY_BRACE, "}")) {
+                while (!parser.peekIs(Type.RIGHT_CURLY_BRACE)) {
                     statements.add(Statement.parse(parser))
                 }
 
-                parser.expect(Type.CURLY_BRACE, "}")
+                parser.expect(Type.RIGHT_CURLY_BRACE)
             } else {
                 statements.add(ReturnStatement(Expression.parse(parser)))
             }

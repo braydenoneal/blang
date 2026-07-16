@@ -100,10 +100,10 @@ data class Arguments(val namelessArguments: MutableList<Expression>, val namedAr
             val namedArguments: MutableMap<String, Expression> = HashMap()
             var parseDefaults = false
 
-            parser.expect(Type.PARENTHESIS, "(")
+            parser.expect(Type.LEFT_PARENTHESIS)
 
-            while (!parser.peekIs(Type.PARENTHESIS, ")")) {
-                val expression: Expression = Expression.parse(parser)
+            while (!parser.peekIs(Type.RIGHT_PARENTHESIS)) {
+                val expression: Expression = Expression.parse(parser, true)
 
                 if (expression is AssignmentExpression) {
                     parseDefaults = true
@@ -126,12 +126,12 @@ data class Arguments(val namelessArguments: MutableList<Expression>, val namedAr
                     arguments.add(expression)
                 }
 
-                if (!parser.peekIs(Type.PARENTHESIS, ")")) {
+                if (!parser.peekIs(Type.RIGHT_PARENTHESIS)) {
                     parser.expect(Type.COMMA)
                 }
             }
 
-            parser.expect(Type.PARENTHESIS, ")")
+            parser.expect(Type.RIGHT_PARENTHESIS)
             return Arguments(arguments, namedArguments)
         }
 

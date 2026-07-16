@@ -1,13 +1,11 @@
 package parser.expression
 
-import parser.Parser
 import parser.Program
 import parser.RunException
 import parser.expression.operator.ArithmeticOperator
 import parser.expression.value.ListValue
 import parser.expression.value.StructValue
 import parser.expression.value.Value
-import tokenizer.Type
 
 data class AssignmentExpression(
     val operator: String,
@@ -55,13 +53,5 @@ data class AssignmentExpression(
         }
 
         throw RunException("Expression is not assignable")
-    }
-
-    companion object {
-        fun parse(parser: Parser, variableExpression: Expression): Expression {
-            val type = parser.expect(Type.ASSIGN)
-            val expression = Expression.parse(parser)
-            return AssignmentExpression(type, variableExpression, expression)
-        }
     }
 }

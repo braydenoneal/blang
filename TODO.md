@@ -7,7 +7,6 @@
 - .blang file extension
 - fix array access after call: someFunc()[0]
 - add properties to many values to replace some functions (item.tag instead of tag(item), etc)
-- rewrite expression parsing
 - optional/nullable or just null handling features
 - cleanup new line/semicolon end-of-statement parsing
 - multiline comments
@@ -35,3 +34,21 @@
 - in-language errors, exceptions?
 - interfaces?
 - struct inheritance/traits?
+
+```
+expressions:
+
+a
+a = ...
+a()
+a.a
+a.a()
+a[...]
+0
+"a"
+[...]
+[...][...]
+{...}
+
+
+```
