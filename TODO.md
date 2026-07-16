@@ -1,6 +1,5 @@
 ## Todo
 
-- remove unnecessary operator interface
 - define precedence when registering parsers
 - consume starting tokens before parsing expressions?
 - move all parsing logic outside the expression and statement classes

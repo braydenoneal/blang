@@ -6,7 +6,7 @@ import program.expression.Expression
 import program.expression.value.BooleanValue
 import program.expression.value.Value
 
-data class BangOperator(val operand: Expression) : Operator, Expression {
+data class BangOperator(val operand: Expression) : Expression {
     override fun evaluate(program: Program): Value<*>? {
         val value = operand.evaluate(program) ?: return null
 

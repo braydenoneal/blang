@@ -12,7 +12,7 @@ data class ComparisonOperator(
     val operator: String,
     val operandA: Expression,
     val operandB: Expression,
-) : Operator, Expression {
+) : Expression {
     override fun evaluate(program: Program): Value<*>? {
         val a = operandA.evaluate(program) ?: return null
         val b = operandB.evaluate(program) ?: return null

@@ -12,7 +12,7 @@ data class ArithmeticOperator(
     val operator: String,
     val operandA: Expression,
     val operandB: Expression,
-) : Operator, Expression {
+) : Expression {
     override fun evaluate(program: Program): Value<*>? {
         var a = operandA.evaluate(program) ?: return null
         var b = operandB.evaluate(program) ?: return null

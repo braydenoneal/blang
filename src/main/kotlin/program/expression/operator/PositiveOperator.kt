@@ -7,7 +7,7 @@ import program.expression.value.FloatValue
 import program.expression.value.IntegerValue
 import program.expression.value.Value
 
-data class PositiveOperator(val operand: Expression) : Operator, Expression {
+data class PositiveOperator(val operand: Expression) : Expression {
     override fun evaluate(program: Program): Value<*>? {
         val value = operand.evaluate(program) ?: return null
 
