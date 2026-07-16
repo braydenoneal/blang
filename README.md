@@ -154,6 +154,8 @@ fn main() {
 
 ```
 
-## Credit
+## Credits
 
-Language tokenizing based on [Alexander Makeev's toy language](https://github.com/alexandermakeev/toy-language)
+Tokenizing based on Alexander Makeev's [toy language](https://github.com/alexandermakeev/toy-language)
+
+Parsing based on Bob Nystrom's [Bantam](https://github.com/munificent/bantam)
