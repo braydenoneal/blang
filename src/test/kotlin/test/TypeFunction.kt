@@ -1,6 +1,6 @@
 package testing.test
 
-import parser.expression.value.StringValue
+import program.expression.value.StringValue
 
 class TypeFunction : Test() {
     override fun body(): String {

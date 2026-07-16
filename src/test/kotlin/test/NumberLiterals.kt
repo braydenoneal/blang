@@ -1,7 +1,7 @@
 package testing.test
 
-import parser.expression.value.FloatValue
-import parser.expression.value.IntegerValue
+import program.expression.value.FloatValue
+import program.expression.value.IntegerValue
 
 class NumberLiterals : Test() {
     override fun body(): String {

@@ -1,5 +1,5 @@
-import parser.Program
-import parser.pratt.Parsers
+import parser.Parsers
+import program.Program
 
 fun main() {
     Parsers.initialize()

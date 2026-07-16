@@ -1,9 +1,9 @@
 package testing.test
 
-import parser.expression.value.BooleanValue
-import parser.expression.value.IntegerValue
-import parser.expression.value.ListValue
-import parser.expression.value.StringValue
+import program.expression.value.BooleanValue
+import program.expression.value.IntegerValue
+import program.expression.value.ListValue
+import program.expression.value.StringValue
 
 class Lists : Test() {
     override fun body(): String {

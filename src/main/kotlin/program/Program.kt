@@ -1,0 +1,111 @@
+package program
+
+import Logger
+import parser.Parser
+import program.expression.Expression
+import program.expression.value.Value
+import program.statement.FunctionDeclaration
+import program.statement.ImportStatement
+import program.statement.Statement
+import program.statement.StatementList
+
+open class Program(
+    open var source: String = "",
+    open var parsed: Boolean = false,
+    open var name: String = "name",
+    open val imports: MutableList<ImportStatement> = mutableListOf(),
+    open val statements: StatementList = StatementList(),
+    open val functions: MutableMap<String, FunctionDeclaration> = mutableMapOf(),
+    open val scopes: MutableList<Scope> = mutableListOf(),
+) {
+    var wait = false
+
+    fun run() {
+        if (!parsed) {
+            Parser(this)
+        }
+
+        try {
+            while (true) {
+                val result = tick(true)
+
+                if (result != null) {
+                    break
+                }
+            }
+        } catch (e: Exception) {
+            log.error("Run error", e)
+        }
+    }
+
+    fun parse() {
+        Parser(this)
+    }
+
+    fun tick(sleep: Boolean = false): Statement? {
+        wait = false
+
+        var result = statements.runNext(this)
+
+        while (true) {
+            if (result != null) {
+                return result
+            }
+
+            if (wait) {
+                break
+            }
+
+            result = statements.runNext(this)
+        }
+
+        if (sleep) {
+            Thread.sleep(1_000 / 5)
+        }
+
+        return result
+    }
+
+    fun waitUntilNextTick() {
+        wait = true
+    }
+
+    fun addImport(importStatement: ImportStatement) {
+        imports.add(importStatement)
+    }
+
+    fun addFunction(name: String, function: FunctionDeclaration) {
+        functions[name] = function
+    }
+
+    fun getFunction(name: String): FunctionDeclaration? {
+        return functions[name]
+    }
+
+    fun newScope() {
+        scopes.add(Scope(scopes.last()))
+    }
+
+    fun endScope() {
+        scopes.removeLast()
+    }
+
+    open fun parseCustomBuiltins(parser: Parser, name: String): Expression? {
+        return null
+    }
+
+    open fun getCustomType(value: Value<*>): String? {
+        return null
+    }
+
+    open fun getCustomImportProgram(importStatement: ImportStatement): Program {
+        return this
+    }
+
+    val scope: Scope get() = scopes.last()
+    val topScope: Scope get() = scopes.first()
+
+    companion object {
+        val log: Logger = Logger()
+    }
+}

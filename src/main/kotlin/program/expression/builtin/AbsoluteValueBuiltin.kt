@@ -1,0 +1,24 @@
+package program.expression.builtin
+
+import program.Program
+import program.RunException
+import program.expression.Arguments
+import program.expression.Expression
+import program.expression.value.FloatValue
+import program.expression.value.IntegerValue
+import program.expression.value.Value
+import kotlin.math.abs
+
+data class AbsoluteValueBuiltin(val arguments: Arguments) : Expression {
+    override fun evaluate(program: Program): Value<*>? {
+        val value = arguments.anyValue(program, "value", 0) ?: return null
+
+        if (value is IntegerValue) {
+            return IntegerValue(abs(value.value))
+        } else if (value is FloatValue) {
+            return FloatValue(abs(value.value))
+        }
+
+        throw RunException("Expression is not a number")
+    }
+}

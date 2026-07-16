@@ -1,6 +1,6 @@
 package testing
 
-import parser.pratt.Parsers
+import parser.Parsers
 import testing.test.*
 import java.util.function.Consumer
 

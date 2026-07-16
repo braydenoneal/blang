@@ -1,7 +1,7 @@
 package testing.test
 
-import parser.Program
-import parser.expression.value.Value
+import program.Program
+import program.expression.value.Value
 
 abstract class Test {
     private val program = Program(body())

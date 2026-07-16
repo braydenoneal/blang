@@ -1,10 +1,12 @@
 package parser
 
-import parser.Program.Companion.log
-import parser.statement.Statement
-import tokenizer.Token
-import tokenizer.Token.Companion.tokenize
-import tokenizer.Type
+import parser.tokenizer.Token
+import parser.tokenizer.Token.Companion.tokenize
+import parser.tokenizer.Type
+import program.Program
+import program.Program.Companion.log
+import program.Scope
+import program.statement.Statement
 
 open class Parser(val program: Program) {
     var tokens: MutableList<Token> = mutableListOf()

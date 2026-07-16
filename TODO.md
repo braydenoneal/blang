@@ -1,5 +1,6 @@
 ## Todo
 
+- use singleton with register function for builtins and statements
 - random and random choice functions
 - switch statement
 - list slicing
