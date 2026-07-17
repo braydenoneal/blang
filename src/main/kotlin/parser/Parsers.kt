@@ -2,18 +2,24 @@ package parser
 
 import parser.expression.infix.*
 import parser.expression.prefix.*
+import parser.statement.*
 import parser.tokenizer.Type
 
 object Parsers {
     val prefixParsers: MutableMap<Type, PrefixParser> = mutableMapOf()
     val infixParsers: MutableMap<Type, InfixParser> = mutableMapOf()
+    val statementParsers: MutableMap<Type, StatementParser> = mutableMapOf()
 
-    fun register(type: Type, prefixParser: PrefixParser) {
-        prefixParsers[type] = prefixParser
+    fun register(type: Type, parser: PrefixParser) {
+        prefixParsers[type] = parser
     }
 
-    fun register(type: Type, infixParser: InfixParser) {
-        infixParsers[type] = infixParser
+    fun register(type: Type, parser: InfixParser) {
+        infixParsers[type] = parser
+    }
+
+    fun register(type: Type, parser: StatementParser) {
+        statementParsers[type] = parser
     }
 
     fun initialize() {
@@ -46,5 +52,18 @@ object Parsers {
         register(Type.CARET, ExponentiateExpressionParser(5))
         register(Type.LEFT_SQUARE_BRACE, ListAccessExpressionParser(7))
         register(Type.DOT, MemberExpressionParser(7))
+        // Statement
+        register(Type.NEWLINE, EmptyStatementParser())
+        register(Type.FN_KEYWORD, FunctionStatementParser())
+        register(Type.IF_KEYWORD, IfStatementParser())
+        register(Type.FOR_KEYWORD, ForStatementParser())
+        register(Type.IMPORT_KEYWORD, ImportStatementParser())
+        register(Type.WHILE_KEYWORD, WhileStatementParser())
+        register(Type.DEL_KEYWORD, DeleteStatementParser())
+        register(Type.BREAK_KEYWORD, BreakStatementParser())
+        register(Type.CONTINUE_KEYWORD, ContinueStatementParser())
+        register(Type.RETURN_KEYWORD, ReturnStatementParser())
     }
+
+    val expressionStatementParser = ExpressionStatementParser()
 }

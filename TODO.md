@@ -1,7 +1,7 @@
 ## Todo
 
 - consume starting tokens before parsing expressions?
-- use singleton with register function for builtins and statements
+- use singleton with register function for builtins
 - random and random choice functions
 - switch statement
 - list slicing
