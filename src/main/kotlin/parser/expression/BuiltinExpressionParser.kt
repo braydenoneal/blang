@@ -15,20 +15,20 @@ object BuiltinExpressionParser {
     }
 
     fun initialize() {
-        register("abs") { arguments: Arguments -> AbsoluteValueBuiltin(arguments) }
-        register("int") { arguments: Arguments -> IntegerCastBuiltin(arguments) }
-        register("float") { arguments: Arguments -> FloatCastBuiltin(arguments) }
-        register("str") { arguments: Arguments -> StringCastBuiltin(arguments) }
-        register("round") { arguments: Arguments -> RoundBuiltin(arguments) }
-        register("floor") { arguments: Arguments -> FloorBuiltin(arguments) }
-        register("ceil") { arguments: Arguments -> CeilBuiltin(arguments) }
-        register("len") { arguments: Arguments -> LengthBuiltin(arguments) }
-        register("print") { arguments: Arguments -> PrintBuiltin(arguments) }
-        register("min") { arguments: Arguments -> MinimumBuiltin(arguments) }
-        register("max") { arguments: Arguments -> MaximumBuiltin(arguments) }
-        register("range") { arguments: Arguments -> RangeBuiltin(arguments) }
-        register("type") { arguments: Arguments -> TypeBuiltin(arguments) }
-        register("wait") { arguments: Arguments -> WaitBuiltin(arguments) }
+        register("abs") { arguments -> AbsoluteValueBuiltin(arguments) }
+        register("int") { arguments -> IntegerCastBuiltin(arguments) }
+        register("float") { arguments -> FloatCastBuiltin(arguments) }
+        register("str") { arguments -> StringCastBuiltin(arguments) }
+        register("round") { arguments -> RoundBuiltin(arguments) }
+        register("floor") { arguments -> FloorBuiltin(arguments) }
+        register("ceil") { arguments -> CeilBuiltin(arguments) }
+        register("len") { arguments -> LengthBuiltin(arguments) }
+        register("print") { arguments -> PrintBuiltin(arguments) }
+        register("min") { arguments -> MinimumBuiltin(arguments) }
+        register("max") { arguments -> MaximumBuiltin(arguments) }
+        register("range") { arguments -> RangeBuiltin(arguments) }
+        register("type") { arguments -> TypeBuiltin(arguments) }
+        register("wait") { arguments -> WaitBuiltin(arguments) }
     }
 
     fun parse(parser: Parser, name: String): Expression {
