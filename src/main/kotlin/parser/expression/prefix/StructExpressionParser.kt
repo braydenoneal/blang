@@ -20,7 +20,7 @@ class StructExpressionParser : PrefixParser {
             }
 
             parser.expect(Type.COLON)
-            expressions.add(Pair(name.value, ExpressionParser.parse(parser)))
+            expressions.add(name.value to ExpressionParser.parse(parser))
 
             if (!parser.peekIs(Type.RIGHT_CURLY_BRACE)) {
                 parser.expect(Type.COMMA)

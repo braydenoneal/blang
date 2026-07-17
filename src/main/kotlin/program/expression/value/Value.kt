@@ -21,6 +21,6 @@ abstract class Value<T>(val value: T) : Expression {
     }
 
     override fun hashCode(): Int {
-        return value?.hashCode() ?: 0
+        return value.hashCode()
     }
 }

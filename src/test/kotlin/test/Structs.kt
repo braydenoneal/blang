@@ -23,14 +23,14 @@ class Structs : Test() {
 
     override fun expects(): List<Expect> {
         return listOf(
-            Expect("a", StructValue(mutableListOf(Pair("a", IntegerValue(1))))),
+            Expect("a", StructValue(mutableListOf("a" to IntegerValue(1)))),
             Expect("b", IntegerValue(1)),
-            Expect("c", StructValue(mutableListOf(Pair("a", StructValue(mutableListOf(Pair("a", IntegerValue(1)))))))),
+            Expect("c", StructValue(mutableListOf("a" to StructValue(mutableListOf("a" to IntegerValue(1)))))),
             Expect("d", StructValue(mutableListOf())),
             Expect("e", ListValue(mutableListOf(StringValue("a")))),
-            Expect("f", ListValue(mutableListOf(StructValue(mutableListOf(Pair("a", IntegerValue(1))))))),
-            Expect("g", ListValue(mutableListOf(StructValue(mutableListOf(Pair("key", StringValue("a")), Pair("value", StructValue(mutableListOf(Pair("a", IntegerValue(1)))))))))),
-            Expect("h", StructValue(mutableListOf(Pair("a", StructValue(mutableListOf(Pair("a", IntegerValue(1)))))))),
+            Expect("f", ListValue(mutableListOf(StructValue(mutableListOf("a" to IntegerValue(1)))))),
+            Expect("g", ListValue(mutableListOf(StructValue(mutableListOf("key" to StringValue("a"), "value" to StructValue(mutableListOf("a" to IntegerValue(1)))))))),
+            Expect("h", StructValue(mutableListOf("a" to StructValue(mutableListOf("a" to IntegerValue(1)))))),
         )
     }
 }

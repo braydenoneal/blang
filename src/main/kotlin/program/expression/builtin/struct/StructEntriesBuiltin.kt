@@ -15,8 +15,8 @@ data class StructEntriesBuiltin(
     override fun evaluate(program: Program): Value<*> {
         val list: MutableList<Value<*>> = mutableListOf()
 
-        for (entry in struct.value) {
-            list.add(StructValue(mutableListOf(Pair("key", StringValue(entry.first)), Pair("value", entry.second))))
+        for ((first, second) in struct.value) {
+            list.add(StructValue(mutableListOf("key" to StringValue(first), "value" to second)))
         }
 
         return ListValue(list)

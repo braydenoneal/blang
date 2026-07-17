@@ -16,9 +16,9 @@ class StructValue(value: MutableList<Pair<String, Value<*>>>) : Value<MutableLis
     }
 
     fun get(property: String): Value<*> {
-        for (entry in value) {
-            if (entry.first == property) {
-                return entry.second
+        for ((first, second) in value) {
+            if (first == property) {
+                return second
             }
         }
 
@@ -28,7 +28,7 @@ class StructValue(value: MutableList<Pair<String, Value<*>>>) : Value<MutableLis
     fun set(property: String, setValue: Value<*>): Value<*> {
         for (i in value.indices) {
             if (value[i].first == property) {
-                value[i] = Pair(value[i].first, setValue)
+                value[i] = value[i].first to setValue
                 return setValue
             }
         }

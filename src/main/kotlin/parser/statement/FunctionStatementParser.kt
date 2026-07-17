@@ -31,7 +31,7 @@ class FunctionStatementParser : StatementParser {
             if (parseDefaults) {
                 try {
                     parser.expect(Type.ASSIGN, "=")
-                    defaultParameters.add(Pair(parameterName, ExpressionParser.parse(parser)))
+                    defaultParameters.add(parameterName to ExpressionParser.parse(parser))
                 } catch (_: ParseException) {
                     throw ParseException("Function cannot have parameter with default after parameter without default")
                 }

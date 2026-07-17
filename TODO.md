@@ -1,30 +1,31 @@
 ## Todo
 
+- support for variable length arguments `mapOf(Pair(), Pair(), Pair(), etc.)`
 - consume starting tokens before parsing expressions?
 - use singleton with register function for builtins
 - random and random choice functions
 - switch statement
 - list slicing
 - get file name builtin
-- .blang file extension
-- fix array access after call: someFunc()[0]
-- add properties to many values to replace some functions (item.tag instead of tag(item), etc)
+- `.blang` file extension
+- fix array access after call: `someFunc()[0]`
+- add properties to many values to replace some functions (`item.tag` instead of `tag(item)`, etc)
 - optional/nullable or just null handling features
 - cleanup new line/semicolon end-of-statement parsing
 - multiline comments
 - struct this keyword in functions
-- struct access by ["id"]
+- struct access by `["id"]`
 - struct destructuring? (order dependant)
 - struct destructuring? (name dependant)
 - list destructuring?
-- struct get function? (key: get { return this.a + 1; })
-- struct variable name shorthand (id instead of id: id)
+- struct get function? (`key: get { return this.a + 1; }`)
+- struct variable name shorthand (`id` instead of `id: id`)
 - struct operator overloading
 - breakpoints
-- allow del as an alternative to .remove() functions
+- allow del as an alternative to `.remove()` functions
 - surround keyword with backticks to use as an identifier
 - underscore for unused variables
-- import renames (import x as y)
+- import renames (`import x as y`)
 - better error context (source location, etc)
 - unify some of the logic between custom and builtin functions (parsing and arguments)
 - static types?
