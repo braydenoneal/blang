@@ -23,4 +23,6 @@ abstract class Value<T>(val value: T) : Expression {
     override fun hashCode(): Int {
         return value.hashCode()
     }
+
+    abstract fun typeString(): String
 }

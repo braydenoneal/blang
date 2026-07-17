@@ -1,6 +1,8 @@
 package program.expression.value
 
 class StructValue(value: MutableList<Pair<String, Value<*>>>) : Value<MutableList<Pair<String, Value<*>>>>(value) {
+    override fun typeString(): String = "struct"
+
     override fun toString(): String {
         val print = StringBuilder("{")
 

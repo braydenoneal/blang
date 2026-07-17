@@ -5,6 +5,8 @@ import program.RunException
 import program.expression.Expression
 
 class ListValue(value: MutableList<Value<*>>) : Value<MutableList<Value<*>>>(value) {
+    override fun typeString(): String = "list"
+
     override fun toString(): String {
         val print = StringBuilder("[")
 
