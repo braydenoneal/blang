@@ -1,7 +1,6 @@
 package program
 
 import parser.Parser
-import program.expression.Expression
 import program.expression.value.Value
 import program.statement.FunctionStatement
 import program.statement.ImportStatement
@@ -87,10 +86,6 @@ open class Program(
 
     fun endScope() {
         scopes.removeLast()
-    }
-
-    open fun parseCustomBuiltins(parser: Parser, name: String): Expression? {
-        return null
     }
 
     open fun getCustomType(value: Value<*>): String? {

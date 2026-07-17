@@ -7,7 +7,7 @@ import program.expression.value.FloatValue
 import program.expression.value.Value
 import kotlin.math.floor
 
-data class FloorBuiltin(val arguments: Arguments) : Expression {
+data class FloorBuiltin(override val arguments: Arguments) : Builtin(arguments), Expression {
     override fun evaluate(program: Program): Value<*>? {
         return FloatValue(floor((arguments.floatValue(program, "value", 0) ?: return null).value.toDouble()).toFloat())
     }

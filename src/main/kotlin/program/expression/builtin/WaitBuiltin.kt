@@ -7,7 +7,7 @@ import program.expression.value.IntegerValue
 import program.expression.value.Null
 import program.expression.value.Value
 
-data class WaitBuiltin(val arguments: Arguments, var counter: Int = 0) : Expression {
+data class WaitBuiltin(override val arguments: Arguments, var counter: Int = 0) : Builtin(arguments), Expression {
     override fun evaluate(program: Program): Value<*>? {
         val value = if (arguments.namelessArguments.isEmpty()) IntegerValue(1) else arguments.integerValue(program, "value", 0) ?: return null
 

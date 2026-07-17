@@ -9,7 +9,7 @@ import program.expression.value.IntegerValue
 import program.expression.value.Value
 import kotlin.math.max
 
-data class MaximumBuiltin(val arguments: Arguments) : Expression {
+data class MaximumBuiltin(override val arguments: Arguments) : Builtin(arguments), Expression {
     override fun evaluate(program: Program): Value<*>? {
         var a = arguments.anyValue(program, "a", 0) ?: return null
         var b = arguments.anyValue(program, "b", 1) ?: return null

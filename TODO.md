@@ -2,7 +2,7 @@
 
 - support for variable length arguments `mapOf(Pair(), Pair(), Pair(), etc.)`
 - consume starting tokens before parsing expressions?
-- use singleton with register function for builtins
+- use singleton with register function for member calls and type builtin types
 - random and random choice functions
 - switch statement
 - list slicing

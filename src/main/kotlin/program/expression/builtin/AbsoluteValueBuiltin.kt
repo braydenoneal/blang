@@ -9,7 +9,7 @@ import program.expression.value.IntegerValue
 import program.expression.value.Value
 import kotlin.math.abs
 
-data class AbsoluteValueBuiltin(val arguments: Arguments) : Expression {
+data class AbsoluteValueBuiltin(override val arguments: Arguments) : Builtin(arguments), Expression {
     override fun evaluate(program: Program): Value<*>? {
         val value = arguments.anyValue(program, "value", 0) ?: return null
 

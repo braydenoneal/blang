@@ -7,7 +7,7 @@ import program.expression.value.Null
 import program.expression.value.StringValue
 import program.expression.value.Value
 
-data class PrintBuiltin(val arguments: Arguments) : Expression {
+data class PrintBuiltin(override val arguments: Arguments) : Builtin(arguments), Expression {
     override fun evaluate(program: Program): Value<*>? {
         val value = if (arguments.namelessArguments.isEmpty()) StringValue("") else arguments.anyValue(program, "value", 0) ?: return null
         var string = value.toString()

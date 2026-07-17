@@ -4,11 +4,14 @@ import parser.expression.infix.*
 import parser.expression.prefix.*
 import parser.statement.*
 import parser.tokenizer.Type
+import program.expression.Arguments
+import program.expression.builtin.*
 
 object Parsers {
     val prefixParsers: MutableMap<Type, PrefixParser> = mutableMapOf()
     val infixParsers: MutableMap<Type, InfixParser> = mutableMapOf()
     val statementParsers: MutableMap<Type, StatementParser> = mutableMapOf()
+    val builtins: MutableMap<String, (Arguments) -> Builtin> = mutableMapOf()
 
     fun register(type: Type, parser: PrefixParser) {
         prefixParsers[type] = parser
@@ -20,6 +23,10 @@ object Parsers {
 
     fun register(type: Type, parser: StatementParser) {
         statementParsers[type] = parser
+    }
+
+    fun register(name: String, builder: (Arguments) -> Builtin) {
+        builtins[name] = builder
     }
 
     fun initialize() {
@@ -63,6 +70,21 @@ object Parsers {
         register(Type.BREAK_KEYWORD, BreakStatementParser())
         register(Type.CONTINUE_KEYWORD, ContinueStatementParser())
         register(Type.RETURN_KEYWORD, ReturnStatementParser())
+        // Builtins
+        register("abs") { arguments: Arguments -> AbsoluteValueBuiltin(arguments) }
+        register("int") { arguments: Arguments -> IntegerCastBuiltin(arguments) }
+        register("float") { arguments: Arguments -> FloatCastBuiltin(arguments) }
+        register("str") { arguments: Arguments -> StringCastBuiltin(arguments) }
+        register("round") { arguments: Arguments -> RoundBuiltin(arguments) }
+        register("floor") { arguments: Arguments -> FloorBuiltin(arguments) }
+        register("ceil") { arguments: Arguments -> CeilBuiltin(arguments) }
+        register("len") { arguments: Arguments -> LengthBuiltin(arguments) }
+        register("print") { arguments: Arguments -> PrintBuiltin(arguments) }
+        register("min") { arguments: Arguments -> MinimumBuiltin(arguments) }
+        register("max") { arguments: Arguments -> MaximumBuiltin(arguments) }
+        register("range") { arguments: Arguments -> RangeBuiltin(arguments) }
+        register("type") { arguments: Arguments -> TypeBuiltin(arguments) }
+        register("wait") { arguments: Arguments -> WaitBuiltin(arguments) }
     }
 
     val expressionStatementParser = ExpressionStatementParser()
