@@ -23,6 +23,7 @@ object BuiltinExpressionParser {
             "range" -> RangeBuiltin(ArgumentsParser.parse(parser))
             "type" -> TypeBuiltin(ArgumentsParser.parse(parser))
             "wait" -> WaitBuiltin(ArgumentsParser.parse(parser))
+            "pair" -> HashMapBuiltin(ArgumentsParser.parse(parser)) // placeholder for hashmap return type
             else -> CallExpression(name, ArgumentsParser.parse(parser))
         }
     }

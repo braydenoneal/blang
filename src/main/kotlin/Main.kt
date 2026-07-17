@@ -5,9 +5,7 @@ fun main() {
     Parsers.initialize()
     Program(
         """
-        for i in range(10) {
-            print(i)
-        }
+        print(pair())
         """.trimIndent(),
     ).run()
 }
