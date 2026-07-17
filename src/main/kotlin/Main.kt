@@ -5,7 +5,7 @@ fun main() {
     Parsers.initialize()
     Program(
         """
-        print(pair())
+        print("Hello, world!")
         """.trimIndent(),
     ).run()
 }
