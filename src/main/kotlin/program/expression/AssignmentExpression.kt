@@ -23,20 +23,23 @@ data class AssignmentExpression(
             val prev = program.scope.get(variableExpression.name)
             val arithmetic = ArithmeticOperator(if (operator == "+=") "+" else "-", prev, value).evaluate(program) ?: return null
             return program.scope.set(variableExpression.name, arithmetic)
-        } else if (variableExpression is ListAccessExpression && variableExpression.listExpression is VariableExpression) {
-            val listValue = variableExpression.listExpression.evaluate(program)
+        } else if (variableExpression is ListAccessExpression) {
+            val list = variableExpression.listExpression.evaluate(program)
 
-            if (listValue is ListValue) {
-                val indexValues = ListValue.toIndexValues(program, variableExpression.indices) ?: return null
-
-                if (operator == "=") {
-                    return listValue.set(indexValues, value)
-                }
-
-                val prev = listValue.get(indexValues)
-                val arithmetic = ArithmeticOperator(if (operator == "+=") "+" else "-", prev, value).evaluate(program) ?: return null
-                return listValue.set(indexValues, arithmetic)
+            if (list !is ListValue) {
+                throw RunException("Expression is not a list")
             }
+
+            val index = variableExpression.indexExpression.evaluate(program) ?: return null
+
+            if (operator == "=") {
+                return list.set(index, value)
+            }
+
+            val prev = list.get(index)
+            val arithmetic = ArithmeticOperator(if (operator == "+=") "+" else "-", prev, value).evaluate(program) ?: return null
+
+            return list.set(index, arithmetic)
         } else if (variableExpression is MemberExpression) {
             val struct = variableExpression.member.evaluate(program) ?: return null
 

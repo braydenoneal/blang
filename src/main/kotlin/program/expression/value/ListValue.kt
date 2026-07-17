@@ -1,8 +1,6 @@
 package program.expression.value
 
-import program.Program
 import program.RunException
-import program.expression.Expression
 
 class ListValue(value: MutableList<Value<*>>) : Value<MutableList<Value<*>>>(value) {
     override fun typeString(): String = "list"
@@ -21,56 +19,28 @@ class ListValue(value: MutableList<Value<*>>) : Value<MutableList<Value<*>>>(val
         return "$print]"
     }
 
-    fun get(indexValues: List<Value<*>>): Value<*> {
-        if (indexValues.isEmpty()) {
-            throw RunException("No indices provided")
-        }
-
-        var currentValue: Value<*> = this
-
-        for (index in indexValues) {
-            if (index !is IntegerValue) {
-                throw RunException("Index is not an integer")
-            }
-
-            if (currentValue !is ListValue) {
-                throw RunException("Object is not a list")
-            }
-
-            if (index.value >= currentValue.value.size) {
-                throw RunException("Index " + index.value + " out of range for list of size " + currentValue.value.size)
-            }
-
-            currentValue = currentValue.value[index.value]
-        }
-
-        return currentValue
-    }
-
-    fun set(indexValues: List<Value<*>>, value: Value<*>): Value<*> {
-        val list = get(indexValues.subList(0, indexValues.size - 1))
-        val lastIndex = indexValues.last()
-
-        if (lastIndex !is IntegerValue) {
+    fun get(index: Value<*>): Value<*> {
+        if (index !is IntegerValue) {
             throw RunException("Index is not an integer")
         }
-        if (list !is ListValue) {
-            throw RunException("Object is not a list")
+
+        if (index.value >= value.size) {
+            throw RunException("Index " + index.value + " out of range for list of size " + value.size)
         }
 
-        list.value[lastIndex.value] = value
-        return value
+        return value[index.value]
     }
 
-    companion object {
-        fun toIndexValues(program: Program, expressions: MutableList<Expression>): MutableList<Value<*>>? {
-            val indices: MutableList<Value<*>> = mutableListOf()
-
-            for (expression in expressions) {
-                indices.add(expression.evaluate(program) ?: return null)
-            }
-
-            return indices
+    fun set(index: Value<*>, setValue: Value<*>): Value<*> {
+        if (index !is IntegerValue) {
+            throw RunException("Index is not an integer")
         }
+
+        if (index.value >= value.size) {
+            throw RunException("Index " + index.value + " out of range for list of size " + value.size)
+        }
+
+        value[index.value] = setValue
+        return setValue
     }
 }

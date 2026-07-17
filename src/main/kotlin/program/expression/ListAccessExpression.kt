@@ -7,15 +7,16 @@ import program.expression.value.Value
 
 data class ListAccessExpression(
     val listExpression: Expression,
-    val indices: MutableList<Expression>,
+    val indexExpression: Expression,
 ) : Expression {
     override fun evaluate(program: Program): Value<*>? {
-        val listValue = listExpression.evaluate(program) ?: return null
+        val list = listExpression.evaluate(program) ?: return null
+        val index = indexExpression.evaluate(program) ?: return null
 
-        if (listValue is ListValue) {
-            return listValue.get(ListValue.toIndexValues(program, indices) ?: return null)
+        if (list !is ListValue) {
+            throw RunException("Expression is not a list")
         }
 
-        throw RunException("Expression is not a list")
+        return list.get(index)
     }
 }
