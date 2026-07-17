@@ -1,25 +1,27 @@
-package parser.expression.prefix
+package parser.statement
 
 import parser.ParseException
 import parser.Parser
 import parser.expression.ExpressionParser
-import parser.statement.StatementParser
 import parser.tokenizer.Type
 import program.expression.Expression
 import program.expression.value.Funct
-import program.expression.value.FunctionValue
-import program.statement.ReturnStatement
+import program.statement.FunctionStatement
+import program.statement.Statement
 import program.statement.StatementList
 
-class FunctionExpressionParser : PrefixParser {
-    override fun parse(parser: Parser, skipNewline: Boolean): Expression {
+class FunctionStatementParser : StatementParser {
+    override fun parse(parser: Parser): Statement {
         val parameters: MutableList<String> = mutableListOf()
         val defaultParameters: MutableList<Pair<String, Expression>> = mutableListOf()
         var parseDefaults = false
 
         parser.expect(Type.FN_KEYWORD)
+        val name = parser.expect(Type.IDENTIFIER)
+        parser.expect(Type.LEFT_PARENTHESIS)
 
-        while (parser.peek().type !== Type.COLON) {
+
+        while (!parser.peekIs(Type.RIGHT_PARENTHESIS)) {
             val parameterName = parser.expect(Type.IDENTIFIER)
 
             if (parser.peekIs(Type.ASSIGN, "=")) {
@@ -37,26 +39,23 @@ class FunctionExpressionParser : PrefixParser {
                 parameters.add(parameterName)
             }
 
-            if (parser.peek().type !== Type.COLON) {
+            if (!parser.peekIs(Type.RIGHT_PARENTHESIS)) {
                 parser.expect(Type.COMMA)
             }
         }
 
-        parser.expect(Type.COLON)
+        parser.expect(Type.RIGHT_PARENTHESIS)
+        parser.expect(Type.LEFT_CURLY_BRACE)
         val statements = StatementList()
 
-        if (parser.peekIs(Type.LEFT_CURLY_BRACE)) {
-            parser.next()
-
-            while (!parser.peekIs(Type.RIGHT_CURLY_BRACE)) {
-                statements.add(StatementParser.parse(parser))
-            }
-
-            parser.expect(Type.RIGHT_CURLY_BRACE)
-        } else {
-            statements.add(ReturnStatement(ExpressionParser.parse(parser)))
+        while (!parser.peekIs(Type.RIGHT_CURLY_BRACE)) {
+            statements.add(StatementParser.parse(parser))
         }
 
-        return FunctionValue(Funct(parameters, defaultParameters, statements))
+        parser.expect(Type.RIGHT_CURLY_BRACE)
+
+        val functionStatement = FunctionStatement(name, Funct(parameters, defaultParameters, statements))
+        parser.program.addFunction(name, functionStatement)
+        return functionStatement
     }
 }

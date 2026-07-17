@@ -9,7 +9,7 @@ import parser.tokenizer.Type
 import program.expression.Expression
 
 object ExpressionParser {
-    fun parse(parser: Parser, precedence: Int, skipNewline: Boolean = false): Expression {
+    fun parse(parser: Parser, precedence: Int = 0, skipNewline: Boolean = false): Expression {
         val token = parser.peek(skipNewline)
 
         if (token.type == Type.NEWLINE) {

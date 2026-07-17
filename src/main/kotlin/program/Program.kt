@@ -3,7 +3,7 @@ package program
 import parser.Parser
 import program.expression.Expression
 import program.expression.value.Value
-import program.statement.FunctionDeclaration
+import program.statement.FunctionStatement
 import program.statement.ImportStatement
 import program.statement.Statement
 import program.statement.StatementList
@@ -14,7 +14,7 @@ open class Program(
     open var name: String = "name",
     open val imports: MutableList<ImportStatement> = mutableListOf(),
     open val statements: StatementList = StatementList(),
-    open val functions: MutableMap<String, FunctionDeclaration> = mutableMapOf(),
+    open val functions: MutableMap<String, FunctionStatement> = mutableMapOf(),
     open val scopes: MutableList<Scope> = mutableListOf(),
 ) {
     var wait = false
@@ -73,11 +73,11 @@ open class Program(
         imports.add(importStatement)
     }
 
-    fun addFunction(name: String, function: FunctionDeclaration) {
+    fun addFunction(name: String, function: FunctionStatement) {
         functions[name] = function
     }
 
-    fun getFunction(name: String): FunctionDeclaration? {
+    fun getFunction(name: String): FunctionStatement? {
         return functions[name]
     }
 

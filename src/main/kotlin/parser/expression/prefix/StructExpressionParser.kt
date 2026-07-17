@@ -2,6 +2,7 @@ package parser.expression.prefix
 
 import parser.ParseException
 import parser.Parser
+import parser.expression.ExpressionParser
 import parser.tokenizer.Type
 import program.expression.Expression
 import program.expression.StructExpression
@@ -19,7 +20,7 @@ class StructExpressionParser : PrefixParser {
             }
 
             parser.expect(Type.COLON)
-            expressions.add(Pair(name.value, Expression.parse(parser)))
+            expressions.add(Pair(name.value, ExpressionParser.parse(parser)))
 
             if (!parser.peekIs(Type.RIGHT_CURLY_BRACE)) {
                 parser.expect(Type.COMMA)

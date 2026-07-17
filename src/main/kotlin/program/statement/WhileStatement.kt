@@ -1,8 +1,5 @@
 package program.statement
 
-import parser.Parser
-import parser.statement.StatementParser
-import parser.tokenizer.Type
 import program.Program
 import program.RunException
 import program.expression.Expression
@@ -40,23 +37,5 @@ data class WhileStatement(
         }
 
         throw RunException("Expression is not a boolean")
-    }
-
-    companion object {
-        fun parse(parser: Parser): Statement {
-            val statements = StatementList()
-
-            parser.expect(Type.WHILE_KEYWORD)
-            val condition = Expression.parse(parser)
-            parser.expect(Type.LEFT_CURLY_BRACE)
-
-            while (!parser.peekIs(Type.RIGHT_CURLY_BRACE)) {
-                statements.add(StatementParser.parse(parser))
-            }
-
-            parser.expect(Type.RIGHT_CURLY_BRACE)
-
-            return WhileStatement(condition, statements)
-        }
     }
 }

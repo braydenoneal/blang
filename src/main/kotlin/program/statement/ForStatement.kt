@@ -1,8 +1,5 @@
 package program.statement
 
-import parser.Parser
-import parser.statement.StatementParser
-import parser.tokenizer.Type
 import program.Program
 import program.RunException
 import program.expression.Expression
@@ -71,24 +68,5 @@ data class ForStatement(
         }
 
         throw RunException("Expression is not a list or a range")
-    }
-
-    companion object {
-        fun parse(parser: Parser): Statement {
-            val statements = StatementList()
-
-            parser.expect(Type.FOR_KEYWORD)
-            val itemName = parser.expect(Type.IDENTIFIER)
-            parser.expect(Type.IN_KEYWORD)
-            val expression = Expression.parse(parser)
-            parser.expect(Type.LEFT_CURLY_BRACE)
-
-            while (!(parser.peekIs(Type.RIGHT_CURLY_BRACE))) {
-                statements.add(StatementParser.parse(parser))
-            }
-
-            parser.expect(Type.RIGHT_CURLY_BRACE)
-            return ForStatement(itemName, expression, statements)
-        }
     }
 }

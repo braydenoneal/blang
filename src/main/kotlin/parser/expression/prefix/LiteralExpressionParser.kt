@@ -15,7 +15,11 @@ class LiteralExpressionParser : PrefixParser {
             Type.QUOTE -> StringValue(parser.next().value)
             Type.FLOAT -> FloatValue(parser.next().value.toFloat())
             Type.INTEGER -> IntegerValue(parser.next().value.toInt())
-            Type.NULL -> Null.parse(parser)
+            Type.NULL -> {
+                parser.next()
+                Null.VALUE
+            }
+
             else -> throw ParseException("Invalid literal")
         }
     }

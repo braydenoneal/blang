@@ -2,28 +2,28 @@ package parser.statement
 
 import parser.Parser
 import parser.tokenizer.Type
-import program.statement.*
+import program.statement.Statement
 
-object StatementParser {
-    fun parse(parser: Parser): Statement {
-        val token = parser.peekAllowNewline()
+interface StatementParser {
+    fun parse(parser: Parser): Statement
 
-        if (token.type == Type.NEWLINE) {
-            parser.nextAllowNewline()
-            return EmptyStatement()
-        }
+    companion object {
+        fun parse(parser: Parser): Statement {
+            val token = parser.peekAllowNewline()
 
-        return when (token.type) {
-            Type.FN_KEYWORD -> FunctionDeclaration.parse(parser)
-            Type.IF_KEYWORD -> IfStatement.parse(parser)
-            Type.FOR_KEYWORD -> ForStatement.parse(parser)
-            Type.IMPORT_KEYWORD -> ImportStatement.parse(parser)
-            Type.WHILE_KEYWORD -> WhileStatement.parse(parser)
-            Type.DEL_KEYWORD -> DeleteStatement.parse(parser)
-            Type.BREAK_KEYWORD -> BreakStatement.parse(parser)
-            Type.CONTINUE_KEYWORD -> ContinueStatement.parse(parser)
-            Type.RETURN_KEYWORD -> ReturnStatement.parse(parser)
-            else -> ExpressionStatement.parse(parser)
+            return when (token.type) {
+                Type.NEWLINE -> EmptyStatementParser().parse(parser)
+                Type.FN_KEYWORD -> FunctionStatementParser().parse(parser)
+                Type.IF_KEYWORD -> IfStatementParser().parse(parser)
+                Type.FOR_KEYWORD -> ForStatementParser().parse(parser)
+                Type.IMPORT_KEYWORD -> ImportStatementParser().parse(parser)
+                Type.WHILE_KEYWORD -> WhileStatementParser().parse(parser)
+                Type.DEL_KEYWORD -> DeleteStatementParser().parse(parser)
+                Type.BREAK_KEYWORD -> BreakStatementParser().parse(parser)
+                Type.CONTINUE_KEYWORD -> ContinueStatementParser().parse(parser)
+                Type.RETURN_KEYWORD -> ReturnStatementParser().parse(parser)
+                else -> ExpressionStatementParser().parse(parser)
+            }
         }
     }
 }

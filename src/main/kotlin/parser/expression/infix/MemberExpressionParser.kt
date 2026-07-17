@@ -1,6 +1,7 @@
 package parser.expression.infix
 
 import parser.Parser
+import parser.statement.ArgumentsParser
 import parser.tokenizer.Type
 import program.expression.Expression
 import program.expression.MemberCallExpression
@@ -16,7 +17,7 @@ class MemberExpressionParser(override val precedence: Int) : InfixParser {
             val name = parser.expect(Type.IDENTIFIER)
 
             expression = if (parser.peekIs(Type.LEFT_PARENTHESIS)) {
-                MemberCallExpression.parse(parser, expression, name)
+                MemberCallExpression(expression, name, ArgumentsParser.parse(parser))
             } else {
                 MemberExpression(expression, name)
             }

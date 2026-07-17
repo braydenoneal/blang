@@ -1,12 +1,8 @@
 package program.expression
 
-import parser.ParseException
-import parser.Parser
-import parser.tokenizer.Type
 import program.Program
 import program.RunException
 import program.expression.value.*
-import java.util.*
 
 data class Arguments(val namelessArguments: MutableList<Expression>, val namedArguments: MutableMap<String, Expression>) {
     fun anyValue(program: Program, name: String, index: Int): Value<*>? {
@@ -95,46 +91,6 @@ data class Arguments(val namelessArguments: MutableList<Expression>, val namedAr
     }
 
     companion object {
-        fun parse(parser: Parser): Arguments {
-            val arguments: MutableList<Expression> = Stack()
-            val namedArguments: MutableMap<String, Expression> = HashMap()
-            var parseDefaults = false
-
-            parser.expect(Type.LEFT_PARENTHESIS)
-
-            while (!parser.peekIs(Type.RIGHT_PARENTHESIS)) {
-                val expression: Expression = Expression.parse(parser, true)
-
-                if (expression is AssignmentExpression) {
-                    parseDefaults = true
-                }
-
-                if (parseDefaults) {
-                    try {
-                        val assignmentExpression = expression as AssignmentExpression
-                        val variableExpression = assignmentExpression.variableExpression
-
-                        if (variableExpression is VariableExpression && assignmentExpression.operator == "=") {
-                            namedArguments[variableExpression.name] = assignmentExpression.expression
-                        } else {
-                            throw ParseException("")
-                        }
-                    } catch (_: ParseException) {
-                        throw ParseException("Function cannot have parameter with default after parameter without default")
-                    }
-                } else {
-                    arguments.add(expression)
-                }
-
-                if (!parser.peekIs(Type.RIGHT_PARENTHESIS)) {
-                    parser.expect(Type.COMMA)
-                }
-            }
-
-            parser.expect(Type.RIGHT_PARENTHESIS)
-            return Arguments(arguments, namedArguments)
-        }
-
         val EMPTY: Arguments = Arguments(mutableListOf(), mutableMapOf())
     }
 }

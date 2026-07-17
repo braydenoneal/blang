@@ -1,6 +1,5 @@
 package program.expression
 
-import parser.Parser
 import program.Program
 import program.RunException
 import program.expression.builtin.list.*
@@ -55,12 +54,5 @@ data class MemberCallExpression(
         }
 
         throw RunException("Member is not a variable nor a list")
-    }
-
-    companion object {
-        fun parse(parser: Parser, member: Expression, functionName: String): Expression {
-            val arguments: Arguments = Arguments.parse(parser)
-            return MemberCallExpression(member, functionName, arguments)
-        }
     }
 }

@@ -1,8 +1,5 @@
 package program.statement
 
-import parser.Parser
-import parser.statement.StatementParser
-import parser.tokenizer.Type
 import program.Program
 import program.expression.Expression
 import program.expression.value.BooleanValue
@@ -62,31 +59,11 @@ data class IfStatement(
         }
     }
 
-    companion object {
-        fun parse(parser: Parser): Statement {
-            val statements = StatementList()
-            val elseIfStatements: MutableList<ElseIfStatement> = mutableListOf()
-            var elseStatement: ElseStatement? = null
+    class ElseIfStatement(
+        val condition: Expression,
+        val statements: StatementList,
+        var conditionValue: Value<*>?,
+    )
 
-            parser.expect(Type.IF_KEYWORD)
-            val condition = Expression.parse(parser)
-            parser.expect(Type.LEFT_CURLY_BRACE)
-
-            while (!parser.peekIs(Type.RIGHT_CURLY_BRACE)) {
-                statements.add(StatementParser.parse(parser))
-            }
-
-            parser.expect(Type.RIGHT_CURLY_BRACE)
-
-            while (parser.peekIs(Type.ELIF_KEYWORD)) {
-                elseIfStatements.add(ElseIfStatement.parse(parser))
-            }
-
-            if (parser.peekIs(Type.ELSE_KEYWORD)) {
-                elseStatement = ElseStatement.parse(parser)
-            }
-
-            return IfStatement(condition, statements, elseIfStatements, elseStatement, null)
-        }
-    }
+    class ElseStatement(val statements: StatementList)
 }
