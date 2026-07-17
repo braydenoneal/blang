@@ -1,8 +1,8 @@
-import parser.Parsers
+import parser.Parser
 import program.Program
 
 fun main() {
-    Parsers.initialize()
+    Parser.initialize()
     Program(
         """
         print("Hello, world!")

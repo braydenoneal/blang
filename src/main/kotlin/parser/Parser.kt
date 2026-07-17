@@ -1,5 +1,7 @@
 package parser
 
+import parser.expression.BuiltinExpressionParser
+import parser.expression.ExpressionParser
 import parser.statement.StatementParser
 import parser.tokenizer.Token
 import parser.tokenizer.Token.Companion.tokenize
@@ -27,7 +29,7 @@ open class Parser(val program: Program) {
         program.scopes.add(Scope(null))
 
         try {
-            if (!tokens.isEmpty()) {
+            if (tokens.isNotEmpty()) {
                 while (position < tokens.size) {
                     program.statements.add(StatementParser.parse(this))
                 }
@@ -136,5 +138,13 @@ open class Parser(val program: Program) {
         }
 
         throw ParseException("Expected semicolon or newline")
+    }
+
+    companion object {
+        fun initialize() {
+            ExpressionParser.initialize()
+            StatementParser.initialize()
+            BuiltinExpressionParser.initialize()
+        }
     }
 }

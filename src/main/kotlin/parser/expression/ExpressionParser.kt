@@ -2,13 +2,62 @@ package parser.expression
 
 import parser.ParseException
 import parser.Parser
-import parser.Parsers.infixParsers
-import parser.Parsers.prefixParsers
+import parser.expression.infix.*
+import parser.expression.prefix.*
 import parser.tokenizer.Token
 import parser.tokenizer.Type
 import program.expression.Expression
 
 object ExpressionParser {
+    val prefixParsers: MutableMap<Type, PrefixParser> = mutableMapOf()
+    val infixParsers: MutableMap<Type, InfixParser> = mutableMapOf()
+
+    fun register(type: Type, parser: PrefixParser) {
+        prefixParsers[type] = parser
+    }
+
+    fun register(type: Type, parser: InfixParser) {
+        infixParsers[type] = parser
+    }
+
+    fun initializePrefixParsers() {
+        register(Type.IDENTIFIER, VariableExpressionParser())
+        register(Type.LEFT_PARENTHESIS, GroupExpressionParser())
+        register(Type.LEFT_SQUARE_BRACE, ListExpressionParser())
+        register(Type.LEFT_CURLY_BRACE, StructExpressionParser())
+        register(Type.BOOLEAN, LiteralExpressionParser())
+        register(Type.QUOTE, LiteralExpressionParser())
+        register(Type.FLOAT, LiteralExpressionParser())
+        register(Type.INTEGER, LiteralExpressionParser())
+        register(Type.NULL, LiteralExpressionParser())
+        register(Type.FN_KEYWORD, FunctionExpressionParser())
+        register(Type.MINUS, NegativeExpressionParser(6))
+        register(Type.PLUS, PositiveExpressionParser(6))
+        register(Type.BANG, BangExpressionParser(6))
+    }
+
+    fun initializeInfixParsers() {
+        register(Type.ASSIGN, AssignmentExpressionParser(1))
+        register(Type.IF_KEYWORD, ConditionalExpressionParser(2))
+        register(Type.MINUS, SubtractExpressionParser(3))
+        register(Type.PLUS, AddExpressionParser(3))
+        register(Type.AND, AndExpressionParser(3))
+        register(Type.OR, OrExpressionParser(3))
+        register(Type.ASTERISK, MultiplyExpressionParser(4))
+        register(Type.DOUBLE_SLASH, FloorDivideExpressionParser(4))
+        register(Type.SLASH, DivideExpressionParser(4))
+        register(Type.PERCENT, ModuloExpressionParser(4))
+        register(Type.COMPARISON_OPERATOR, ComparisonExpressionParser(4))
+        register(Type.CARET, ExponentiateExpressionParser(5))
+        register(Type.LEFT_SQUARE_BRACE, ListAccessExpressionParser(7))
+        register(Type.DOT, MemberExpressionParser(7))
+    }
+
+    fun initialize() {
+        initializePrefixParsers()
+        initializeInfixParsers()
+    }
+
     fun parse(parser: Parser, precedence: Int = 0, skipNewline: Boolean = false): Expression {
         val token = parser.peek(skipNewline)
 

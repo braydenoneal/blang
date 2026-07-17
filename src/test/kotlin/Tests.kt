@@ -1,6 +1,6 @@
 package testing
 
-import parser.Parsers
+import parser.Parser
 import testing.test.*
 import java.util.function.Consumer
 
@@ -25,7 +25,7 @@ object Tests {
 
     @JvmStatic
     fun main(args: Array<String>) {
-        Parsers.initialize()
+        Parser.initialize()
 
         val results: MutableList<Test.Result> = mutableListOf()
         tests().forEach(Consumer { results.add(it.run()) })
