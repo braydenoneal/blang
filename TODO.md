@@ -1,6 +1,5 @@
 ## Todo
 
-- clean up arithmetic operators
 - register assignment operator handling
 - register token types?
 - operator overloading with registering
