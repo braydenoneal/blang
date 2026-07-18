@@ -7,7 +7,7 @@ import program.expression.value.FloatValue
 import program.expression.value.Value
 
 data class FloatCastBuiltin(override val arguments: Arguments) : Builtin(arguments), Expression {
-    override fun evaluate(program: Program): Value<*>? {
-        return FloatValue((arguments.integerValue(program, "value", 0) ?: return null).value.toFloat())
+    override fun evaluate(program: Program): Value<*> {
+        return FloatValue((arguments.integerValue(program, "value", 0)).value.toFloat())
     }
 }

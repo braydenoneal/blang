@@ -1,22 +1,18 @@
-package parser.statement
+package parser.expression.infix
 
 import parser.ParseException
 import parser.Parser
 import parser.expression.ExpressionParser
+import parser.tokenizer.Token
 import parser.tokenizer.Type
-import program.expression.Arguments
-import program.expression.AssignmentExpression
-import program.expression.Expression
-import program.expression.VariableExpression
+import program.expression.*
 import java.util.*
 
-object ArgumentsParser {
-    fun parse(parser: Parser): Arguments {
+class CallExpressionParser(override val precedence: Int) : InfixParser {
+    override fun parse(parser: Parser, token: Token, left: Expression): Expression {
         val arguments: MutableList<Expression> = Stack()
         val namedArguments: MutableMap<String, Expression> = HashMap()
         var parseDefaults = false
-
-        parser.expect(Type.LEFT_PARENTHESIS)
 
         while (!parser.peekIs(Type.RIGHT_PARENTHESIS)) {
             val expression: Expression = ExpressionParser.parse(parser, 0, true)
@@ -28,10 +24,10 @@ object ArgumentsParser {
             if (parseDefaults) {
                 try {
                     val assignmentExpression = expression as AssignmentExpression
-                    val variableExpression = assignmentExpression.variableExpression
+                    val variableExpression = assignmentExpression.left
 
-                    if (variableExpression is VariableExpression && assignmentExpression.operator == "=") {
-                        namedArguments[variableExpression.name] = assignmentExpression.expression
+                    if (variableExpression is IdentifierExpression && assignmentExpression.operator == "=") {
+                        namedArguments[variableExpression.name] = assignmentExpression.right
                     } else {
                         throw ParseException("")
                     }
@@ -48,6 +44,6 @@ object ArgumentsParser {
         }
 
         parser.expect(Type.RIGHT_PARENTHESIS)
-        return Arguments(arguments, namedArguments)
+        return CallExpression(left, Arguments(arguments, namedArguments))
     }
 }

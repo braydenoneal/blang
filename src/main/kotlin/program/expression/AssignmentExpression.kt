@@ -2,56 +2,67 @@ package program.expression
 
 import program.Program
 import program.RunException
-import program.expression.operator.ArithmeticOperator
 import program.expression.value.ListValue
 import program.expression.value.StructValue
 import program.expression.value.Value
 
 data class AssignmentExpression(
     val operator: String,
-    val variableExpression: Expression,
-    val expression: Expression,
+    val left: Expression,
+    val right: Expression,
 ) : Expression {
-    override fun evaluate(program: Program): Value<*>? {
-        val value = expression.evaluate(program) ?: return null
+    override fun evaluate(program: Program): Value<*> {
+        val value = right.evaluate(program)
 
-        if (variableExpression is VariableExpression) {
-            if (operator == "=") {
-                return program.scope.set(variableExpression.name, value)
-            }
-
-            val prev = program.scope.get(variableExpression.name)
-            val arithmetic = ArithmeticOperator(if (operator == "+=") "+" else "-", prev, value).evaluate(program) ?: return null
-            return program.scope.set(variableExpression.name, arithmetic)
-        } else if (variableExpression is ListAccessExpression && variableExpression.listExpression is VariableExpression) {
-            val listValue = variableExpression.listExpression.evaluate(program)
-
-            if (listValue is ListValue) {
-                val indexValues = ListValue.toIndexValues(program, variableExpression.indices) ?: return null
-
+        when (left) {
+            is IdentifierExpression -> {
                 if (operator == "=") {
-                    return listValue.set(indexValues, value)
+                    return program.scope.set(left.name, value)
                 }
 
-                val prev = listValue.get(indexValues)
-                val arithmetic = ArithmeticOperator(if (operator == "+=") "+" else "-", prev, value).evaluate(program) ?: return null
-                return listValue.set(indexValues, arithmetic)
-            }
-        } else if (variableExpression is MemberExpression) {
-            val struct = variableExpression.member.evaluate(program) ?: return null
+                val prev = program.scope.get(left.name)
+                val arithmetic = BinaryOperatorExpression(if (operator == "+=") "+" else "-", prev, value).evaluate(program)
 
-            if (struct is StructValue) {
-                if (operator == "=") {
-                    return struct.set(variableExpression.property, value)
+                return program.scope.set(left.name, arithmetic)
+            }
+
+            is ListAccessExpression -> {
+                val list = left.listExpression.evaluate(program)
+
+                if (list !is ListValue) {
+                    throw RunException("Expression is not a list")
                 }
 
-                val prev = struct.get(variableExpression.property)
-                val arithmetic = ArithmeticOperator(if (operator == "+=") "+" else "-", prev, value).evaluate(program) ?: return null
-                struct.set(variableExpression.property, arithmetic)
+                val index = left.indexExpression.evaluate(program)
+
+                if (operator == "=") {
+                    return list.set(index, value)
+                }
+
+                val prev = list.get(index)
+                val arithmetic = BinaryOperatorExpression(if (operator == "+=") "+" else "-", prev, value).evaluate(program)
+
+                return list.set(index, arithmetic)
             }
 
+            is DotExpression -> {
+                val struct = left.left.evaluate(program)
+
+                if (struct !is StructValue) {
+                    throw RunException("Expression is not a struct")
+                }
+
+                if (operator == "=") {
+                    return struct.set(left.right, value)
+                }
+
+                val prev = struct.get(left.right)
+                val arithmetic = BinaryOperatorExpression(if (operator == "+=") "+" else "-", prev, value).evaluate(program)
+
+                return struct.set(left.right, arithmetic)
+            }
+
+            else -> throw RunException("Expression is not assignable")
         }
-
-        throw RunException("Expression is not assignable")
     }
 }

@@ -4,5 +4,5 @@ import program.Program
 import program.expression.value.Value
 
 interface Expression {
-    fun evaluate(program: Program): Value<*>?
+    fun evaluate(program: Program): Value<*>
 }

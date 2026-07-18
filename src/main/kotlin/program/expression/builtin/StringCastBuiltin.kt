@@ -7,7 +7,7 @@ import program.expression.value.StringValue
 import program.expression.value.Value
 
 data class StringCastBuiltin(override val arguments: Arguments) : Builtin(arguments), Expression {
-    override fun evaluate(program: Program): Value<*>? {
-        return StringValue((arguments.anyValue(program, "value", 0) ?: return null).value.toString())
+    override fun evaluate(program: Program): Value<*> {
+        return StringValue((arguments.anyValue(program, "value", 0)).value.toString())
     }
 }

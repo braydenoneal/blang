@@ -30,7 +30,8 @@ interface StatementParser {
 
         fun parse(parser: Parser): Statement {
             val token = parser.peekAllowNewline()
-            val statementParser = statementParsers[token.type] ?: expressionStatementParser
+            val statementParser = statementParsers[token.type] ?: return expressionStatementParser.parse(parser)
+            parser.nextAllowNewline()
             return statementParser.parse(parser)
         }
     }

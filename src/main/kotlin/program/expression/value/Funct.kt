@@ -13,7 +13,7 @@ data class Funct(
     val statements: StatementList,
     var running: Boolean = false,
 ) {
-    fun call(program: Program, arguments: Arguments): Value<*>? {
+    fun call(program: Program, arguments: Arguments): Value<*> {
         if (!running) {
             running = true
             program.newScope()
@@ -23,7 +23,7 @@ data class Funct(
             val hasDefault = defaultParameters.stream().anyMatch { it.first == name }
 
             if (parameters.contains(name) || hasDefault) {
-                program.scope.setLocal(name, expression.evaluate(program) ?: return null)
+                program.scope.setLocal(name, expression.evaluate(program))
             } else {
                 throw RunException("Provided extra argument '$name'")
             }
@@ -34,7 +34,7 @@ data class Funct(
                 if (arguments.namelessArguments.size > i) {
                     program.scope.setLocal(
                         parameters[i],
-                        arguments.namelessArguments[i].evaluate(program) ?: return null,
+                        arguments.namelessArguments[i].evaluate(program),
                     )
                 } else {
                     throw RunException("Missing argument '" + parameters[i] + "'")
@@ -46,7 +46,7 @@ data class Funct(
             if (defaultParameters.size > i - parameters.size) {
                 program.scope.setLocal(
                     defaultParameters[i - parameters.size].first,
-                    arguments.namelessArguments[i].evaluate(program) ?: return null,
+                    arguments.namelessArguments[i].evaluate(program),
                 )
             } else {
                 throw RunException("Provided extra argument")
@@ -55,15 +55,15 @@ data class Funct(
 
         for (parameter in defaultParameters) {
             if (program.scope.getLocal(parameter.first) == null) {
-                program.scope.setLocal(parameter.first, parameter.second.evaluate(program) ?: return null)
+                program.scope.setLocal(parameter.first, parameter.second.evaluate(program))
             }
         }
 
         var returnValue: Value<*> = Null.VALUE
-        val statement = statements.runNext(program) ?: return null
+        val statement = statements.runNext(program)
 
         if (statement is ReturnStatement) {
-            returnValue = statement.returnValue(program) ?: return null
+            returnValue = statement.returnValue(program)
         }
 
         running = false

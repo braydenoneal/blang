@@ -1,0 +1,35 @@
+## HashMap Todo
+
+- [ ] Pair
+    - [ ] Create src/main/kotlin/program/expression/value/PairValue.kt
+        - Wraps a `Pair<Value<*>, Value<*>>`
+    - [ ] Create src/main/kotlin/program/expression/builtin/PairBuiltin.kt
+        - Takes two arguments for first and second (`val first = arguments.anyValue(program, "first", 0)`, etc.)
+            - Builtin arguments are currently pretty confusing and need work, so lmk if you have questions
+            - You can look at some of the other builtins for examples though
+        - Returns a PairValue (`PairValue(Pair(first, second))`)
+    - [ ] Register the builtin in src/main/kotlin/parser/expression/BuiltinExpressionParser.kt `initialize()`
+    - [ ] Add first and second accessors in src/main/kotlin/program/expression/MemberExpression.kt
+        - If value is a PairValue, return its first value if the property string is "first", else its second value
+    - [ ] Make a new test in src/test/kotlin/test
+    - [ ] Run the test in src/test/kotlin/Tests.kt `private fun tests()`
+- [ ] HashMap
+    - [ ] Create src/main/kotlin/program/expression/value/HashMapValue.kt
+        - Wraps a `HashMap<Value<*>, Value<*>>`
+    - [ ] Create src/main/kotlin/program/expression/builtin/HashMapBuiltin.kt
+        - Takes one argument: a list of PairValues
+        - Returns a HashMapValue that is constructed from the list of pairs
+    - [ ] Register the builtin in src/main/kotlin/parser/expression/BuiltinExpressionParser.kt `initialize()`
+    - [ ] Add `someHashMapValue.someFunction()`-type of stuff
+        - [ ] Create the following classes in a new package src/main/kotlin/program/expression/builtin/hashmap
+            - [ ] HashMapGetBuiltin
+            - [ ] HashMapSetBuiltin
+            - [ ] HashMapRemoveBuiltin
+            - [ ] HashMapKeysBuiltin
+            - [ ] HashMapValuesBuiltin
+            - [ ] HashMapItemsBuiltin
+            - You can reference the similar type of things in the files in src/main/kotlin/program/expression/builtin/list and struct
+        - [ ] Register the value builtins in src/main/kotlin/parser/expression/BuiltinExpressionParser.kt `initialize()`
+            - You can reference the way it's done with lists and structs in that file
+    - [ ] Make a new test in src/test/kotlin/test
+    - [ ] Run the test in src/test/kotlin/Tests.kt `private fun tests()`

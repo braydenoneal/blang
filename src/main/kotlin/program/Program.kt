@@ -1,10 +1,9 @@
 package program
 
 import parser.Parser
-import program.expression.value.Value
 import program.statement.FunctionStatement
 import program.statement.ImportStatement
-import program.statement.Statement
+import program.statement.IncompleteException
 import program.statement.StatementList
 
 open class Program(
@@ -25,10 +24,11 @@ open class Program(
 
         try {
             while (true) {
-                val result = tick(true)
-
-                if (result != null) {
+                try {
+                    tick(true)
                     break
+                } catch (_: IncompleteException) {
+                    continue
                 }
             }
         } catch (e: Exception) {
@@ -40,28 +40,23 @@ open class Program(
         Parser(this)
     }
 
-    fun tick(sleep: Boolean = false): Statement? {
+    fun tick(sleep: Boolean = false) {
         wait = false
 
-        var result = statements.runNext(this)
-
         while (true) {
-            if (result != null) {
-                return result
+            try {
+                statements.runNext(this)
+                return
+            } catch (_: IncompleteException) {
+                if (wait) {
+                    break
+                }
             }
-
-            if (wait) {
-                break
-            }
-
-            result = statements.runNext(this)
         }
 
         if (sleep) {
             Thread.sleep(1_000 / 5)
         }
-
-        return result
     }
 
     fun waitUntilNextTick() {
@@ -86,10 +81,6 @@ open class Program(
 
     fun endScope() {
         scopes.removeLast()
-    }
-
-    open fun getCustomType(value: Value<*>): String? {
-        return null
     }
 
     open fun getCustomImportProgram(importStatement: ImportStatement): Program {

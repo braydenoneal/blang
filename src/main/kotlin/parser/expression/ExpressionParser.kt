@@ -4,7 +4,6 @@ import parser.ParseException
 import parser.Parser
 import parser.expression.infix.*
 import parser.expression.prefix.*
-import parser.tokenizer.Token
 import parser.tokenizer.Type
 import program.expression.Expression
 
@@ -21,7 +20,7 @@ object ExpressionParser {
     }
 
     fun initializePrefixParsers() {
-        register(Type.IDENTIFIER, VariableExpressionParser())
+        register(Type.IDENTIFIER, IdentifierExpressionParser())
         register(Type.LEFT_PARENTHESIS, GroupExpressionParser())
         register(Type.LEFT_SQUARE_BRACE, ListExpressionParser())
         register(Type.LEFT_CURLY_BRACE, StructExpressionParser())
@@ -31,26 +30,27 @@ object ExpressionParser {
         register(Type.INTEGER, LiteralExpressionParser())
         register(Type.NULL, LiteralExpressionParser())
         register(Type.FN_KEYWORD, FunctionExpressionParser())
-        register(Type.MINUS, NegativeExpressionParser(6))
-        register(Type.PLUS, PositiveExpressionParser(6))
-        register(Type.BANG, BangExpressionParser(6))
+        register(Type.MINUS, UnaryExpressionParser(6))
+        register(Type.PLUS, UnaryExpressionParser(6))
+        register(Type.BANG, UnaryExpressionParser(6))
     }
 
     fun initializeInfixParsers() {
         register(Type.ASSIGN, AssignmentExpressionParser(1))
         register(Type.IF_KEYWORD, ConditionalExpressionParser(2))
-        register(Type.MINUS, SubtractExpressionParser(3))
-        register(Type.PLUS, AddExpressionParser(3))
-        register(Type.AND, AndExpressionParser(3))
-        register(Type.OR, OrExpressionParser(3))
-        register(Type.ASTERISK, MultiplyExpressionParser(4))
-        register(Type.DOUBLE_SLASH, FloorDivideExpressionParser(4))
-        register(Type.SLASH, DivideExpressionParser(4))
-        register(Type.PERCENT, ModuloExpressionParser(4))
-        register(Type.COMPARISON_OPERATOR, ComparisonExpressionParser(4))
-        register(Type.CARET, ExponentiateExpressionParser(5))
+        register(Type.MINUS, BinaryOperatorExpressionParser(3))
+        register(Type.PLUS, BinaryOperatorExpressionParser(3))
+        register(Type.AND, BinaryOperatorExpressionParser(3))
+        register(Type.OR, BinaryOperatorExpressionParser(3))
+        register(Type.ASTERISK, BinaryOperatorExpressionParser(4))
+        register(Type.DOUBLE_SLASH, BinaryOperatorExpressionParser(4))
+        register(Type.SLASH, BinaryOperatorExpressionParser(4))
+        register(Type.PERCENT, BinaryOperatorExpressionParser(4))
+        register(Type.COMPARISON_OPERATOR, BinaryOperatorExpressionParser(4))
+        register(Type.CARET, BinaryOperatorExpressionParser(5))
+        register(Type.LEFT_PARENTHESIS, CallExpressionParser(6))
         register(Type.LEFT_SQUARE_BRACE, ListAccessExpressionParser(7))
-        register(Type.DOT, MemberExpressionParser(7))
+        register(Type.DOT, DotExpressionParser(7))
     }
 
     fun initialize() {
@@ -59,30 +59,21 @@ object ExpressionParser {
     }
 
     fun parse(parser: Parser, precedence: Int = 0, skipNewline: Boolean = false): Expression {
-        val token = parser.peek(skipNewline)
-
-        if (token.type == Type.NEWLINE) {
-            parser.nextAllowNewline()
-        }
-
+        val token = parser.next()
         val prefixParser = prefixParsers[token.type] ?: throw ParseException("Invalid prefix token")
-        var left = prefixParser.parse(parser, skipNewline)
+        var left = prefixParser.parse(parser, token, skipNewline)
 
-        while (precedence < getPrecedence(parser.peek(skipNewline))) {
-            val token = parser.peek(skipNewline)
-
-            if (token.type == Type.NEWLINE) {
-                parser.nextAllowNewline()
-            }
-
+        while (precedence < nextPrecedence(parser, skipNewline)) {
+            val token = parser.next()
             val infixParser = infixParsers[token.type] ?: throw ParseException("Invalid infix token")
-            left = infixParser.parse(parser, left)
+            left = infixParser.parse(parser, token, left)
         }
 
         return left
     }
 
-    fun getPrecedence(token: Token): Int {
+    fun nextPrecedence(parser: Parser, skipNewline: Boolean): Int {
+        val token = parser.peek(skipNewline)
         val parser = infixParsers[token.type]
 
         if (parser != null) {

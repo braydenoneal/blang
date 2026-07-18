@@ -4,6 +4,7 @@ import parser.ParseException
 import parser.Parser
 import parser.expression.ExpressionParser
 import parser.statement.StatementParser
+import parser.tokenizer.Token
 import parser.tokenizer.Type
 import program.expression.Expression
 import program.expression.value.Funct
@@ -12,12 +13,10 @@ import program.statement.ReturnStatement
 import program.statement.StatementList
 
 class FunctionExpressionParser : PrefixParser {
-    override fun parse(parser: Parser, skipNewline: Boolean): Expression {
+    override fun parse(parser: Parser, token: Token, skipNewline: Boolean): Expression {
         val parameters: MutableList<String> = mutableListOf()
         val defaultParameters: MutableList<Pair<String, Expression>> = mutableListOf()
         var parseDefaults = false
-
-        parser.expect(Type.FN_KEYWORD)
 
         while (parser.peek().type !== Type.COLON) {
             val parameterName = parser.expect(Type.IDENTIFIER)

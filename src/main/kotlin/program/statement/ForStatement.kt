@@ -15,9 +15,9 @@ data class ForStatement(
     var listValue: Value<*>? = null,
     var index: Int = 0,
 ) : Statement {
-    override fun execute(program: Program): Statement? {
+    override fun execute(program: Program): Statement {
         if (listValue == null) {
-            val listResult = listExpression.evaluate(program) ?: return null
+            val listResult = listExpression.evaluate(program)
             listValue = listResult
         }
 
@@ -27,7 +27,7 @@ data class ForStatement(
             val item = value.value[index]
 
             program.scope.set(itemName, item)
-            val result = statements.runNext(program) ?: return null
+            val result = statements.runNext(program)
 
             if (result is ReturnStatement || result is BreakStatement) {
                 listValue = null
@@ -43,12 +43,12 @@ data class ForStatement(
                 return this
             }
 
-            return null
+            throw IncompleteException()
         } else if (value is RangeValue) {
             val number = value.value.start + index * value.value.step
 
             program.scope.set(itemName, IntegerValue(number))
-            val result = statements.runNext(program) ?: return null
+            val result = statements.runNext(program)
 
             if (result is ReturnStatement || result is BreakStatement) {
                 listValue = null
@@ -64,7 +64,7 @@ data class ForStatement(
                 return this
             }
 
-            return null
+            throw IncompleteException()
         }
 
         throw RunException("Expression is not a list or a range")

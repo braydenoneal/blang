@@ -15,8 +15,6 @@ class FunctionStatementParser : StatementParser {
         val parameters: MutableList<String> = mutableListOf()
         val defaultParameters: MutableList<Pair<String, Expression>> = mutableListOf()
         var parseDefaults = false
-
-        parser.expect(Type.FN_KEYWORD)
         val name = parser.expect(Type.IDENTIFIER)
         parser.expect(Type.LEFT_PARENTHESIS)
 
