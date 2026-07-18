@@ -12,8 +12,8 @@ data class AssignmentExpression(
     val left: Expression,
     val right: Expression,
 ) : Expression {
-    override fun evaluate(program: Program): Value<*>? {
-        val value = right.evaluate(program) ?: return null
+    override fun evaluate(program: Program): Value<*> {
+        val value = right.evaluate(program)
 
         when (left) {
             is IdentifierExpression -> {
@@ -22,7 +22,7 @@ data class AssignmentExpression(
                 }
 
                 val prev = program.scope.get(left.name)
-                val arithmetic = ArithmeticOperator(if (operator == "+=") "+" else "-", prev, value).evaluate(program) ?: return null
+                val arithmetic = ArithmeticOperator(if (operator == "+=") "+" else "-", prev, value).evaluate(program)
 
                 return program.scope.set(left.name, arithmetic)
             }
@@ -34,20 +34,20 @@ data class AssignmentExpression(
                     throw RunException("Expression is not a list")
                 }
 
-                val index = left.indexExpression.evaluate(program) ?: return null
+                val index = left.indexExpression.evaluate(program)
 
                 if (operator == "=") {
                     return list.set(index, value)
                 }
 
                 val prev = list.get(index)
-                val arithmetic = ArithmeticOperator(if (operator == "+=") "+" else "-", prev, value).evaluate(program) ?: return null
+                val arithmetic = ArithmeticOperator(if (operator == "+=") "+" else "-", prev, value).evaluate(program)
 
                 return list.set(index, arithmetic)
             }
 
             is DotExpression -> {
-                val struct = left.left.evaluate(program) ?: return null
+                val struct = left.left.evaluate(program)
 
                 if (struct !is StructValue) {
                     throw RunException("Expression is not a struct")
@@ -58,7 +58,7 @@ data class AssignmentExpression(
                 }
 
                 val prev = struct.get(left.right)
-                val arithmetic = ArithmeticOperator(if (operator == "+=") "+" else "-", prev, value).evaluate(program) ?: return null
+                val arithmetic = ArithmeticOperator(if (operator == "+=") "+" else "-", prev, value).evaluate(program)
 
                 return struct.set(left.right, arithmetic)
             }

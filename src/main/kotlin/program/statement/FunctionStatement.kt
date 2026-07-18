@@ -10,7 +10,7 @@ data class FunctionStatement(val name: String, val function: Funct) : Statement 
         return this
     }
 
-    fun call(program: Program, arguments: Arguments): Value<*>? {
+    fun call(program: Program, arguments: Arguments): Value<*> {
         return function.call(program, arguments)
     }
 }

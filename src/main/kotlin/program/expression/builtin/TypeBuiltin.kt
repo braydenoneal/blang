@@ -7,8 +7,8 @@ import program.expression.value.StringValue
 import program.expression.value.Value
 
 data class TypeBuiltin(override val arguments: Arguments) : Builtin(arguments), Expression {
-    override fun evaluate(program: Program): Value<*>? {
-        val value = arguments.anyValue(program, "value", 0) ?: return null
+    override fun evaluate(program: Program): Value<*> {
+        val value = arguments.anyValue(program, "value", 0)
         return StringValue(value.typeString())
     }
 }

@@ -11,8 +11,8 @@ data class StructRemoveBuiltin(
     val struct: StructValue,
     val arguments: Arguments,
 ) : Expression {
-    override fun evaluate(program: Program): Value<*>? {
-        val removeValue = arguments.anyValue(program, "value", 0) ?: return null
+    override fun evaluate(program: Program): Value<*> {
+        val removeValue = arguments.anyValue(program, "value", 0)
 
         if (removeValue is StringValue) {
             for (i in struct.value.indices) {

@@ -7,8 +7,8 @@ import program.expression.value.BooleanValue
 import program.expression.value.Value
 
 data class BangOperator(val operand: Expression) : Expression {
-    override fun evaluate(program: Program): Value<*>? {
-        val value = operand.evaluate(program) ?: return null
+    override fun evaluate(program: Program): Value<*> {
+        val value = operand.evaluate(program)
 
         if (value is BooleanValue) {
             return BooleanValue(!value.value)

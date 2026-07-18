@@ -4,7 +4,7 @@
     - [ ] Create src/main/kotlin/program/expression/value/PairValue.kt
         - Wraps a `Pair<Value<*>, Value<*>>`
     - [ ] Create src/main/kotlin/program/expression/builtin/PairBuiltin.kt
-        - Takes two arguments for first and second (`val first = arguments.anyValue(program, "first", 0) ?: return null`, etc.)
+        - Takes two arguments for first and second (`val first = arguments.anyValue(program, "first", 0)`, etc.)
             - Builtin arguments are currently pretty confusing and need work, so lmk if you have questions
             - You can look at some of the other builtins for examples though
         - Returns a PairValue (`PairValue(Pair(first, second))`)

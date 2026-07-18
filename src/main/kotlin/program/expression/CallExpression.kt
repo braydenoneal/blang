@@ -14,7 +14,7 @@ import program.expression.value.StructValue
 import program.expression.value.Value
 
 data class CallExpression(val left: Expression, val arguments: Arguments) : Expression {
-    override fun evaluate(program: Program): Value<*>? {
+    override fun evaluate(program: Program): Value<*> {
         if (left is IdentifierExpression) {
             for (importStatement in program.imports) {
                 if (importStatement.identifiers.last() == left.name) {
@@ -69,7 +69,7 @@ data class CallExpression(val left: Expression, val arguments: Arguments) : Expr
         throw RunException("Expression is not callable")
     }
 
-    fun call(name: String, program: Program, functionProgram: Program): Value<*>? {
+    fun call(name: String, program: Program, functionProgram: Program): Value<*> {
         val function = functionProgram.getFunction(name)
 
         if (function != null) {

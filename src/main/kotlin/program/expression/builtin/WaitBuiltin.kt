@@ -6,10 +6,11 @@ import program.expression.Expression
 import program.expression.value.IntegerValue
 import program.expression.value.Null
 import program.expression.value.Value
+import program.statement.IncompleteException
 
 data class WaitBuiltin(override val arguments: Arguments, var counter: Int = 0) : Builtin(arguments), Expression {
-    override fun evaluate(program: Program): Value<*>? {
-        val value = if (arguments.namelessArguments.isEmpty()) IntegerValue(1) else arguments.integerValue(program, "value", 0) ?: return null
+    override fun evaluate(program: Program): Value<*> {
+        val value = if (arguments.namelessArguments.isEmpty()) IntegerValue(1) else arguments.integerValue(program, "value", 0)
 
         counter++
 
@@ -19,6 +20,6 @@ data class WaitBuiltin(override val arguments: Arguments, var counter: Int = 0) 
         }
 
         program.waitUntilNextTick()
-        return null
+        throw IncompleteException()
     }
 }

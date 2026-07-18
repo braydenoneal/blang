@@ -8,8 +8,8 @@ import program.expression.value.IntegerValue
 import program.expression.value.Value
 
 data class NegativeOperator(val operand: Expression) : Expression {
-    override fun evaluate(program: Program): Value<*>? {
-        val value = operand.evaluate(program) ?: return null
+    override fun evaluate(program: Program): Value<*> {
+        val value = operand.evaluate(program)
 
         return when (value) {
             is IntegerValue -> IntegerValue(-value.value)

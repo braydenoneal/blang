@@ -10,8 +10,8 @@ import program.expression.value.Value
 import kotlin.math.roundToInt
 
 data class RoundBuiltin(override val arguments: Arguments) : Builtin(arguments), Expression {
-    override fun evaluate(program: Program): Value<*>? {
-        val value = arguments.anyValue(program, "value", 0) ?: return null
+    override fun evaluate(program: Program): Value<*> {
+        val value = arguments.anyValue(program, "value", 0)
 
         if (value is IntegerValue) {
             return value

@@ -11,7 +11,7 @@ data class ListContainsBuiltin(
     val listValue: ListValue,
     val arguments: Arguments,
 ) : Expression {
-    override fun evaluate(program: Program): Value<*>? {
-        return BooleanValue(listValue.value.contains((arguments.anyValue(program, "value", 0) ?: return null).evaluate(program)))
+    override fun evaluate(program: Program): Value<*> {
+        return BooleanValue(listValue.value.contains((arguments.anyValue(program, "value", 0)).evaluate(program)))
     }
 }

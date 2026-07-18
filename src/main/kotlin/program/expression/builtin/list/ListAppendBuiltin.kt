@@ -10,8 +10,8 @@ data class ListAppendBuiltin(
     val listValue: ListValue,
     val arguments: Arguments,
 ) : Expression {
-    override fun evaluate(program: Program): Value<*>? {
-        val appendValue = arguments.anyValue(program, "value", 0) ?: return null
+    override fun evaluate(program: Program): Value<*> {
+        val appendValue = arguments.anyValue(program, "value", 0)
         listValue.value.add(appendValue)
         return listValue
     }

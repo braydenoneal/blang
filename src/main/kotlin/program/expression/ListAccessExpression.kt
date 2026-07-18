@@ -9,9 +9,9 @@ data class ListAccessExpression(
     val listExpression: Expression,
     val indexExpression: Expression,
 ) : Expression {
-    override fun evaluate(program: Program): Value<*>? {
-        val list = listExpression.evaluate(program) ?: return null
-        val index = indexExpression.evaluate(program) ?: return null
+    override fun evaluate(program: Program): Value<*> {
+        val list = listExpression.evaluate(program)
+        val index = indexExpression.evaluate(program)
 
         if (list !is ListValue) {
             throw RunException("Expression is not a list")

@@ -5,7 +5,6 @@
 - delegate AssignmentExpression evaluate function segments
 - rename ListAccessExpression to AccessExpression
 - dot expressions return BuiltinValue that can be called?
-- replace returning null for in progress statement with exceptions?
 - helper functions for asserting that an expression evaluates to a specific value type (replaces `if (value !is ListValue) { throw ... }`)
 - support for variable length arguments `mapOf(Pair(), Pair(), Pair(), etc.)`
 - consume starting tokens before parsing expressions?

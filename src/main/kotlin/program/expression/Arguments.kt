@@ -5,7 +5,7 @@ import program.RunException
 import program.expression.value.*
 
 data class Arguments(val namelessArguments: MutableList<Expression>, val namedArguments: MutableMap<String, Expression>) {
-    fun anyValue(program: Program, name: String, index: Int): Value<*>? {
+    fun anyValue(program: Program, name: String, index: Int): Value<*> {
         var expression = namedArguments[name]
 
         if (expression == null) {
@@ -19,8 +19,8 @@ data class Arguments(val namelessArguments: MutableList<Expression>, val namedAr
         return expression.evaluate(program)
     }
 
-    fun booleanValue(program: Program, name: String, index: Int): BooleanValue? {
-        val value = anyValue(program, name, index) ?: return null
+    fun booleanValue(program: Program, name: String, index: Int): BooleanValue {
+        val value = anyValue(program, name, index)
 
         if (value is BooleanValue) {
             return value
@@ -29,8 +29,8 @@ data class Arguments(val namelessArguments: MutableList<Expression>, val namedAr
         throw RunException("$name is not a boolean")
     }
 
-    fun floatValue(program: Program, name: String, index: Int): FloatValue? {
-        val value = anyValue(program, name, index) ?: return null
+    fun floatValue(program: Program, name: String, index: Int): FloatValue {
+        val value = anyValue(program, name, index)
 
         if (value is FloatValue) {
             return value
@@ -39,8 +39,8 @@ data class Arguments(val namelessArguments: MutableList<Expression>, val namedAr
         throw RunException("$name is not a float")
     }
 
-    fun functionValue(program: Program, name: String, index: Int): FunctionValue? {
-        val value = anyValue(program, name, index) ?: return null
+    fun functionValue(program: Program, name: String, index: Int): FunctionValue {
+        val value = anyValue(program, name, index)
 
         if (value is FunctionValue) {
             return value
@@ -49,8 +49,8 @@ data class Arguments(val namelessArguments: MutableList<Expression>, val namedAr
         throw RunException("$name is not a function")
     }
 
-    fun integerValue(program: Program, name: String, index: Int): IntegerValue? {
-        val value = anyValue(program, name, index) ?: return null
+    fun integerValue(program: Program, name: String, index: Int): IntegerValue {
+        val value = anyValue(program, name, index)
 
         if (value is IntegerValue) {
             return value
@@ -59,8 +59,8 @@ data class Arguments(val namelessArguments: MutableList<Expression>, val namedAr
         throw RunException("$name is not an integer")
     }
 
-    fun listValue(program: Program, name: String, index: Int): ListValue? {
-        val value = anyValue(program, name, index) ?: return null
+    fun listValue(program: Program, name: String, index: Int): ListValue {
+        val value = anyValue(program, name, index)
 
         if (value is ListValue) {
             return value
@@ -70,8 +70,8 @@ data class Arguments(val namelessArguments: MutableList<Expression>, val namedAr
     }
 
     @Suppress("unused")
-    fun rangeValue(program: Program, name: String, index: Int): RangeValue? {
-        val value = anyValue(program, name, index) ?: return null
+    fun rangeValue(program: Program, name: String, index: Int): RangeValue {
+        val value = anyValue(program, name, index)
 
         if (value is RangeValue) {
             return value
@@ -80,8 +80,8 @@ data class Arguments(val namelessArguments: MutableList<Expression>, val namedAr
         throw RunException("$name is not a range")
     }
 
-    fun stringValue(program: Program, name: String, index: Int): StringValue? {
-        val value = anyValue(program, name, index) ?: return null
+    fun stringValue(program: Program, name: String, index: Int): StringValue {
+        val value = anyValue(program, name, index)
 
         if (value is StringValue) {
             return value

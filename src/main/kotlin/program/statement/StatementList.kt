@@ -6,12 +6,12 @@ data class StatementList(
     val ran: MutableList<Statement> = mutableListOf(),
     val toRun: MutableList<Statement> = mutableListOf(),
 ) {
-    fun runNext(program: Program): Statement? {
+    fun runNext(program: Program): Statement {
         if (toRun.isEmpty()) {
             return EmptyStatement()
         }
 
-        val result = toRun.first().execute(program) ?: return null
+        val result = toRun.first().execute(program)
 
         ran.add(toRun.removeFirst())
 
@@ -29,7 +29,7 @@ data class StatementList(
             return toRun.last()
         }
 
-        return null
+        throw IncompleteException()
     }
 
     fun add(statement: Statement) {

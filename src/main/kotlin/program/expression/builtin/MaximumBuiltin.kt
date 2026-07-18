@@ -10,9 +10,9 @@ import program.expression.value.Value
 import kotlin.math.max
 
 data class MaximumBuiltin(override val arguments: Arguments) : Builtin(arguments), Expression {
-    override fun evaluate(program: Program): Value<*>? {
-        var a = arguments.anyValue(program, "a", 0) ?: return null
-        var b = arguments.anyValue(program, "b", 1) ?: return null
+    override fun evaluate(program: Program): Value<*> {
+        var a = arguments.anyValue(program, "a", 0)
+        var b = arguments.anyValue(program, "b", 1)
 
         if (a is IntegerValue && b is FloatValue) {
             a = FloatValue(a.value.toFloat())
