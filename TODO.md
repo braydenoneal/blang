@@ -2,6 +2,7 @@
 
 - register assignment operator handling
 - register token types?
+- register access expression handling
 - operator overloading with registering
 - delegate CallExpression evaluate function segments
 - delegate AssignmentExpression evaluate function segments

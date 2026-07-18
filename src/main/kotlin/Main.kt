@@ -1,8 +1,7 @@
-import parser.Parser
 import program.Program
 
 fun main() {
-    Parser.initialize()
+    Program.initialize()
     Program(
         """
         a = 0
