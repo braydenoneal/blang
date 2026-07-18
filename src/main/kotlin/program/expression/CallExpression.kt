@@ -35,9 +35,9 @@ data class CallExpression(val left: Expression, val arguments: Arguments) : Expr
         if (left is DotExpression) {
             val value = left.left.evaluate(program)
             val name = left.right
-            val type = value.typeString()
 
-            val valueBuiltin = BuiltinExpressionParser.valueBuiltins[type] ?: throw RunException("Type $type does not have any builtins")
+            val type = value.typeString()
+            val valueBuiltin = BuiltinExpressionParser.valueBuiltins[value::class] ?: throw RunException("Type $type does not have any builtins")
             val builtin = valueBuiltin[name] ?: throw RunException("Type $type does not have builtin $name")
 
             return builtin.invoke(value, arguments).evaluate(program)

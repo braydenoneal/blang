@@ -3,7 +3,6 @@
 - register assignment operator handling
 - register token types?
 - operator overloading with registering
-- get type string dynamically for value builtin registration
 - delegate CallExpression evaluate function segments
 - delegate AssignmentExpression evaluate function segments
 - rename ListAccessExpression to AccessExpression
