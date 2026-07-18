@@ -59,24 +59,14 @@ object ExpressionParser {
     }
 
     fun parse(parser: Parser, precedence: Int = 0, skipNewline: Boolean = false): Expression {
-        val token = parser.peek(skipNewline)
-
-        if (token.type == Type.NEWLINE) {
-            parser.nextAllowNewline()
-        }
-
+        val token = parser.next()
         val prefixParser = prefixParsers[token.type] ?: throw ParseException("Invalid prefix token")
-        var left = prefixParser.parse(parser, skipNewline)
+        var left = prefixParser.parse(parser, token, skipNewline)
 
         while (precedence < nextPrecedence(parser, skipNewline)) {
-            val token = parser.peek(skipNewline)
-
-            if (token.type == Type.NEWLINE) {
-                parser.nextAllowNewline()
-            }
-
+            val token = parser.next()
             val infixParser = infixParsers[token.type] ?: throw ParseException("Invalid infix token")
-            left = infixParser.parse(parser, left)
+            left = infixParser.parse(parser, token, left)
         }
 
         return left

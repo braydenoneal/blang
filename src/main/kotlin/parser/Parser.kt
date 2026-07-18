@@ -106,6 +106,10 @@ open class Parser(val program: Program) {
         return tokens[position++]
     }
 
+    fun next(skipNewline: Boolean): Token {
+        return if (skipNewline) next() else nextAllowNewline()
+    }
+
     fun expect(type: Type, value: String) {
         val token = next()
 

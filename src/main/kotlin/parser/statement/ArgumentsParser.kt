@@ -16,8 +16,6 @@ object ArgumentsParser {
         val namedArguments: MutableMap<String, Expression> = HashMap()
         var parseDefaults = false
 
-        parser.expect(Type.LEFT_PARENTHESIS)
-
         while (!parser.peekIs(Type.RIGHT_PARENTHESIS)) {
             val expression: Expression = ExpressionParser.parse(parser, 0, true)
 

@@ -10,7 +10,6 @@
 - dot expressions return BuiltinValue that can be called?
 - helper functions for asserting that an expression evaluates to a specific value type (replaces `if (value !is ListValue) { throw ... }`)
 - support for variable length arguments `mapOf(Pair(), Pair(), Pair(), etc.)`
-- consume starting tokens before parsing expressions?
 - random and random choice functions
 - switch statement
 - list slicing

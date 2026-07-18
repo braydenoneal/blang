@@ -3,14 +3,14 @@ package parser.expression.prefix
 import parser.ParseException
 import parser.Parser
 import parser.expression.ExpressionParser
+import parser.tokenizer.Token
 import parser.tokenizer.Type
 import program.expression.Expression
 import program.expression.StructExpression
 
 class StructExpressionParser : PrefixParser {
-    override fun parse(parser: Parser, skipNewline: Boolean): Expression {
+    override fun parse(parser: Parser, token: Token, skipNewline: Boolean): Expression {
         val expressions: MutableList<Pair<String, Expression>> = mutableListOf()
-        parser.expect(Type.LEFT_CURLY_BRACE)
 
         while (!parser.peekIs(Type.RIGHT_CURLY_BRACE)) {
             val name = parser.next()

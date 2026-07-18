@@ -5,9 +5,8 @@ fun main() {
     Parser.initialize()
     Program(
         """
-        s = { l: [0] }
-        s.l.append(1)
-        print(s)
+        a = 0
+        print(a)
         """.trimIndent(),
     ).run()
 }
