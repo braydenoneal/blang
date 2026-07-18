@@ -1,7 +1,10 @@
 ## Todo
 
+- clean up arithmetic operators
+- register assignment operator handling
+- operator overloading with registering
+- get type string dynamically for value builtin registration
 - delegate CallExpression evaluate function segments
-- use singleton with register function for member calls
 - delegate AssignmentExpression evaluate function segments
 - rename ListAccessExpression to AccessExpression
 - dot expressions return BuiltinValue that can be called?

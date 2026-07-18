@@ -2,20 +2,20 @@ package program.expression.builtin.struct
 
 import program.Program
 import program.expression.Arguments
-import program.expression.Expression
+import program.expression.builtin.ValueBuiltin
 import program.expression.value.ListValue
 import program.expression.value.StringValue
 import program.expression.value.StructValue
 import program.expression.value.Value
 
 data class StructKeysBuiltin(
-    val struct: StructValue,
-    val arguments: Arguments,
-) : Expression {
+    override val value: StructValue,
+    override val arguments: Arguments,
+) : ValueBuiltin<StructValue>(value, arguments) {
     override fun evaluate(program: Program): Value<*> {
         val list: MutableList<Value<*>> = mutableListOf()
 
-        for (entry in struct.value) {
+        for (entry in value.value) {
             list.add(StringValue(entry.first))
         }
 
