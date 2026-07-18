@@ -2,7 +2,6 @@ package program.expression
 
 import program.Program
 import program.RunException
-import program.expression.operator.ArithmeticOperator
 import program.expression.value.ListValue
 import program.expression.value.StructValue
 import program.expression.value.Value
@@ -22,7 +21,7 @@ data class AssignmentExpression(
                 }
 
                 val prev = program.scope.get(left.name)
-                val arithmetic = ArithmeticOperator(if (operator == "+=") "+" else "-", prev, value).evaluate(program)
+                val arithmetic = BinaryOperatorExpression(if (operator == "+=") "+" else "-", prev, value).evaluate(program)
 
                 return program.scope.set(left.name, arithmetic)
             }
@@ -41,7 +40,7 @@ data class AssignmentExpression(
                 }
 
                 val prev = list.get(index)
-                val arithmetic = ArithmeticOperator(if (operator == "+=") "+" else "-", prev, value).evaluate(program)
+                val arithmetic = BinaryOperatorExpression(if (operator == "+=") "+" else "-", prev, value).evaluate(program)
 
                 return list.set(index, arithmetic)
             }
@@ -58,7 +57,7 @@ data class AssignmentExpression(
                 }
 
                 val prev = struct.get(left.right)
-                val arithmetic = ArithmeticOperator(if (operator == "+=") "+" else "-", prev, value).evaluate(program)
+                val arithmetic = BinaryOperatorExpression(if (operator == "+=") "+" else "-", prev, value).evaluate(program)
 
                 return struct.set(left.right, arithmetic)
             }
