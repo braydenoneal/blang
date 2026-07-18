@@ -36,7 +36,9 @@ object ExpressionParser {
     }
 
     fun initializeInfixParsers() {
-        register(Type.ASSIGN, AssignmentExpressionParser(1))
+        register(Type.EQUALS, AssignmentExpressionParser(1))
+        register(Type.MINUS_EQUALS, AssignmentExpressionParser(1))
+        register(Type.PLUS_EQUALS, AssignmentExpressionParser(1))
         register(Type.IF_KEYWORD, ConditionalExpressionParser(2))
         register(Type.MINUS, BinaryOperatorExpressionParser(3))
         register(Type.PLUS, BinaryOperatorExpressionParser(3))
@@ -61,7 +63,7 @@ object ExpressionParser {
     fun parse(parser: Parser, precedence: Int = 0, skipNewline: Boolean = false): Expression {
         val token = parser.next()
         val prefixParser = prefixParsers[token.type] ?: throw ParseException("Invalid prefix token")
-        var left = prefixParser.parse(parser, token, skipNewline)
+        var left = prefixParser.parse(parser, token)
 
         while (precedence < nextPrecedence(parser, skipNewline)) {
             val token = parser.next()
@@ -73,7 +75,7 @@ object ExpressionParser {
     }
 
     fun nextPrecedence(parser: Parser, skipNewline: Boolean): Int {
-        val token = parser.peek(skipNewline)
+        val token = if (skipNewline) parser.peek() else parser.peekAllowNewline()
         val parser = infixParsers[token.type]
 
         if (parser != null) {

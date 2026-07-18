@@ -8,7 +8,7 @@ import program.expression.Expression
 import program.expression.value.*
 
 class LiteralExpressionParser : PrefixParser {
-    override fun parse(parser: Parser, token: Token, skipNewline: Boolean): Expression {
+    override fun parse(parser: Parser, token: Token): Expression {
         return when (token.type) {
             Type.BOOLEAN -> BooleanValue(token.value == "true")
             Type.QUOTE -> StringValue(token.value)

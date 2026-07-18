@@ -13,21 +13,21 @@ import program.statement.ReturnStatement
 import program.statement.StatementList
 
 class FunctionExpressionParser : PrefixParser {
-    override fun parse(parser: Parser, token: Token, skipNewline: Boolean): Expression {
+    override fun parse(parser: Parser, token: Token): Expression {
         val parameters: MutableList<String> = mutableListOf()
         val defaultParameters: MutableList<Pair<String, Expression>> = mutableListOf()
         var parseDefaults = false
 
-        while (parser.peek().type !== Type.COLON) {
+        while (!parser.peekIs(Type.COLON)) {
             val parameterName = parser.expect(Type.IDENTIFIER)
 
-            if (parser.peekIs(Type.ASSIGN, "=")) {
+            if (parser.peekIs(Type.EQUALS)) {
                 parseDefaults = true
             }
 
             if (parseDefaults) {
                 try {
-                    parser.expect(Type.ASSIGN, "=")
+                    parser.expect(Type.EQUALS)
                     defaultParameters.add(parameterName to ExpressionParser.parse(parser))
                 } catch (_: ParseException) {
                     throw ParseException("Function cannot have parameter with default after parameter without default")
@@ -36,7 +36,7 @@ class FunctionExpressionParser : PrefixParser {
                 parameters.add(parameterName)
             }
 
-            if (parser.peek().type !== Type.COLON) {
+            if (!parser.peekIs(Type.COLON)) {
                 parser.expect(Type.COMMA)
             }
         }

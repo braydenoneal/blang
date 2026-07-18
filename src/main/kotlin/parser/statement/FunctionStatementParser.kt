@@ -18,17 +18,16 @@ class FunctionStatementParser : StatementParser {
         val name = parser.expect(Type.IDENTIFIER)
         parser.expect(Type.LEFT_PARENTHESIS)
 
-
         while (!parser.peekIs(Type.RIGHT_PARENTHESIS)) {
             val parameterName = parser.expect(Type.IDENTIFIER)
 
-            if (parser.peekIs(Type.ASSIGN, "=")) {
+            if (parser.peekIs(Type.EQUALS)) {
                 parseDefaults = true
             }
 
             if (parseDefaults) {
                 try {
-                    parser.expect(Type.ASSIGN, "=")
+                    parser.expect(Type.EQUALS)
                     defaultParameters.add(parameterName to ExpressionParser.parse(parser))
                 } catch (_: ParseException) {
                     throw ParseException("Function cannot have parameter with default after parameter without default")

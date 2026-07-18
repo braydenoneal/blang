@@ -2,6 +2,7 @@
 
 - more extensive tests
 - register token types?
+- convert token types from enum to classes?
 - register access expression handling
 - in-language operator overloading
 - delegate CallExpression evaluate function segments
@@ -13,6 +14,7 @@
 - random and random choice functions
 - switch statement
 - list slicing
+- list negative indexing
 - get file name builtin
 - `.blang` file extension
 - add properties to many values to replace some functions (`item.tag` instead of `tag(item)`, etc)

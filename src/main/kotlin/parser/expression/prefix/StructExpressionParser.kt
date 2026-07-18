@@ -9,7 +9,7 @@ import program.expression.Expression
 import program.expression.StructExpression
 
 class StructExpressionParser : PrefixParser {
-    override fun parse(parser: Parser, token: Token, skipNewline: Boolean): Expression {
+    override fun parse(parser: Parser, token: Token): Expression {
         val expressions: MutableList<Pair<String, Expression>> = mutableListOf()
 
         while (!parser.peekIs(Type.RIGHT_CURLY_BRACE)) {

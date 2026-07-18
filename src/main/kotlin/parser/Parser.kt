@@ -5,6 +5,7 @@ import parser.expression.ExpressionParser
 import parser.statement.StatementParser
 import parser.tokenizer.Token
 import parser.tokenizer.Token.Companion.tokenize
+import parser.tokenizer.TokenException
 import parser.tokenizer.Type
 import program.Program
 import program.Program.Companion.log
@@ -22,20 +23,18 @@ open class Parser(val program: Program) {
 
         try {
             tokens = tokenize("${program.source}\n")
-        } catch (e: Exception) {
-            log.error("Tokenize error", e)
+        } catch (exception: TokenException) {
+            log.error("Tokenize error", exception)
         }
 
         program.scopes.add(Scope(null))
 
         try {
-            if (tokens.isNotEmpty()) {
-                while (position < tokens.size) {
-                    program.statements.add(StatementParser.parse(this))
-                }
+            while (position < tokens.size) {
+                program.statements.add(StatementParser.parse(this))
             }
-        } catch (e: Exception) {
-            log.error("Parse error", e)
+        } catch (exception: ParseException) {
+            log.error("Parse error", exception)
             program.statements.clear()
             program.functions.clear()
         }
@@ -57,41 +56,8 @@ open class Parser(val program: Program) {
         return tokens[position]
     }
 
-    fun peek(skipNewline: Boolean): Token {
-        return if (skipNewline) peek() else peekAllowNewline()
-    }
-
-    fun peekNullable(): Token? {
-        if (position >= tokens.size) {
-            return null
-        }
-
-        var position = position
-
-        while (tokens[position].type == Type.NEWLINE) {
-            position++
-
-            if (position >= tokens.size) {
-                return null
-            }
-        }
-
-        return tokens[position]
-    }
-
-    fun peekIs(type: Type, value: String): Boolean {
-        val token = peekNullable()
-        return token != null && token.type == type && token.value == value
-    }
-
     fun peekIs(type: Type): Boolean {
-        val token = peekNullable()
-        return token != null && token.type == type
-    }
-
-    fun peekIsAllowNewline(type: Type): Boolean {
-        val token = peekAllowNewline()
-        return token.type == type
+        return peek().type == type
     }
 
     fun next(): Token {
@@ -106,20 +72,6 @@ open class Parser(val program: Program) {
         return tokens[position++]
     }
 
-    fun next(skipNewline: Boolean): Token {
-        return if (skipNewline) next() else nextAllowNewline()
-    }
-
-    fun expect(type: Type, value: String) {
-        val token = next()
-
-        if (token.type == type && token.value == value) {
-            return
-        }
-
-        throw ParseException("Expected token of type $type and value $value")
-    }
-
     fun expect(type: Type): String {
         val token = next()
 
@@ -131,7 +83,7 @@ open class Parser(val program: Program) {
     }
 
     fun expectStatementEnd() {
-        if (position >= tokens.size || peekIsAllowNewline(Type.RIGHT_CURLY_BRACE)) {
+        if (position >= tokens.size || peekAllowNewline().type == Type.RIGHT_CURLY_BRACE) {
             return
         }
 

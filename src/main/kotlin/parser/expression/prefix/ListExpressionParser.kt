@@ -8,7 +8,7 @@ import program.expression.Expression
 import program.expression.ListExpression
 
 class ListExpressionParser : PrefixParser {
-    override fun parse(parser: Parser, token: Token, skipNewline: Boolean): Expression {
+    override fun parse(parser: Parser, token: Token): Expression {
         val expressions: MutableList<Expression> = mutableListOf()
 
         while (!parser.peekIs(Type.RIGHT_SQUARE_BRACE)) {

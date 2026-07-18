@@ -9,7 +9,10 @@ import program.statement.Statement
 
 class ReturnStatementParser : StatementParser {
     override fun parse(parser: Parser): Statement {
-        val expression = if (parser.peekIs(Type.SEMICOLON) || parser.peekIsAllowNewline(Type.NEWLINE) || parser.peekIsAllowNewline(Type.RIGHT_CURLY_BRACE)) Null.VALUE else ExpressionParser.parse(parser)
+        val expression = when (parser.peekAllowNewline().type) {
+            Type.SEMICOLON, Type.NEWLINE, Type.RIGHT_CURLY_BRACE -> Null.VALUE
+            else -> ExpressionParser.parse(parser)
+        }
         parser.expectStatementEnd()
         return ReturnStatement(expression)
     }
