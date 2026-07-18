@@ -8,7 +8,6 @@ import program.statement.Statement
 class ImportStatementParser : StatementParser {
     override fun parse(parser: Parser): Statement {
         val identifiers: MutableList<String> = mutableListOf()
-        parser.expect(Type.IMPORT_KEYWORD)
 
         while (parser.peekIs(Type.IDENTIFIER)) {
             identifiers.add(parser.next().value)

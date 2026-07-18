@@ -10,8 +10,6 @@ import program.statement.WhileStatement
 class WhileStatementParser : StatementParser {
     override fun parse(parser: Parser): Statement {
         val statements = StatementList()
-
-        parser.expect(Type.WHILE_KEYWORD)
         val condition = ExpressionParser.parse(parser)
         parser.expect(Type.LEFT_CURLY_BRACE)
 

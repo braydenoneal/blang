@@ -14,8 +14,6 @@ class IfStatementParser : StatementParser {
         val statements = StatementList()
         val elseIfStatements: MutableList<ElseIfStatement> = mutableListOf()
         var elseStatement: ElseStatement? = null
-
-        parser.expect(Type.IF_KEYWORD)
         val condition = ExpressionParser.parse(parser)
         parser.expect(Type.LEFT_CURLY_BRACE)
 

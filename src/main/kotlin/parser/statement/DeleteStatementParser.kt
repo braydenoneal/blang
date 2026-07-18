@@ -8,8 +8,6 @@ import program.statement.Statement
 
 class DeleteStatementParser : StatementParser {
     override fun parse(parser: Parser): Statement {
-        parser.expect(Type.DEL_KEYWORD)
-
         if (parser.peek().type != Type.IDENTIFIER) {
             throw ParseException("Expression is not an identifier")
         }
