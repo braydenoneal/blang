@@ -9,19 +9,20 @@ import kotlin.reflect.KClass
 object UnaryOperators {
     val unaryOperators: MutableMap<KClass<*>, MutableMap<String, (Value<*>) -> Value<*>>> = mutableMapOf()
 
-    fun register(type: KClass<*>, operator: String, result: (Value<*>) -> Value<*>) {
-        if (!unaryOperators.containsKey(type)) {
-            unaryOperators[type] = mutableMapOf()
+    @Suppress("UNCHECKED_CAST")
+    inline fun <reified T : Value<*>> register(operator: String, noinline result: (T) -> Value<*>) {
+        if (!unaryOperators.containsKey(T::class)) {
+            unaryOperators[T::class] = mutableMapOf()
         }
 
-        unaryOperators[type]!![operator] = result
+        unaryOperators[T::class]!![operator] = result as (Value<*>) -> Value<*>
     }
 
     fun initialize() {
-        register(IntegerValue::class, "-") { operand -> IntegerValue(-(operand as IntegerValue).value) }
-        register(IntegerValue::class, "+") { operand -> IntegerValue((operand as IntegerValue).value) }
-        register(FloatValue::class, "-") { operand -> FloatValue(-(operand as FloatValue).value) }
-        register(FloatValue::class, "+") { operand -> FloatValue((operand as FloatValue).value) }
-        register(BooleanValue::class, "!") { operand -> BooleanValue(!(operand as BooleanValue).value) }
+        register<IntegerValue>("-") { operand -> IntegerValue(-operand.value) }
+        register<IntegerValue>("+") { operand -> IntegerValue(operand.value) }
+        register<FloatValue>("-") { operand -> FloatValue(-operand.value) }
+        register<FloatValue>("+") { operand -> FloatValue(operand.value) }
+        register<BooleanValue>("!") { operand -> BooleanValue(!operand.value) }
     }
 }

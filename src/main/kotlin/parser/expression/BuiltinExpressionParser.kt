@@ -20,12 +20,13 @@ object BuiltinExpressionParser {
         builtins[name] = builder
     }
 
-    fun register(type: KClass<*>, name: String, builder: (Value<*>, Arguments) -> ValueBuiltin<*>) {
-        if (!valueBuiltins.containsKey(type)) {
-            valueBuiltins[type] = mutableMapOf()
+    @Suppress("UNCHECKED_CAST")
+    inline fun <reified T : Value<*>> register(name: String, noinline builder: (T, Arguments) -> ValueBuiltin<*>) {
+        if (!valueBuiltins.containsKey(T::class)) {
+            valueBuiltins[T::class] = mutableMapOf()
         }
 
-        valueBuiltins[type]!![name] = builder
+        valueBuiltins[T::class]!![name] = builder as (Value<*>, Arguments) -> ValueBuiltin<*>
     }
 
     fun initialize() {
@@ -43,15 +44,15 @@ object BuiltinExpressionParser {
         register("range") { arguments -> RangeBuiltin(arguments) }
         register("type") { arguments -> TypeBuiltin(arguments) }
         register("wait") { arguments -> WaitBuiltin(arguments) }
-        register(ListValue::class, "append") { value, arguments -> ListAppendBuiltin(value as ListValue, arguments) }
-        register(ListValue::class, "insert") { value, arguments -> ListInsertBuiltin(value as ListValue, arguments) }
-        register(ListValue::class, "remove") { value, arguments -> ListRemoveBuiltin(value as ListValue, arguments) }
-        register(ListValue::class, "pop") { value, arguments -> ListPopBuiltin(value as ListValue, arguments) }
-        register(ListValue::class, "contains") { value, arguments -> ListContainsBuiltin(value as ListValue, arguments) }
-        register(ListValue::class, "containsAll") { value, arguments -> ListContainsAllBuiltin(value as ListValue, arguments) }
-        register(StructValue::class, "remove") { value, arguments -> StructRemoveBuiltin(value as StructValue, arguments) }
-        register(StructValue::class, "keys") { value, arguments -> StructKeysBuiltin(value as StructValue, arguments) }
-        register(StructValue::class, "values") { value, arguments -> StructValuesBuiltin(value as StructValue, arguments) }
-        register(StructValue::class, "entries") { value, arguments -> StructEntriesBuiltin(value as StructValue, arguments) }
+        register<ListValue>("append") { value, arguments -> ListAppendBuiltin(value, arguments) }
+        register<ListValue>("insert") { value, arguments -> ListInsertBuiltin(value, arguments) }
+        register<ListValue>("remove") { value, arguments -> ListRemoveBuiltin(value, arguments) }
+        register<ListValue>("pop") { value, arguments -> ListPopBuiltin(value, arguments) }
+        register<ListValue>("contains") { value, arguments -> ListContainsBuiltin(value, arguments) }
+        register<ListValue>("containsAll") { value, arguments -> ListContainsAllBuiltin(value, arguments) }
+        register<StructValue>("remove") { value, arguments -> StructRemoveBuiltin(value, arguments) }
+        register<StructValue>("keys") { value, arguments -> StructKeysBuiltin(value, arguments) }
+        register<StructValue>("values") { value, arguments -> StructValuesBuiltin(value, arguments) }
+        register<StructValue>("entries") { value, arguments -> StructEntriesBuiltin(value, arguments) }
     }
 }

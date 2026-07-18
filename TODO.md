@@ -1,5 +1,6 @@
 ## Todo
 
+- more extensive tests
 - register token types?
 - register access expression handling
 - in-language operator overloading
