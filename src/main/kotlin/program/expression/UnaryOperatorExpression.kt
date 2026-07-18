@@ -2,9 +2,6 @@ package program.expression
 
 import program.Program
 import program.RunException
-import program.expression.value.BooleanValue
-import program.expression.value.FloatValue
-import program.expression.value.IntegerValue
 import program.expression.value.Value
 
 data class UnaryOperatorExpression(
@@ -14,26 +11,9 @@ data class UnaryOperatorExpression(
     override fun evaluate(program: Program): Value<*> {
         val value = operand.evaluate(program)
 
-        return when (operator) {
-            "-" -> when (value) {
-                is IntegerValue -> IntegerValue(-value.value)
-                is FloatValue -> FloatValue(-value.value)
-                else -> throw RunException("Operand is not a number")
-            }
+        val operators = UnaryOperators.unaryOperators[value::class] ?: throw RunException("Type of ${value.typeString()} does not have any unary operators")
+        val operatorFunction = operators[operator] ?: throw RunException("Type of ${value.typeString()} does not support unary operator of $operator")
 
-            "+" -> when (value) {
-                is IntegerValue -> value
-                is FloatValue -> value
-                else -> throw RunException("Operand is not a number")
-            }
-
-            "!" -> when (value) {
-                is BooleanValue -> BooleanValue(!value.value)
-                else -> throw RunException("Operand is not a boolean")
-            }
-
-            else -> throw RunException("Invalid operand")
-        }
-
+        return operatorFunction.invoke(value)
     }
 }

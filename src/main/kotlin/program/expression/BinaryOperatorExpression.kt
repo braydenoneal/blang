@@ -30,8 +30,8 @@ data class BinaryOperatorExpression(
             throw RunException("Operands are not of the same type")
         }
 
-        val operators = BinaryOperators.binaryOperators[a::class] ?: throw RunException("Type of ${a.typeString()} does not have any operators")
-        val operatorFunction = operators[operator] ?: throw RunException("Type of ${a.typeString()} does not support operator of $operator")
+        val operators = BinaryOperators.binaryOperators[a::class] ?: throw RunException("Type of ${a.typeString()} does not have any binary operators")
+        val operatorFunction = operators[operator] ?: throw RunException("Type of ${a.typeString()} does not support binary operator of $operator")
 
         return operatorFunction.invoke(a, b)
     }

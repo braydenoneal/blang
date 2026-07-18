@@ -1,9 +1,8 @@
 ## Todo
 
-- register assignment operator handling
 - register token types?
 - register access expression handling
-- operator overloading with registering
+- in-language operator overloading
 - delegate CallExpression evaluate function segments
 - delegate AssignmentExpression evaluate function segments
 - rename ListAccessExpression to AccessExpression

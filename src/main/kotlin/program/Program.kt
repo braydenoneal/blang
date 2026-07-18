@@ -2,6 +2,7 @@ package program
 
 import parser.Parser
 import program.expression.BinaryOperators
+import program.expression.UnaryOperators
 import program.statement.FunctionStatement
 import program.statement.ImportStatement
 import program.statement.IncompleteException
@@ -96,6 +97,7 @@ open class Program(
 
         fun initialize() {
             Parser.initialize()
+            UnaryOperators.initialize()
             BinaryOperators.initialize()
         }
     }
