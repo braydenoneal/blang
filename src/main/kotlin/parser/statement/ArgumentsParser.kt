@@ -7,7 +7,7 @@ import parser.tokenizer.Type
 import program.expression.Arguments
 import program.expression.AssignmentExpression
 import program.expression.Expression
-import program.expression.VariableExpression
+import program.expression.IdentifierExpression
 import java.util.*
 
 object ArgumentsParser {
@@ -28,10 +28,10 @@ object ArgumentsParser {
             if (parseDefaults) {
                 try {
                     val assignmentExpression = expression as AssignmentExpression
-                    val variableExpression = assignmentExpression.variableExpression
+                    val variableExpression = assignmentExpression.left
 
-                    if (variableExpression is VariableExpression && assignmentExpression.operator == "=") {
-                        namedArguments[variableExpression.name] = assignmentExpression.expression
+                    if (variableExpression is IdentifierExpression && assignmentExpression.operator == "=") {
+                        namedArguments[variableExpression.name] = assignmentExpression.right
                     } else {
                         throw ParseException("")
                     }

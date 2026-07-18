@@ -4,7 +4,6 @@ import parser.ParseException
 import parser.Parser
 import parser.expression.infix.*
 import parser.expression.prefix.*
-import parser.tokenizer.Token
 import parser.tokenizer.Type
 import program.expression.Expression
 
@@ -21,7 +20,7 @@ object ExpressionParser {
     }
 
     fun initializePrefixParsers() {
-        register(Type.IDENTIFIER, VariableExpressionParser())
+        register(Type.IDENTIFIER, IdentifierExpressionParser())
         register(Type.LEFT_PARENTHESIS, GroupExpressionParser())
         register(Type.LEFT_SQUARE_BRACE, ListExpressionParser())
         register(Type.LEFT_CURLY_BRACE, StructExpressionParser())
@@ -49,8 +48,9 @@ object ExpressionParser {
         register(Type.PERCENT, ModuloExpressionParser(4))
         register(Type.COMPARISON_OPERATOR, ComparisonExpressionParser(4))
         register(Type.CARET, ExponentiateExpressionParser(5))
+        register(Type.LEFT_PARENTHESIS, CallExpressionParser(6))
         register(Type.LEFT_SQUARE_BRACE, ListAccessExpressionParser(7))
-        register(Type.DOT, MemberExpressionParser(7))
+        register(Type.DOT, DotExpressionParser(7))
     }
 
     fun initialize() {
@@ -68,7 +68,7 @@ object ExpressionParser {
         val prefixParser = prefixParsers[token.type] ?: throw ParseException("Invalid prefix token")
         var left = prefixParser.parse(parser, skipNewline)
 
-        while (precedence < getPrecedence(parser.peek(skipNewline))) {
+        while (precedence < nextPrecedence(parser, skipNewline)) {
             val token = parser.peek(skipNewline)
 
             if (token.type == Type.NEWLINE) {
@@ -82,7 +82,8 @@ object ExpressionParser {
         return left
     }
 
-    fun getPrecedence(token: Token): Int {
+    fun nextPrecedence(parser: Parser, skipNewline: Boolean): Int {
+        val token = parser.peek(skipNewline)
         val parser = infixParsers[token.type]
 
         if (parser != null) {

@@ -6,14 +6,18 @@ class Scope(
     val parent: Scope?,
     var variables: MutableMap<String, Value<*>> = mutableMapOf(),
 ) {
-    fun get(name: String): Value<*> {
+    fun getNullable(name: String): Value<*>? {
         val value = variables[name]
 
         if (value == null && parent != null) {
-            return parent.get(name)
+            return parent.getNullable(name)
         }
 
-        return value ?: throw RunException("Variable '$name' does not exist")
+        return value
+    }
+
+    fun get(name: String): Value<*> {
+        return getNullable(name) ?: throw RunException("Variable '$name' does not exist")
     }
 
     fun parentWithVariable(name: String): Scope? {

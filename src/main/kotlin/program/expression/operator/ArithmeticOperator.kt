@@ -4,7 +4,6 @@ import program.Program
 import program.RunException
 import program.expression.Expression
 import program.expression.value.*
-import java.util.stream.Stream
 import kotlin.math.floor
 import kotlin.math.pow
 
@@ -49,7 +48,7 @@ data class ArithmeticOperator(
         } else if (operator == "+" && a is StringValue && b is StringValue) {
             return StringValue(a.value + b.value)
         } else if (operator == "+" && a is ListValue && b is ListValue) {
-            return ListValue(Stream.concat(a.value.stream(), b.value.stream()).toList())
+            return ListValue(a.value.plus(b.value).toMutableList())
         }
 
         throw RunException("Invalid operands")

@@ -1,10 +1,6 @@
 package parser.expression
 
-import parser.Parser
-import parser.statement.ArgumentsParser
 import program.expression.Arguments
-import program.expression.CallExpression
-import program.expression.Expression
 import program.expression.builtin.*
 
 object BuiltinExpressionParser {
@@ -29,11 +25,5 @@ object BuiltinExpressionParser {
         register("range") { arguments -> RangeBuiltin(arguments) }
         register("type") { arguments -> TypeBuiltin(arguments) }
         register("wait") { arguments -> WaitBuiltin(arguments) }
-    }
-
-    fun parse(parser: Parser, name: String): Expression {
-        val arguments = ArgumentsParser.parse(parser)
-        val builtin = builtins[name] ?: return CallExpression(name, arguments)
-        return builtin.invoke(arguments)
     }
 }
