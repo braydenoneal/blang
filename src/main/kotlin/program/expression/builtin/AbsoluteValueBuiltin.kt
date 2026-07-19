@@ -11,7 +11,7 @@ import kotlin.math.abs
 
 data class AbsoluteValueBuiltin(override val arguments: Arguments) : Builtin(arguments), Expression {
     override fun evaluate(program: Program): Value<*> {
-        val value = arguments.anyValue(program, "value", 0)
+        val value = arguments.getAny(program, "value")
 
         if (value is IntegerValue) {
             return IntegerValue(abs(value.value))

@@ -9,7 +9,7 @@ class ControlStatements : Test() {
         return """
                 list = []
                 
-                for i in range(10) {
+                for i in range(end=10) {
                     if i == 5 { continue }
                     list.append(i)
                 }
@@ -18,7 +18,7 @@ class ControlStatements : Test() {
                 
                 b = 0
                 
-                for i in range(10) {
+                for i in range(end=10) {
                     b = i
                     if i == 5 { break }
                 }

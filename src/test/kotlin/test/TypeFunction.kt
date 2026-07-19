@@ -11,7 +11,7 @@ class TypeFunction : Test() {
                 integer = type(1)
                 list = type([0])
                 nullType = type(null)
-                range = type(range(1))
+                range = type(range(end=1))
                 string = type("string")
                 struct = type({a: 1})
                 """.trimIndent()

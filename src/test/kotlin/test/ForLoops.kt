@@ -13,7 +13,7 @@ class ForLoops : Test() {
                 
                 b = 0
                 
-                for i in range(3) {
+                for i in range(end=3) {
                     b = i
                 }
                 

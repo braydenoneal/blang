@@ -11,8 +11,7 @@ data class ListAppendBuiltin(
     override val arguments: Arguments,
 ) : ValueBuiltin<ListValue>(value, arguments) {
     override fun evaluate(program: Program): Value<*> {
-        val appendValue = arguments.anyValue(program, "value", 0)
-        value.value.add(appendValue)
+        value.value.add(arguments.getAny(program, "value"))
         return value
     }
 }

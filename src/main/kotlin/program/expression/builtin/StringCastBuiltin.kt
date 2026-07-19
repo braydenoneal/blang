@@ -8,6 +8,6 @@ import program.expression.value.Value
 
 data class StringCastBuiltin(override val arguments: Arguments) : Builtin(arguments), Expression {
     override fun evaluate(program: Program): Value<*> {
-        return StringValue((arguments.anyValue(program, "value", 0)).value.toString())
+        return StringValue(arguments.getAny(program, "value").value.toString())
     }
 }

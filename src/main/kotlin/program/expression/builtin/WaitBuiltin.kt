@@ -10,7 +10,7 @@ import program.statement.IncompleteException
 
 data class WaitBuiltin(override val arguments: Arguments, var counter: Int = 0) : Builtin(arguments), Expression {
     override fun evaluate(program: Program): Value<*> {
-        val value = if (arguments.namelessArguments.isEmpty()) IntegerValue(1) else arguments.integerValue(program, "value", 0)
+        val value = arguments.get<IntegerValue>(program, "value", IntegerValue(1))
 
         counter++
 

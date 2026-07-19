@@ -13,7 +13,7 @@ data class ListContainsAllBuiltin(
     override val arguments: Arguments,
 ) : ValueBuiltin<ListValue>(value, arguments) {
     override fun evaluate(program: Program): Value<*> {
-        val nextListValue = arguments.anyValue(program, "value", 0)
+        val nextListValue = arguments.getAny(program, "value")
 
         if (nextListValue is ListValue) {
             return BooleanValue(value.value.containsAll(nextListValue.value))

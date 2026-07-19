@@ -12,7 +12,7 @@ data class ListRemoveBuiltin(
     override val arguments: Arguments,
 ) : ValueBuiltin<ListValue>(value, arguments) {
     override fun evaluate(program: Program): Value<*> {
-        val removeValue = arguments.anyValue(program, "value", 0)
+        val removeValue = arguments.getAny(program, "value")
 
         if (removeValue is IntegerValue) {
             value.value.removeAt(removeValue.value)
