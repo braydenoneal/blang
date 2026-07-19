@@ -18,9 +18,9 @@ interface InfixParser {
         }
 
         fun initialize() {
-            register(Type.EQUALS, AssignmentExpressionParser(1))
-            register(Type.MINUS_EQUALS, AssignmentExpressionParser(1))
-            register(Type.PLUS_EQUALS, AssignmentExpressionParser(1))
+            register(Type.EQUALS, AssignExpressionParser(1))
+            register(Type.MINUS_EQUALS, AssignExpressionParser(1))
+            register(Type.PLUS_EQUALS, AssignExpressionParser(1))
             register(Type.IF_KEYWORD, ConditionalExpressionParser(2))
             register(Type.MINUS, BinaryOperatorExpressionParser(3))
             register(Type.PLUS, BinaryOperatorExpressionParser(3))

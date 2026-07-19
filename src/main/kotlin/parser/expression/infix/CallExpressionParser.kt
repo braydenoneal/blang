@@ -17,17 +17,17 @@ class CallExpressionParser(override val precedence: Int) : InfixParser {
         while (!parser.peekIs(Type.RIGHT_PARENTHESIS)) {
             val expression: Expression = ExpressionParser.parse(parser, 0, true)
 
-            if (expression is AssignmentExpression) {
+            if (expression is AssignExpression) {
                 parseDefaults = true
             }
 
             if (parseDefaults) {
                 try {
-                    val assignmentExpression = expression as AssignmentExpression
-                    val variableExpression = assignmentExpression.left
+                    val assignExpression = expression as AssignExpression
+                    val identifierExpression = assignExpression.left
 
-                    if (variableExpression is IdentifierExpression && assignmentExpression.operator == "=") {
-                        namedArguments[variableExpression.name] = assignmentExpression.right
+                    if (identifierExpression is IdentifierExpression && assignExpression.operator == "=") {
+                        namedArguments[identifierExpression.name] = assignExpression.right
                     } else {
                         throw ParseException("")
                     }

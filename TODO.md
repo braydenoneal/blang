@@ -5,7 +5,6 @@
 - change arguments namelessArguments from list to ordered set
 - comma expression?
 - colon expression?
-- rename AssignmentExpression to EqualsExpression
 - more extensive tests
 - register token types?
 - convert token types from enum to classes?
