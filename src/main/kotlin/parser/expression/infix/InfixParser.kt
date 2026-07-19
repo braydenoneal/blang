@@ -33,7 +33,7 @@ interface InfixParser {
             register(Type.COMPARISON_OPERATOR, BinaryOperatorExpressionParser(4))
             register(Type.CARET, BinaryOperatorExpressionParser(5))
             register(Type.LEFT_PARENTHESIS, CallExpressionParser(6))
-            register(Type.LEFT_SQUARE_BRACE, ListAccessExpressionParser(7))
+            register(Type.LEFT_SQUARE_BRACE, AccessExpressionParser(7))
             register(Type.DOT, DotExpressionParser(7))
         }
     }

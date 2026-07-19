@@ -5,7 +5,6 @@
 - change arguments namelessArguments from list to ordered set
 - comma expression?
 - colon expression?
-- rename ListAccessExpression to AccessExpression
 - rename AssignmentExpression to EqualsExpression
 - more extensive tests
 - register token types?
@@ -14,7 +13,6 @@
 - in-language operator overloading
 - delegate CallExpression evaluate function segments
 - delegate AssignmentExpression evaluate function segments
-- rename ListAccessExpression to AccessExpression
 - dot expressions return BuiltinValue that can be called?
 - support for variable length arguments `mapOf(Pair(), Pair(), Pair(), etc.)`
 - random and random choice functions
