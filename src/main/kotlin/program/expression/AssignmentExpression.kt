@@ -26,9 +26,9 @@ data class AssignmentExpression(
                 return program.scope.set(left.name, arithmetic)
             }
 
-            is ListAccessExpression -> {
-                val list = left.listExpression.evaluate(program).cast<ListValue>()
-                val index = left.indexExpression.evaluate(program)
+            is AccessExpression -> {
+                val list = left.left.evaluate(program).cast<ListValue>()
+                val index = left.right.evaluate(program)
 
                 if (operator == "=") {
                     return list.set(index, value)
