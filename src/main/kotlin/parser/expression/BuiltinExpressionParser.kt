@@ -30,29 +30,29 @@ object BuiltinExpressionParser {
     }
 
     fun initialize() {
-        register("abs") { arguments -> AbsoluteValueBuiltin(arguments) }
-        register("int") { arguments -> IntegerCastBuiltin(arguments) }
-        register("float") { arguments -> FloatCastBuiltin(arguments) }
-        register("str") { arguments -> StringCastBuiltin(arguments) }
-        register("round") { arguments -> RoundBuiltin(arguments) }
-        register("floor") { arguments -> FloorBuiltin(arguments) }
-        register("ceil") { arguments -> CeilBuiltin(arguments) }
-        register("len") { arguments -> LengthBuiltin(arguments) }
-        register("print") { arguments -> PrintBuiltin(arguments) }
-        register("min") { arguments -> MinimumBuiltin(arguments) }
-        register("max") { arguments -> MaximumBuiltin(arguments) }
-        register("range") { arguments -> RangeBuiltin(arguments) }
-        register("type") { arguments -> TypeBuiltin(arguments) }
-        register("wait") { arguments -> WaitBuiltin(arguments) }
-        register<ListValue>("append") { value, arguments -> ListAppendBuiltin(value, arguments) }
-        register<ListValue>("insert") { value, arguments -> ListInsertBuiltin(value, arguments) }
-        register<ListValue>("remove") { value, arguments -> ListRemoveBuiltin(value, arguments) }
-        register<ListValue>("pop") { value, arguments -> ListPopBuiltin(value, arguments) }
-        register<ListValue>("contains") { value, arguments -> ListContainsBuiltin(value, arguments) }
-        register<ListValue>("containsAll") { value, arguments -> ListContainsAllBuiltin(value, arguments) }
-        register<StructValue>("remove") { value, arguments -> StructRemoveBuiltin(value, arguments) }
-        register<StructValue>("keys") { value, arguments -> StructKeysBuiltin(value, arguments) }
-        register<StructValue>("values") { value, arguments -> StructValuesBuiltin(value, arguments) }
-        register<StructValue>("entries") { value, arguments -> StructEntriesBuiltin(value, arguments) }
+        register("abs", ::AbsoluteValueBuiltin)
+        register("int", ::IntegerCastBuiltin)
+        register("float", ::FloatCastBuiltin)
+        register("str", ::StringCastBuiltin)
+        register("round", ::RoundBuiltin)
+        register("floor", ::FloorBuiltin)
+        register("ceil", ::CeilBuiltin)
+        register("len", ::LengthBuiltin)
+        register("print", ::PrintBuiltin)
+        register("min", ::MinimumBuiltin)
+        register("max", ::MaximumBuiltin)
+        register("range", ::RangeBuiltin)
+        register("type", ::TypeBuiltin)
+        register("wait", ::WaitBuiltin)
+        register<ListValue>("append", ::ListAppendBuiltin)
+        register<ListValue>("insert", ::ListInsertBuiltin)
+        register<ListValue>("remove", ::ListRemoveBuiltin)
+        register<ListValue>("pop", ::ListPopBuiltin)
+        register<ListValue>("contains", ::ListContainsBuiltin)
+        register<ListValue>("containsAll", ::ListContainsAllBuiltin)
+        register<StructValue>("remove", ::StructRemoveBuiltin)
+        register<StructValue>("keys", ::StructKeysBuiltin)
+        register<StructValue>("values", ::StructValuesBuiltin)
+        register<StructValue>("entries", ::StructEntriesBuiltin)
     }
 }
