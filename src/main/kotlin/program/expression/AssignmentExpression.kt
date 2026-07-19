@@ -27,12 +27,7 @@ data class AssignmentExpression(
             }
 
             is ListAccessExpression -> {
-                val list = left.listExpression.evaluate(program)
-
-                if (list !is ListValue) {
-                    throw RunException("Expression is not a list")
-                }
-
+                val list = left.listExpression.evaluate(program).cast<ListValue>()
                 val index = left.indexExpression.evaluate(program)
 
                 if (operator == "=") {
@@ -46,11 +41,7 @@ data class AssignmentExpression(
             }
 
             is DotExpression -> {
-                val struct = left.left.evaluate(program)
-
-                if (struct !is StructValue) {
-                    throw RunException("Expression is not a struct")
-                }
+                val struct = left.left.evaluate(program).cast<StructValue>()
 
                 if (operator == "=") {
                     return struct.set(left.right, value)

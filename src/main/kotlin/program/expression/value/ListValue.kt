@@ -20,9 +20,7 @@ class ListValue(value: MutableList<Value<*>>) : Value<MutableList<Value<*>>>(val
     }
 
     fun get(index: Value<*>): Value<*> {
-        if (index !is IntegerValue) {
-            throw RunException("Index is not an integer")
-        }
+        val index = index.cast<IntegerValue>()
 
         if (index.value >= value.size) {
             throw RunException("Index " + index.value + " out of range for list of size " + value.size)
@@ -32,9 +30,7 @@ class ListValue(value: MutableList<Value<*>>) : Value<MutableList<Value<*>>>(val
     }
 
     fun set(index: Value<*>, setValue: Value<*>): Value<*> {
-        if (index !is IntegerValue) {
-            throw RunException("Index is not an integer")
-        }
+        val index = index.cast<IntegerValue>()
 
         if (index.value >= value.size) {
             throw RunException("Index " + index.value + " out of range for list of size " + value.size)

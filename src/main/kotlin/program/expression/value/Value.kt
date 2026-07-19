@@ -1,6 +1,7 @@
 package program.expression.value
 
 import program.Program
+import program.RunException
 import program.expression.Expression
 
 abstract class Value<T>(val value: T) : Expression {
@@ -25,4 +26,8 @@ abstract class Value<T>(val value: T) : Expression {
     }
 
     abstract fun typeString(): String
+
+    inline fun <reified T : Value<*>> cast(): T {
+        return this as? T ?: throw RunException("Value is not of type ${T::class}")
+    }
 }
