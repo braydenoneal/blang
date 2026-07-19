@@ -7,7 +7,7 @@ import program.expression.Expression
 import program.statement.ReturnStatement
 import program.statement.StatementList
 
-data class Funct(
+data class Function(
     val parameters: MutableList<String>,
     val defaultParameters: MutableList<Pair<String, Expression>>,
     val statements: StatementList,

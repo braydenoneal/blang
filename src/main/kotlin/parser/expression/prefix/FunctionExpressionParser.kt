@@ -7,7 +7,7 @@ import parser.statement.StatementParser
 import parser.tokenizer.Token
 import parser.tokenizer.Type
 import program.expression.Expression
-import program.expression.value.Funct
+import program.expression.value.Function
 import program.expression.value.FunctionValue
 import program.statement.ReturnStatement
 import program.statement.StatementList
@@ -56,6 +56,6 @@ class FunctionExpressionParser : PrefixParser {
             statements.add(ReturnStatement(ExpressionParser.parse(parser)))
         }
 
-        return FunctionValue(Funct(parameters, defaultParameters, statements))
+        return FunctionValue(Function(parameters, defaultParameters, statements))
     }
 }

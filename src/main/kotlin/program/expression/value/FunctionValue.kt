@@ -3,7 +3,7 @@ package program.expression.value
 import program.Program
 import program.expression.Arguments
 
-class FunctionValue(value: Funct) : Value<Funct>(value) {
+class FunctionValue(value: Function) : Value<Function>(value) {
     override fun typeString(): String = "function"
 
     fun call(program: Program, arguments: Arguments): Value<*> {

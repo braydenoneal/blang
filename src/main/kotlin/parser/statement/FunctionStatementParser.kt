@@ -5,7 +5,7 @@ import parser.Parser
 import parser.expression.ExpressionParser
 import parser.tokenizer.Type
 import program.expression.Expression
-import program.expression.value.Funct
+import program.expression.value.Function
 import program.statement.FunctionStatement
 import program.statement.Statement
 import program.statement.StatementList
@@ -51,7 +51,7 @@ class FunctionStatementParser : StatementParser {
 
         parser.expect(Type.RIGHT_CURLY_BRACE)
 
-        val functionStatement = FunctionStatement(name, Funct(parameters, defaultParameters, statements))
+        val functionStatement = FunctionStatement(name, Function(parameters, defaultParameters, statements))
         parser.program.addFunction(name, functionStatement)
         return functionStatement
     }
