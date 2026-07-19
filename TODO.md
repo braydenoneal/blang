@@ -1,5 +1,13 @@
 ## Todo
 
+- change struct from list to ordered map
+- move prefix parser registration into PrefixParser interface and same for infix
+- merge function expression and function statement parameter parsing
+- change arguments namelessArguments from list to ordered set
+- comma expression?
+- colon expression?
+- rename ListAccessExpression to AccessExpression
+- rename AssignmentExpression to EqualsExpression
 - more extensive tests
 - register token types?
 - convert token types from enum to classes?
