@@ -27,6 +27,7 @@ data class WhileStatement(
                     return statement
                 }
 
+                conditionValue = null
                 throw IncompleteException()
             }
 
@@ -34,10 +35,6 @@ data class WhileStatement(
         }
 
         throw RunException("Expression is not a boolean")
-    }
-
-    override fun abort(program: Program) {
-        conditionValue = null
     }
 
     override fun done(program: Program) {
