@@ -2,7 +2,6 @@ package parser.expression.infix
 
 import parser.ParseException
 import parser.Parser
-import parser.expression.BuiltinExpressionParser
 import parser.expression.ExpressionParser
 import parser.tokenizer.Token
 import parser.tokenizer.Type
@@ -45,17 +44,6 @@ class CallExpressionParser(override val precedence: Int) : InfixParser {
         }
 
         parser.expect(Type.RIGHT_PARENTHESIS)
-
-        val arguments = Arguments(namelessArguments, namedArguments)
-
-        if (left is IdentifierExpression) {
-            val builtin = BuiltinExpressionParser.builtins[left.name]
-
-            if (builtin != null) {
-                return builtin.invoke(arguments)
-            }
-        }
-
-        return CallExpression(left, arguments)
+        return CallExpression(left, Arguments(namelessArguments, namedArguments))
     }
 }

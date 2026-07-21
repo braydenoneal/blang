@@ -1,5 +1,8 @@
 ## Todo
 
+- use reified function for codec type function
+- dispatch codecs for builtins and value builtins
+- auto-expression value caching?
 - auto-registration with base class's constructor?
 - boolean flag arguments? (can use `someFunction(boolParam)` instead of `someFunction(boolParam=true)`)
 - merge function expression and function statement parameter parsing

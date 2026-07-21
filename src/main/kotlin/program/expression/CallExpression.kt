@@ -3,10 +3,16 @@ package program.expression
 import parser.expression.BuiltinExpressionParser
 import program.Program
 import program.RunException
+import program.expression.builtin.Builtin
 import program.expression.value.FunctionValue
 import program.expression.value.Value
 
-data class CallExpression(val left: Expression, val arguments: Arguments) : Expression {
+data class CallExpression(
+    val left: Expression,
+    val arguments: Arguments,
+    var leftValue: Value<*>? = null,
+    var builtin: Builtin? = null,
+) : Expression {
     override fun innerEvaluate(program: Program): Value<*> {
         if (left is IdentifierExpression) {
             for (importStatement in program.imports) {
@@ -29,15 +35,35 @@ data class CallExpression(val left: Expression, val arguments: Arguments) : Expr
             }
         }
 
+        if (left is IdentifierExpression) {
+            if (builtin == null) {
+                val builder = BuiltinExpressionParser.builtins[left.name]
+
+                if (builder != null) {
+                    builtin = builder.invoke(arguments)
+                }
+            }
+
+            return builtin!!.evaluate(program)
+        }
+
         if (left is DotExpression) {
-            val value = left.left.evaluate(program)
-            val name = left.right
+            if (leftValue == null) {
+                leftValue = left.left.evaluate(program)
+            }
 
-            val type = value.typeString()
-            val valueBuiltin = BuiltinExpressionParser.valueBuiltins[value::class] ?: throw RunException("Type $type does not have any builtins")
-            val builtin = valueBuiltin[name] ?: throw RunException("Type $type does not have builtin $name")
+            if (builtin == null) {
+                val value = leftValue!!
+                val name = left.right
 
-            return builtin.invoke(value, arguments).evaluate(program)
+                val type = value.typeString()
+                val valueBuiltins = BuiltinExpressionParser.valueBuiltins[value::class] ?: throw RunException("Type $type does not have any builtins")
+                val builder = valueBuiltins[name] ?: throw RunException("Type $type does not have builtin $name")
+
+                builtin = builder.invoke(value, arguments)
+            }
+
+            return builtin!!.evaluate(program)
         }
 
         throw RunException("Expression is not callable")
@@ -57,5 +83,10 @@ data class CallExpression(val left: Expression, val arguments: Arguments) : Expr
         }
 
         throw RunException("'$left' does not refer to a function")
+    }
+
+    override fun done(program: Program) {
+        leftValue = null
+        builtin = null
     }
 }
