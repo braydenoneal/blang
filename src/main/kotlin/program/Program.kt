@@ -27,8 +27,9 @@ open class Program(
         try {
             while (true) {
                 try {
-                    tick(true)
-                    break
+                    if (tick(true)) {
+                        break
+                    }
                 } catch (_: IncompleteException) {
                     continue
                 }
@@ -42,13 +43,13 @@ open class Program(
         Parser(this)
     }
 
-    fun tick(sleep: Boolean = false) {
+    fun tick(sleep: Boolean = false): Boolean {
         wait = false
 
         while (true) {
             try {
                 statements.runNext(this)
-                return
+                return true
             } catch (_: IncompleteException) {
                 if (wait) {
                     break
@@ -59,6 +60,8 @@ open class Program(
         if (sleep) {
             Thread.sleep(1_000 / 5)
         }
+
+        return false
     }
 
     fun waitUntilNextTick() {

@@ -26,9 +26,6 @@ data class CallExpression(val left: Expression, val arguments: Arguments) : Expr
 
             if (variable != null && variable is FunctionValue) {
                 return variable.call(program, arguments)
-            } else {
-                val builtin = BuiltinExpressionParser.builtins[left.name] ?: throw RunException("No function, variable, or builtin exists with name ${left.name}")
-                return builtin.invoke(arguments).evaluate(program)
             }
         }
 

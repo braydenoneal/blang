@@ -1,19 +1,16 @@
 ## Todo
 
+- auto-registration with base class's constructor?
 - test/fix resuming execution during the middle of argument getting `someFunction(0, wait(), false)`
 - boolean flag arguments? (can use `someFunction(boolParam)` instead of `someFunction(boolParam=true)`)
 - change struct from list to ordered map
 - merge function expression and function statement parameter parsing
-- change arguments namelessArguments from list to ordered set
-- comma expression?
-- colon expression?
 - more extensive tests
 - register token types?
 - convert token types from enum to classes?
 - register access expression handling
 - in-language operator overloading
-- delegate CallExpression evaluate function segments
-- delegate AssignmentExpression evaluate function segments
+- register AssignExpression handling (register equals operator)
 - dot expressions return BuiltinValue that can be called?
 - support for variable length arguments `mapOf(Pair(), Pair(), Pair(), etc.)`
 - random and random choice functions

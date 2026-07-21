@@ -2,6 +2,7 @@ package parser.expression.infix
 
 import parser.ParseException
 import parser.Parser
+import parser.expression.BuiltinExpressionParser
 import parser.expression.ExpressionParser
 import parser.tokenizer.Token
 import parser.tokenizer.Type
@@ -10,7 +11,7 @@ import java.util.*
 
 class CallExpressionParser(override val precedence: Int) : InfixParser {
     override fun parse(parser: Parser, token: Token, left: Expression): Expression {
-        val arguments: MutableList<Expression> = Stack()
+        val namelessArguments: MutableList<Expression> = Stack()
         val namedArguments: MutableMap<String, Expression> = HashMap()
         var parseDefaults = false
 
@@ -35,7 +36,7 @@ class CallExpressionParser(override val precedence: Int) : InfixParser {
                     throw ParseException("Function cannot have parameter with default after parameter without default")
                 }
             } else {
-                arguments.add(expression)
+                namelessArguments.add(expression)
             }
 
             if (!parser.peekIs(Type.RIGHT_PARENTHESIS)) {
@@ -44,6 +45,17 @@ class CallExpressionParser(override val precedence: Int) : InfixParser {
         }
 
         parser.expect(Type.RIGHT_PARENTHESIS)
-        return CallExpression(left, Arguments(arguments, namedArguments))
+
+        val arguments = Arguments(namelessArguments, namedArguments)
+
+        if (left is IdentifierExpression) {
+            val builtin = BuiltinExpressionParser.builtins[left.name]
+
+            if (builtin != null) {
+                return builtin.invoke(arguments)
+            }
+        }
+
+        return CallExpression(left, arguments)
     }
 }
