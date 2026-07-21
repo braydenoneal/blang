@@ -8,7 +8,7 @@ data class UnaryOperatorExpression(
     val operator: String,
     val operand: Expression,
 ) : Expression {
-    override fun evaluate(program: Program): Value<*> {
+    override fun innerEvaluate(program: Program): Value<*> {
         val value = operand.evaluate(program)
 
         val operators = UnaryOperators.unaryOperators[value::class] ?: throw RunException("Type of ${value.typeString()} does not have any unary operators")

@@ -8,7 +8,7 @@ import program.expression.value.IntegerValue
 import program.expression.value.Value
 
 data class IntegerCastBuiltin(override val arguments: Arguments) : Builtin(arguments), Expression {
-    override fun evaluate(program: Program): Value<*> {
+    override fun innerEvaluate(program: Program): Value<*> {
         return IntegerValue(arguments.get<FloatValue>(program, "value").value.toInt())
     }
 }

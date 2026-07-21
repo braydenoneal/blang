@@ -12,7 +12,7 @@ data class IfStatement(
     val elseStatement: ElseStatement?,
     var conditionValue: Value<*>?,
 ) : Statement {
-    override fun execute(program: Program): Statement {
+    override fun innerExecute(program: Program): Statement {
         if (conditionValue == null) {
             val conditionResult = condition.evaluate(program)
             conditionValue = conditionResult
@@ -22,7 +22,6 @@ data class IfStatement(
 
         if (value is BooleanValue && value.value) {
             val result = statements.runNext(program)
-            reset()
             return result
         }
 
@@ -36,22 +35,19 @@ data class IfStatement(
 
             if (elseIfValue is BooleanValue && elseIfValue.value) {
                 val result = elseIfStatement.statements.runNext(program)
-                reset()
                 return result
             }
         }
 
         if (elseStatement == null) {
-            reset()
             return this
         }
 
         val result = elseStatement.statements.runNext(program)
-        reset()
         return result
     }
 
-    fun reset() {
+    override fun done(program: Program) {
         conditionValue = null
 
         for (elseIfStatement in elseIfStatements) {

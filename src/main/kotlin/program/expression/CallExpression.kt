@@ -7,7 +7,7 @@ import program.expression.value.FunctionValue
 import program.expression.value.Value
 
 data class CallExpression(val left: Expression, val arguments: Arguments) : Expression {
-    override fun evaluate(program: Program): Value<*> {
+    override fun innerEvaluate(program: Program): Value<*> {
         if (left is IdentifierExpression) {
             for (importStatement in program.imports) {
                 if (importStatement.identifiers.last() == left.name) {

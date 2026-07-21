@@ -11,7 +11,7 @@ data class StructValuesBuiltin(
     override val value: StructValue,
     override val arguments: Arguments,
 ) : ValueBuiltin<StructValue>(value, arguments) {
-    override fun evaluate(program: Program): Value<*> {
+    override fun innerEvaluate(program: Program): Value<*> {
         val list: MutableList<Value<*>> = mutableListOf()
 
         for (entry in value.value) {

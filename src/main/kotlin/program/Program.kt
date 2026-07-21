@@ -19,7 +19,7 @@ open class Program(
 ) {
     var wait = false
 
-    fun run() {
+    fun run(sleep: Boolean = false) {
         if (!parsed) {
             Parser(this)
         }
@@ -27,7 +27,7 @@ open class Program(
         try {
             while (true) {
                 try {
-                    if (tick(true)) {
+                    if (tick(sleep)) {
                         break
                     }
                 } catch (_: IncompleteException) {
@@ -80,8 +80,14 @@ open class Program(
         return functions[name]
     }
 
-    fun newScope() {
-        scopes.add(Scope(scopes.last()))
+    fun newScope(): Scope {
+        val scope = Scope(scopes.last())
+        scopes.add(scope)
+        return scope
+    }
+
+    fun addScope(scope: Scope) {
+        scopes.add(scope)
     }
 
     fun endScope() {

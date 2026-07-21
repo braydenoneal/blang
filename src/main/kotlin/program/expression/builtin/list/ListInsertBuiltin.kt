@@ -11,7 +11,7 @@ data class ListInsertBuiltin(
     override val value: ListValue,
     override val arguments: Arguments,
 ) : ValueBuiltin<ListValue>(value, arguments) {
-    override fun evaluate(program: Program): Value<*> {
+    override fun innerEvaluate(program: Program): Value<*> {
         val index = arguments.get<IntegerValue>(program, "index").value
         val insertValue = arguments.getAny(program, "value")
         value.value.add(index, insertValue)

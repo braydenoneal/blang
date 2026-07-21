@@ -5,7 +5,7 @@ import program.expression.Expression
 import program.expression.value.Value
 
 data class ReturnStatement(val expression: Expression) : Statement {
-    override fun execute(program: Program): Statement {
+    override fun innerExecute(program: Program): Statement {
         return this
     }
 

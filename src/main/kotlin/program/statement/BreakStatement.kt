@@ -3,7 +3,7 @@ package program.statement
 import program.Program
 
 class BreakStatement : Statement {
-    override fun execute(program: Program): Statement {
+    override fun innerExecute(program: Program): Statement {
         return this
     }
 }

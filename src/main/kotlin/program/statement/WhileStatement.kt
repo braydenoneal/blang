@@ -11,7 +11,7 @@ data class WhileStatement(
     val statements: StatementList,
     var conditionValue: Value<*>? = null,
 ) : Statement {
-    override fun execute(program: Program): Statement {
+    override fun innerExecute(program: Program): Statement {
         if (conditionValue == null) {
             val conditionResult = condition.evaluate(program)
             conditionValue = conditionResult
@@ -24,18 +24,23 @@ data class WhileStatement(
                 val statement = statements.runNext(program)
 
                 if (statement is ReturnStatement || statement is BreakStatement) {
-                    conditionValue = null
                     return statement
                 }
 
-                conditionValue = null
                 throw IncompleteException()
             }
 
-            conditionValue = null
             return this
         }
 
         throw RunException("Expression is not a boolean")
+    }
+
+    override fun abort(program: Program) {
+        conditionValue = null
+    }
+
+    override fun done(program: Program) {
+        conditionValue = null
     }
 }

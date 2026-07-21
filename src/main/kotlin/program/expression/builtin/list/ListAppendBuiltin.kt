@@ -10,7 +10,7 @@ data class ListAppendBuiltin(
     override val value: ListValue,
     override val arguments: Arguments,
 ) : ValueBuiltin<ListValue>(value, arguments) {
-    override fun evaluate(program: Program): Value<*> {
+    override fun innerEvaluate(program: Program): Value<*> {
         value.value.add(arguments.getAny(program, "value"))
         return value
     }

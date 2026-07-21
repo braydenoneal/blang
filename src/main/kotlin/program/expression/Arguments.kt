@@ -8,31 +8,46 @@ data class Arguments(
     val namelessArguments: MutableList<Expression>,
     val namedArguments: MutableMap<String, Expression>,
     var index: Int = 0,
-    var seen: MutableList<String> = mutableListOf(),
+    var computed: MutableMap<String, Value<*>> = mutableMapOf(),
 ) {
     fun getAny(program: Program, name: String, default: Value<*>? = null): Value<*> {
-        if (name in seen) {
-            index = 0
-            seen.clear()
+        if (computed.containsKey(name)) {
+            return computed[name]!!
         }
 
-        seen.add(name)
-
         if (namelessArguments.size > index) {
-            return namelessArguments[index++].evaluate(program)
+            val value = namelessArguments[index++].evaluate(program)
+            computed[name] = value
+            return value
         }
 
         for (argument in namedArguments) {
             if (argument.key == name) {
-                return argument.value.evaluate(program)
+                val value = argument.value.evaluate(program)
+                computed[name] = value
+                return value
             }
         }
 
-        return default ?: throw RunException("Missing argument $name")
+        if (default == null) {
+            throw RunException("Missing argument $name")
+        }
+
+        computed[name] = default
+        return default
     }
 
     inline fun <reified T : Value<*>> get(program: Program, name: String, default: T? = null): T {
         return getAny(program, name, default).cast<T>()
+    }
+
+    fun abort() {
+        index = 0
+    }
+
+    fun done() {
+        index = 0
+        computed.clear()
     }
 
     companion object {

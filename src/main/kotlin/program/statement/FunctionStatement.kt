@@ -6,7 +6,7 @@ import program.expression.value.Function
 import program.expression.value.Value
 
 data class FunctionStatement(val name: String, val function: Function) : Statement {
-    override fun execute(program: Program): Statement {
+    override fun innerExecute(program: Program): Statement {
         return this
     }
 

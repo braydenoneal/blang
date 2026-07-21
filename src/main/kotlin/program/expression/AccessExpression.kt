@@ -8,7 +8,7 @@ data class AccessExpression(
     val left: Expression,
     val right: Expression,
 ) : Expression {
-    override fun evaluate(program: Program): Value<*> {
+    override fun innerEvaluate(program: Program): Value<*> {
         val list = left.evaluate(program).cast<ListValue>()
         val index = right.evaluate(program)
         return list.get(index)

@@ -10,7 +10,7 @@ data class IfElseExpression(
     val expressionA: Expression,
     val expressionB: Expression,
 ) : Expression {
-    override fun evaluate(program: Program): Value<*> {
+    override fun innerEvaluate(program: Program): Value<*> {
         val conditionValue = condition.evaluate(program)
 
         if (conditionValue is BooleanValue) {

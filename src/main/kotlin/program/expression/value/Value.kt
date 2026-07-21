@@ -5,7 +5,7 @@ import program.RunException
 import program.expression.Expression
 
 abstract class Value<T>(val value: T) : Expression {
-    override fun evaluate(program: Program): Value<*> {
+    override fun innerEvaluate(program: Program): Value<*> {
         return this
     }
 

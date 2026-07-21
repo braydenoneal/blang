@@ -11,7 +11,7 @@ data class StructRemoveBuiltin(
     override val value: StructValue,
     override val arguments: Arguments,
 ) : ValueBuiltin<StructValue>(value, arguments) {
-    override fun evaluate(program: Program): Value<*> {
+    override fun innerEvaluate(program: Program): Value<*> {
         val removeValue = arguments.getAny(program, "value")
 
         if (removeValue is StringValue) {

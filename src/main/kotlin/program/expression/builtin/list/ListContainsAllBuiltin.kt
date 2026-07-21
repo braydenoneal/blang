@@ -12,7 +12,7 @@ data class ListContainsAllBuiltin(
     override val value: ListValue,
     override val arguments: Arguments,
 ) : ValueBuiltin<ListValue>(value, arguments) {
-    override fun evaluate(program: Program): Value<*> {
+    override fun innerEvaluate(program: Program): Value<*> {
         val nextListValue = arguments.getAny(program, "value")
 
         if (nextListValue is ListValue) {

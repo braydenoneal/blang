@@ -9,7 +9,7 @@ data class BinaryOperatorExpression(
     val left: Expression,
     val right: Expression,
 ) : Expression {
-    override fun evaluate(program: Program): Value<*> {
+    override fun innerEvaluate(program: Program): Value<*> {
         var a = left.evaluate(program)
         var b = right.evaluate(program)
 

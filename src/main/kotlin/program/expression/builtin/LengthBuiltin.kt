@@ -8,7 +8,7 @@ import program.expression.value.ListValue
 import program.expression.value.Value
 
 data class LengthBuiltin(override val arguments: Arguments) : Builtin(arguments), Expression {
-    override fun evaluate(program: Program): Value<*> {
+    override fun innerEvaluate(program: Program): Value<*> {
         return IntegerValue(arguments.get<ListValue>(program, "value").value.size)
     }
 }

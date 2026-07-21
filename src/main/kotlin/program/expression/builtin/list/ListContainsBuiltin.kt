@@ -11,7 +11,7 @@ data class ListContainsBuiltin(
     override val value: ListValue,
     override val arguments: Arguments,
 ) : ValueBuiltin<ListValue>(value, arguments) {
-    override fun evaluate(program: Program): Value<*> {
+    override fun innerEvaluate(program: Program): Value<*> {
         return BooleanValue(value.value.contains(arguments.getAny(program, "value").evaluate(program)))
     }
 }

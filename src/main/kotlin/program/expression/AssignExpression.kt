@@ -11,7 +11,7 @@ data class AssignExpression(
     val left: Expression,
     val right: Expression,
 ) : Expression {
-    override fun evaluate(program: Program): Value<*> {
+    override fun innerEvaluate(program: Program): Value<*> {
         val value = right.evaluate(program)
 
         when (left) {
