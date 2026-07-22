@@ -1,6 +1,5 @@
 package parser.expression.prefix
 
-import parser.ParseException
 import parser.Parser
 import parser.expression.ExpressionParser
 import parser.statement.StatementParser
@@ -14,7 +13,6 @@ object FunctionParser {
     fun parse(parser: Parser, isStatement: Boolean = true): Function {
         val parameters: MutableList<String> = mutableListOf()
         val defaultParameters: MutableList<Pair<String, Expression>> = mutableListOf()
-        var parseDefaults = false
 
         if (isStatement) {
             parser.expect(Type.LEFT_PARENTHESIS)
@@ -26,16 +24,8 @@ object FunctionParser {
             val parameterName = parser.expect(Type.IDENTIFIER)
 
             if (parser.peekIs(Type.EQUALS)) {
-                parseDefaults = true
-            }
-
-            if (parseDefaults) {
-                try {
-                    parser.expect(Type.EQUALS)
-                    defaultParameters.add(parameterName to ExpressionParser.parse(parser))
-                } catch (_: ParseException) {
-                    throw ParseException("Function cannot have parameter with default after parameter without default")
-                }
+                parser.expect(Type.EQUALS)
+                defaultParameters.add(parameterName to ExpressionParser.parse(parser))
             } else {
                 parameters.add(parameterName)
             }

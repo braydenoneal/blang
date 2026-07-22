@@ -1,6 +1,6 @@
 ## Todo
 
-- address the fact that builtin functions can have default arguments before non-default arguments, but in-language functions cannot
+- split function parameters/arguments and statements (for both parsing and execution)
 - way to check if token is part of a group (i.e. token is a keyword)
 - register access expression handling
 - in-language operator overloading
@@ -31,7 +31,6 @@
 - underscore for unused variables
 - import renames (`import x as y`)
 - better error context (source location, etc)
-- unify some of the logic between custom and builtin functions (parsing and arguments)
 - static types?
 - method overloading?
 - method annotations?

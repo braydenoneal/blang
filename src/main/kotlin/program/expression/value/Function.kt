@@ -15,54 +15,37 @@ data class Function(
     val statements: StatementList,
     var scope: Scope? = null,
     var running: Boolean = false,
+    var arguments: Arguments? = null,
 ) {
     fun innerCall(program: Program, arguments: Arguments): Value<*> {
+        if (this.arguments == null) {
+            this.arguments = arguments
+        }
+
         if (scope == null) {
             scope = Scope(program.scopes.last())
         }
 
         val scope = scope!!
 
-        arguments.namedArguments.forEach { (name: String, expression: Expression) ->
-            val hasDefault = defaultParameters.stream().anyMatch { it.first == name }
-
-            if (parameters.contains(name) || hasDefault) {
-                scope.setLocal(name, expression.evaluate(program))
-            } else {
-                throw RunException("Provided extra argument '$name'")
+        for (name in parameters) {
+            if (name !in scope.variables) {
+                scope.setLocal(name, arguments.getAny(program, name))
             }
         }
 
-        for (i in parameters.indices) {
-            if (scope.getLocal(parameters[i]) == null) {
-                if (arguments.namelessArguments.size > i) {
-                    scope.setLocal(
-                        parameters[i],
-                        arguments.namelessArguments[i].evaluate(program),
-                    )
-                } else {
-                    throw RunException("Missing argument '" + parameters[i] + "'")
-                }
+        for ((name, expression) in defaultParameters) {
+            if (name !in scope.variables) {
+                scope.setLocal(name, arguments.getAny(program, name, expression.evaluate(program)))
             }
         }
 
-        for (i in parameters.size..<arguments.namelessArguments.size) {
-            if (defaultParameters.size > i - parameters.size) {
-                scope.setLocal(
-                    defaultParameters[i - parameters.size].first,
-                    arguments.namelessArguments[i].evaluate(program),
-                )
-            } else {
-                throw RunException("Provided extra argument")
-            }
+        if (arguments.namelessArguments.size + arguments.namedArguments.size > parameters.size + defaultParameters.size) {
+            throw RunException("Extra argument(s) provided")
         }
 
-        for (parameter in defaultParameters) {
-            if (scope.getLocal(parameter.first) == null) {
-                scope.setLocal(parameter.first, parameter.second.evaluate(program))
-            }
-        }
-
+        this.arguments?.done()
+        this.arguments = null
         running = true
         program.addScope(scope)
 
@@ -90,6 +73,8 @@ data class Function(
     fun abort(program: Program) {
         if (running) {
             program.endScope()
+        } else {
+            arguments?.abort()
         }
     }
 
