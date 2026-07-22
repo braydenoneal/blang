@@ -34,6 +34,7 @@ data class Token(val value: String, val type: Type) {
                 }
             }
 
+            tokens.add(Token("", Type.END_OF_FILE))
             return tokens
         }
     }

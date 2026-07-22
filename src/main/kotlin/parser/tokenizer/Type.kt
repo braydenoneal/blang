@@ -48,5 +48,6 @@ enum class Type(val regex: String) {
     SLASH("(\\/)"),
     CARET("(\\^)"),
     PERCENT("(\\%)"),
+    END_OF_FILE("(?!)"),
     ;
 }

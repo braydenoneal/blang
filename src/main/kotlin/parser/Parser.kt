@@ -22,7 +22,7 @@ open class Parser(val program: Program) {
         program.scopes.clear()
 
         try {
-            tokens = tokenize("${program.source}\n")
+            tokens = tokenize(program.source)
         } catch (exception: TokenException) {
             log.error("Tokenize error", exception)
         }
@@ -30,7 +30,7 @@ open class Parser(val program: Program) {
         program.scopes.add(Scope(null))
 
         try {
-            while (position < tokens.size) {
+            while (!peekIs(Type.END_OF_FILE)) {
                 program.statements.add(StatementParser.parse(this))
             }
         } catch (exception: ParseException) {
@@ -83,7 +83,7 @@ open class Parser(val program: Program) {
     }
 
     fun expectStatementEnd() {
-        if (position >= tokens.size || peekAllowNewline().type == Type.RIGHT_CURLY_BRACE) {
+        if (position >= tokens.size || peekAllowNewline().type == Type.RIGHT_CURLY_BRACE || peekAllowNewline().type == Type.END_OF_FILE) {
             return
         }
 

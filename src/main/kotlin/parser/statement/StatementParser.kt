@@ -16,7 +16,6 @@ interface StatementParser {
         }
 
         fun initialize() {
-            register(Type.NEWLINE, EmptyStatementParser())
             register(Type.FN_KEYWORD, FunctionStatementParser())
             register(Type.IF_KEYWORD, IfStatementParser())
             register(Type.FOR_KEYWORD, ForStatementParser())
@@ -29,9 +28,9 @@ interface StatementParser {
         }
 
         fun parse(parser: Parser): Statement {
-            val token = parser.peekAllowNewline()
+            val token = parser.peek()
             val statementParser = statementParsers[token.type] ?: return expressionStatementParser.parse(parser)
-            parser.nextAllowNewline()
+            parser.next()
             return statementParser.parse(parser)
         }
     }
