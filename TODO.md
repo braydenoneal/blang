@@ -1,6 +1,5 @@
 ## Todo
 
-- way to create a new variable without overriding the same name in an outer scope?
 - address the fact that builtin functions can have default arguments before non-default arguments, but in-language functions cannot
 - merge function expression and function statement parameter parsing
 - register token types?

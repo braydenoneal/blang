@@ -4,13 +4,13 @@ fun main() {
     Program.initialize()
     Program(
         """
-        fn add(a, b) {
-            return b
+        fn test() {
+            var a = 1
         }
         
         a = 0
-        
-        print(add(wait(20), a += 1))
+        test()
+        print(a)
     """.trimIndent(),
     ).run(true)
 }

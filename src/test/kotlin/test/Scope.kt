@@ -28,6 +28,13 @@ class Scope : Test() {
             c = 0
             
             d = test(1, c)
+            
+            fn assign() {
+                var e = 1
+            }
+            
+            e = 0
+            assign()
         """.trimIndent()
     }
 
@@ -35,6 +42,7 @@ class Scope : Test() {
         return listOf(
             Expect("a", IntegerValue(6)),
             Expect("d", IntegerValue(0)),
+            Expect("e", IntegerValue(0)),
         )
     }
 }

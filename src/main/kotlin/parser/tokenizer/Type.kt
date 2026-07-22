@@ -15,6 +15,7 @@ enum class Type(val regex: String) {
     BREAK_KEYWORD("(break)([^A-Za-z0-9_]{1})"),
     CONTINUE_KEYWORD("(continue)([^A-Za-z0-9_]{1})"),
     DEL_KEYWORD("(del)([^A-Za-z0-9_]{1})"),
+    VAR_KEYWORD("(var)([^A-Za-z0-9_]{1})"),
     AND("(and)([^A-Za-z0-9_]{1})"),
     OR("(or)([^A-Za-z0-9_]{1})"),
     BOOLEAN("(true|false)([^A-Za-z0-9_]{1})"),

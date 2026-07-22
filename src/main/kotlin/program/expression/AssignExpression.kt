@@ -10,6 +10,7 @@ data class AssignExpression(
     val operator: String,
     val left: Expression,
     val right: Expression,
+    var local: Boolean = false,
 ) : Expression {
     override fun innerEvaluate(program: Program): Value<*> {
         val value = right.evaluate(program)
@@ -17,7 +18,11 @@ data class AssignExpression(
         when (left) {
             is IdentifierExpression -> {
                 if (operator == "=") {
-                    return program.scope.set(left.name, value)
+                    if (local) {
+                        program.scope.variables[left.name] = value
+                    } else {
+                        return program.scope.set(left.name, value)
+                    }
                 }
 
                 val prev = program.scope.get(left.name)
