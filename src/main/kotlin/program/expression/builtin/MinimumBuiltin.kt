@@ -3,13 +3,12 @@ package program.expression.builtin
 import program.Program
 import program.RunException
 import program.expression.Arguments
-import program.expression.Expression
 import program.expression.value.FloatValue
 import program.expression.value.IntegerValue
 import program.expression.value.Value
 import kotlin.math.min
 
-data class MinimumBuiltin(override val arguments: Arguments) : Builtin(arguments), Expression {
+data class MinimumBuiltin(override val arguments: Arguments) : Builtin(arguments) {
     override fun innerEvaluate(program: Program): Value<*> {
         var a = arguments.getAny(program, "a")
         var b = arguments.getAny(program, "b")

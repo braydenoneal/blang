@@ -1,5 +1,6 @@
 ## Todo
 
+- fix codec type map subclass issue
 - use reified function for codec type function
 - dispatch codecs for builtins and value builtins
 - auto-expression value caching?
