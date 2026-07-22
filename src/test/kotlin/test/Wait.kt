@@ -2,34 +2,28 @@ package testing.test
 
 import program.expression.value.IntegerValue
 
-class IfStatements : Test() {
+class Wait : Test() {
     override fun body(): String {
         return """
+            fn test(a, b, c) {}
+            
             a = 0
             
-            if true {
-                a = 1
-            }
+            test(wait(20), a += 1, wait(20))
             
             b = 0
             
-            if false {
-                b = 1
-            } else {
-                b  = 2
+            for i in [0, 1] {
+                wait(20)
+                b += 1
+                wait(20)
             }
             
             c = 0
             
-            if false {
-                c = 1
-            } elif true {
-                c = 3
-            } else {
-                c = 2
+            while (c += 1) < 3 {
+                wait(20)
             }
-            
-            d = 4 if true else 0
         """.trimIndent()
     }
 
@@ -38,7 +32,6 @@ class IfStatements : Test() {
             Expect("a", IntegerValue(1)),
             Expect("b", IntegerValue(2)),
             Expect("c", IntegerValue(3)),
-            Expect("d", IntegerValue(4)),
         )
     }
 }

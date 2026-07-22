@@ -5,11 +5,11 @@ import program.expression.value.StringValue
 class Strings : Test() {
     override fun body(): String {
         return """
-                a = "a"
-                b = 'b'
-                c = a + b
-                d = "1" + 6
-                """.trimIndent()
+            a = "a"
+            b = 'b'
+            c = a + b
+            d = "1" + 6
+        """.trimIndent()
     }
 
     override fun expects(): List<Expect> {

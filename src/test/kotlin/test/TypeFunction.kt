@@ -5,16 +5,16 @@ import program.expression.value.StringValue
 class TypeFunction : Test() {
     override fun body(): String {
         return """
-                boolean = type(false)
-                float = type(0.1)
-                function = type(fn a: a)
-                integer = type(1)
-                list = type([0])
-                nullType = type(null)
-                range = type(range(end=1))
-                string = type("string")
-                struct = type({a: 1})
-                """.trimIndent()
+            boolean = type(false)
+            float = type(0.1)
+            function = type(fn a: a)
+            integer = type(1)
+            list = type([0])
+            nullType = type(null)
+            range = type(range(end=1))
+            string = type("string")
+            struct = type({a: 1})
+        """.trimIndent()
     }
 
     override fun expects(): List<Expect> {

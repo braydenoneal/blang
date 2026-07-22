@@ -7,18 +7,18 @@ import program.expression.value.IntegerValue
 class Operations : Test() {
     override fun body(): String {
         return """
-                num = 3 + 4 * 2 / ( 1 - 5 ) ^ 2 ^ 3
-                bool = 8 < 2 or 8 > 3
-                comp = 8 == 8
-                comp2 = 8 != 8
-                mod1 = -1 % 16
-                mod2 = 1 % 16
-                mod3 = 16 % 16
-                div1 = 12 / 5
-                div2 = 12 // 5
-                div3 = 12.0 / 5
-                div4 = 12.0 // 5
-                """.trimIndent()
+            num = 3 + 4 * 2 / ( 1 - 5 ) ^ 2 ^ 3
+            bool = 8 < 2 or 8 > 3
+            comp = 8 == 8
+            comp2 = 8 != 8
+            mod1 = -1 % 16
+            mod2 = 1 % 16
+            mod3 = 16 % 16
+            div1 = 12 / 5
+            div2 = 12 // 5
+            div3 = 12.0 / 5
+            div4 = 12.0 // 5
+        """.trimIndent()
     }
 
     override fun expects(): List<Expect> {

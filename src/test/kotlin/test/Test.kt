@@ -12,29 +12,35 @@ abstract class Test {
 
     fun run(): Result {
         val expects = expects()
-        var passed = 0
-        program.run()
+        val failed = mutableListOf<String>()
 
-        for (expect in expects) {
+        try {
+            program.run()
 
-            val value = program.topScope.get(expect.name)
+            for (expect in expects) {
+                val value = program.topScope.get(expect.name)
 
-            if (expect.value == value) {
-                passed++
-                println("\u001B[32mPassed: " + expect.name + " is " + expect.value + "\u001B[0m")
-            } else {
-                println("\u001B[31mFailed: " + expect.name + " is " + value + ", expected " + expect.value + "\u001B[0m")
+                if (expect.value != value) {
+                    failed.add("\u001B[31mFailed: ${expect.name} is $value, expected ${expect.value}\u001B[0m")
+                }
+            }
+        } catch (exception: Exception) {
+            failed.add("\u001B[31m${exception}\u001B[0m")
+        }
+
+        if (failed.isNotEmpty()) {
+            println("\u001B[31m${javaClass.getSimpleName()}\u001B[0m")
+
+            for (failure in failed) {
+                println(failure)
             }
         }
 
-        print("\u001B[31m")
-
-        if (passed == expects.size) {
-            print("\u001B[32m")
+        if (expects().isEmpty()) {
+            return Result(1 - failed.size, 1)
         }
 
-        println("Passed " + passed + " of " + expects.size + ": " + javaClass.getSimpleName() + "\u001B[0m")
-        return Result(passed, expects.size)
+        return Result(expects.size - failed.size, expects.size)
     }
 
     data class Expect(val name: String, val value: Value<*>)

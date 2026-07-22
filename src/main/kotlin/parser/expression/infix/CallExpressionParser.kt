@@ -17,7 +17,7 @@ class CallExpressionParser(override val precedence: Int) : InfixParser {
         while (!parser.peekIs(Type.RIGHT_PARENTHESIS)) {
             val expression: Expression = ExpressionParser.parse(parser, 0, true)
 
-            if (expression is AssignExpression) {
+            if (expression is AssignExpression && expression.operator == "=") {
                 parseDefaults = true
             }
 
@@ -26,7 +26,7 @@ class CallExpressionParser(override val precedence: Int) : InfixParser {
                     val assignExpression = expression as AssignExpression
                     val identifierExpression = assignExpression.left
 
-                    if (identifierExpression is IdentifierExpression && assignExpression.operator == "=") {
+                    if (identifierExpression is IdentifierExpression) {
                         namedArguments[identifierExpression.name] = assignExpression.right
                     } else {
                         throw ParseException("")

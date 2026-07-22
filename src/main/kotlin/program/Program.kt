@@ -24,18 +24,14 @@ open class Program(
             Parser(this)
         }
 
-        try {
-            while (true) {
-                try {
-                    if (tick(sleep)) {
-                        break
-                    }
-                } catch (_: IncompleteException) {
-                    continue
+        while (true) {
+            try {
+                if (tick(sleep)) {
+                    break
                 }
+            } catch (_: IncompleteException) {
+                continue
             }
-        } catch (e: Exception) {
-            log.error("Run error", e)
         }
     }
 
@@ -80,12 +76,6 @@ open class Program(
         return functions[name]
     }
 
-    fun newScope(): Scope {
-        val scope = Scope(scopes.last())
-        scopes.add(scope)
-        return scope
-    }
-
     fun addScope(scope: Scope) {
         scopes.add(scope)
     }
@@ -102,8 +92,6 @@ open class Program(
     val topScope: Scope get() = scopes.first()
 
     companion object {
-        val log: Logger = Logger()
-
         fun initialize() {
             Parser.initialize()
             UnaryOperators.initialize()

@@ -1,13 +1,10 @@
 ## Todo
 
-- fix codec type map subclass issue
-- use reified function for codec type function
-- dispatch codecs for builtins and value builtins
+- way to create a new variable without overriding the same name in an outer scope?
+- address the fact that builtin functions can have default arguments before non-default arguments, but in-language functions cannot
 - auto-expression value caching?
-- auto-registration with base class's constructor?
 - boolean flag arguments? (can use `someFunction(boolParam)` instead of `someFunction(boolParam=true)`)
 - merge function expression and function statement parameter parsing
-- more extensive tests
 - register token types?
 - convert token types from enum to classes?
 - register access expression handling

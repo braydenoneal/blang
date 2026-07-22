@@ -6,15 +6,15 @@ import program.expression.value.IntegerValue
 class NumberLiterals : Test() {
     override fun body(): String {
         return """
-                a = 1
-                b = -1
-                c = 1.0123
-                d = 1.
-                e = .1
-                f = -1.0123
-                g = -1.
-                h = -.1
-                """.trimIndent()
+            a = 1
+            b = -1
+            c = 1.0123
+            d = 1.
+            e = .1
+            f = -1.0123
+            g = -1.
+            h = -.1
+        """.trimIndent()
     }
 
     override fun expects(): List<Expect> {

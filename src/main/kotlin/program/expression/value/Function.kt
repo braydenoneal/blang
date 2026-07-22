@@ -14,28 +14,29 @@ data class Function(
     val defaultParameters: MutableList<Pair<String, Expression>>,
     val statements: StatementList,
     var scope: Scope? = null,
+    var running: Boolean = false,
 ) {
     fun innerCall(program: Program, arguments: Arguments): Value<*> {
         if (scope == null) {
-            scope = program.newScope()
-        } else {
-            program.addScope(scope!!)
+            scope = Scope(program.scopes.last())
         }
+
+        val scope = scope!!
 
         arguments.namedArguments.forEach { (name: String, expression: Expression) ->
             val hasDefault = defaultParameters.stream().anyMatch { it.first == name }
 
             if (parameters.contains(name) || hasDefault) {
-                program.scope.setLocal(name, expression.evaluate(program))
+                scope.setLocal(name, expression.evaluate(program))
             } else {
                 throw RunException("Provided extra argument '$name'")
             }
         }
 
         for (i in parameters.indices) {
-            if (program.scope.getLocal(parameters[i]) == null) {
+            if (scope.getLocal(parameters[i]) == null) {
                 if (arguments.namelessArguments.size > i) {
-                    program.scope.setLocal(
+                    scope.setLocal(
                         parameters[i],
                         arguments.namelessArguments[i].evaluate(program),
                     )
@@ -47,7 +48,7 @@ data class Function(
 
         for (i in parameters.size..<arguments.namelessArguments.size) {
             if (defaultParameters.size > i - parameters.size) {
-                program.scope.setLocal(
+                scope.setLocal(
                     defaultParameters[i - parameters.size].first,
                     arguments.namelessArguments[i].evaluate(program),
                 )
@@ -57,10 +58,13 @@ data class Function(
         }
 
         for (parameter in defaultParameters) {
-            if (program.scope.getLocal(parameter.first) == null) {
-                program.scope.setLocal(parameter.first, parameter.second.evaluate(program))
+            if (scope.getLocal(parameter.first) == null) {
+                scope.setLocal(parameter.first, parameter.second.evaluate(program))
             }
         }
+
+        running = true
+        program.addScope(scope)
 
         var returnValue: Value<*> = Null.VALUE
         val statement = statements.runNext(program)
@@ -84,11 +88,14 @@ data class Function(
     }
 
     fun abort(program: Program) {
-        program.endScope()
+        if (running) {
+            program.endScope()
+        }
     }
 
     fun done(program: Program) {
         scope = null
+        running = false
         program.endScope()
     }
 }

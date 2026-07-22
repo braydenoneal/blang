@@ -7,26 +7,26 @@ import program.expression.value.Null
 class ControlStatements : Test() {
     override fun body(): String {
         return """
-                list = []
-                
-                for i in range(end=10) {
-                    if i == 5 { continue }
-                    list.append(i)
-                }
-                
-                a = list.contains(5)
-                
-                b = 0
-                
-                for i in range(end=10) {
-                    b = i
-                    if i == 5 { break }
-                }
-                
-                fn emptyReturn() { return }
-                
-                c = emptyReturn()
-                """.trimIndent()
+            list = []
+            
+            for i in range(end=10) {
+                if i == 5 { continue }
+                list.append(i)
+            }
+            
+            a = list.contains(5)
+            
+            b = 0
+            
+            for i in range(end=10) {
+                b = i
+                if i == 5 { break }
+            }
+            
+            fn emptyReturn() { return }
+            
+            c = emptyReturn()
+        """.trimIndent()
     }
 
     override fun expects(): List<Expect> {

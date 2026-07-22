@@ -5,10 +5,8 @@ import parser.expression.ExpressionParser
 import parser.statement.StatementParser
 import parser.tokenizer.Token
 import parser.tokenizer.Token.Companion.tokenize
-import parser.tokenizer.TokenException
 import parser.tokenizer.Type
 import program.Program
-import program.Program.Companion.log
 import program.Scope
 
 open class Parser(val program: Program) {
@@ -21,22 +19,12 @@ open class Parser(val program: Program) {
         program.functions.clear()
         program.scopes.clear()
 
-        try {
-            tokens = tokenize(program.source)
-        } catch (exception: TokenException) {
-            log.error("Tokenize error", exception)
-        }
+        tokens = tokenize(program.source)
 
         program.scopes.add(Scope(null))
 
-        try {
-            while (!peekIs(Type.END_OF_FILE)) {
-                program.statements.add(StatementParser.parse(this))
-            }
-        } catch (exception: ParseException) {
-            log.error("Parse error", exception)
-            program.statements.clear()
-            program.functions.clear()
+        while (!peekIs(Type.END_OF_FILE)) {
+            program.statements.add(StatementParser.parse(this))
         }
 
         program.parsed = true

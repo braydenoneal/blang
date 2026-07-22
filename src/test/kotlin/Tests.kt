@@ -20,6 +20,14 @@ object Tests {
             ControlStatements(),
             Structs(),
             TypeFunction(),
+            EmptySource(),
+            Newlines(),
+            EmptyStatements(),
+            Syntax(),
+            BuiltinArguments(),
+            FunctionArguments(),
+            Scope(),
+            Wait(),
         )
     }
 
