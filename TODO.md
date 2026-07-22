@@ -1,9 +1,7 @@
 ## Todo
 
 - address the fact that builtin functions can have default arguments before non-default arguments, but in-language functions cannot
-- merge function expression and function statement parameter parsing
-- register token types?
-- convert token types from enum to classes?
+- way to check if token is part of a group (i.e. token is a keyword)
 - register access expression handling
 - in-language operator overloading
 - register AssignExpression handling (register equals operator)
