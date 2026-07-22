@@ -12,7 +12,7 @@ class ImportStatementParser : StatementParser {
         while (parser.peekIs(Type.IDENTIFIER)) {
             identifiers.add(parser.next().value)
 
-            if (!parser.peekIs(Type.SEMICOLON) && parser.peekAllowNewline().type != Type.NEWLINE) {
+            if (!parser.peekIs(Type.SEMICOLON) && parser.peekAllowNewline().type != Type.NEWLINE && !parser.peekIs(Type.END_OF_FILE)) {
                 parser.expect(Type.DOT)
             }
         }

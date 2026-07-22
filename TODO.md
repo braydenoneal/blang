@@ -2,8 +2,6 @@
 
 - way to create a new variable without overriding the same name in an outer scope?
 - address the fact that builtin functions can have default arguments before non-default arguments, but in-language functions cannot
-- auto-expression value caching?
-- boolean flag arguments? (can use `someFunction(boolParam)` instead of `someFunction(boolParam=true)`)
 - merge function expression and function statement parameter parsing
 - register token types?
 - convert token types from enum to classes?
@@ -20,7 +18,7 @@
 - `.blang` file extension
 - add properties to many values to replace some functions (`item.tag` instead of `tag(item)`, etc)
 - optional/nullable or just null handling features
-- cleanup new line/semicolon end-of-statement parsing
+- formatted strings
 - multiline comments
 - struct this keyword in functions
 - struct access by `["id"]`

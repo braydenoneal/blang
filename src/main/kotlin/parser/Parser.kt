@@ -56,10 +56,6 @@ open class Parser(val program: Program) {
         return tokens[position++]
     }
 
-    fun nextAllowNewline(): Token {
-        return tokens[position++]
-    }
-
     fun expect(type: Type): String {
         val token = next()
 
@@ -75,7 +71,7 @@ open class Parser(val program: Program) {
             return
         }
 
-        val token = nextAllowNewline()
+        val token = tokens[position++]
 
         if (token.type == Type.SEMICOLON || token.type == Type.NEWLINE) {
             return
