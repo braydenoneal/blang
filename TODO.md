@@ -10,7 +10,6 @@
 - random and random choice functions
 - switch statement
 - list slicing
-- list negative indexing
 - get file name builtin
 - `.blang` file extension
 - add properties to many values to replace some functions (`item.tag` instead of `tag(item)`, etc)

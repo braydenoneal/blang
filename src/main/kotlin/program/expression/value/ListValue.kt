@@ -19,24 +19,26 @@ class ListValue(value: MutableList<Value<*>>) : Value<MutableList<Value<*>>>(val
         return "$print]"
     }
 
-    fun get(index: Value<*>): Value<*> {
-        val index = index.cast<IntegerValue>()
+    fun wrap(index: Value<*>): Int {
+        var index = index.cast<IntegerValue>().value
 
-        if (index.value >= value.size) {
-            throw RunException("Index " + index.value + " out of range for list of size " + value.size)
+        if (index >= value.size) {
+            throw RunException("Index " + index + " out of range for list of size " + value.size)
         }
 
-        return value[index.value]
+        while (index < 0) {
+            index += value.size
+        }
+
+        return index
+    }
+
+    fun get(index: Value<*>): Value<*> {
+        return value[wrap(index)]
     }
 
     fun set(index: Value<*>, setValue: Value<*>): Value<*> {
-        val index = index.cast<IntegerValue>()
-
-        if (index.value >= value.size) {
-            throw RunException("Index " + index.value + " out of range for list of size " + value.size)
-        }
-
-        value[index.value] = setValue
+        value[wrap(index)] = setValue
         return setValue
     }
 }

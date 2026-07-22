@@ -30,6 +30,9 @@ class Lists : Test() {
             nestedCall[1].insert(1, 1)
             nestedCall[1].pop()
             nestedCall[1].remove(1)
+            negativeIndex = [0, 1, 2][-1]
+            negativeIndex1 = [0, 1, 2][-3]
+            negativeIndex2 = [0, 1, 2][-5]
         """.trimIndent()
     }
 
@@ -46,6 +49,9 @@ class Lists : Test() {
             Expect("nameless", IntegerValue(0)),
             Expect("length", IntegerValue(3)),
             Expect("nestedCall", ListValue(mutableListOf(IntegerValue(0), ListValue(mutableListOf(IntegerValue(0)))))),
+            Expect("negativeIndex", IntegerValue(2)),
+            Expect("negativeIndex1", IntegerValue(0)),
+            Expect("negativeIndex2", IntegerValue(1)),
         )
     }
 }
