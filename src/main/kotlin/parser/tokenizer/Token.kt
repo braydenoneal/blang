@@ -17,7 +17,7 @@ data class Token(val value: String, val type: Type) {
                     if (matcher.find()) {
                         val group = if (type == Type.QUOTE) matcher.group(0) else matcher.group(1)
 
-                        if (type == Type.QUOTE) {
+                        if (type == Type.QUOTE || (type == Type.IDENTIFIER && group.startsWith("`"))) {
                             tokens.add(Token(group.substring(1, group.length - 1), type))
                         } else if (type != Type.WHITESPACE && type != Type.COMMENT) {
                             tokens.add(Token(group, type))

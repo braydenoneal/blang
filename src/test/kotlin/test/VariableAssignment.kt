@@ -13,6 +13,7 @@ class VariableAssignment : Test() {
             d = 0
             d += 1
             d -= 2
+            `if` = 3
         """.trimIndent()
     }
 
@@ -22,6 +23,7 @@ class VariableAssignment : Test() {
             Expect("b", IntegerValue(1)),
             Expect("c", IntegerValue(1)),
             Expect("d", IntegerValue(-1)),
+            Expect("if", IntegerValue(3)),
         )
     }
 }

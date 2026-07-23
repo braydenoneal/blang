@@ -10,7 +10,6 @@
     - list slicing
     - add properties to many values to replace some functions (`item.tag` instead of `tag(item)`, etc)
     - list destructuring?
-    - surround keyword with backticks to use as an identifier
     - import renames (`import x as y`)
     - allow del as an alternative to `.remove()` functions (`del someList[3]`)
     - switch statement
