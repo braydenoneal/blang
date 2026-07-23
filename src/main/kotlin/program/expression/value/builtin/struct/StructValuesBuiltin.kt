@@ -1,17 +1,14 @@
-package program.expression.builtin.struct
+package program.expression.value.builtin.struct
 
 import program.Program
 import program.expression.Arguments
-import program.expression.builtin.ValueBuiltin
 import program.expression.value.ListValue
 import program.expression.value.StructValue
 import program.expression.value.Value
+import program.expression.value.builtin.ValueBuiltin
 
-data class StructValuesBuiltin(
-    override val value: StructValue,
-    override val arguments: Arguments,
-) : ValueBuiltin<StructValue>(value, arguments) {
-    override fun innerEvaluate(program: Program): Value<*> {
+class StructValuesBuiltin(override val value: StructValue) : ValueBuiltin<StructValue>(value) {
+    override fun innerCall(program: Program, arguments: Arguments): Value<*> {
         val list: MutableList<Value<*>> = mutableListOf()
 
         for (entry in value.value) {

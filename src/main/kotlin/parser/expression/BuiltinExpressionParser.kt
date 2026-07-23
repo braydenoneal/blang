@@ -1,32 +1,31 @@
 package parser.expression
 
-import program.expression.Arguments
-import program.expression.builtin.*
-import program.expression.builtin.list.*
-import program.expression.builtin.struct.StructEntriesBuiltin
-import program.expression.builtin.struct.StructKeysBuiltin
-import program.expression.builtin.struct.StructRemoveBuiltin
-import program.expression.builtin.struct.StructValuesBuiltin
 import program.expression.value.ListValue
 import program.expression.value.StructValue
 import program.expression.value.Value
+import program.expression.value.builtin.*
+import program.expression.value.builtin.list.*
+import program.expression.value.builtin.struct.StructEntriesBuiltin
+import program.expression.value.builtin.struct.StructKeysBuiltin
+import program.expression.value.builtin.struct.StructRemoveBuiltin
+import program.expression.value.builtin.struct.StructValuesBuiltin
 import kotlin.reflect.KClass
 
 object BuiltinExpressionParser {
-    val builtins: MutableMap<String, (Arguments) -> Builtin> = mutableMapOf()
-    val valueBuiltins: MutableMap<KClass<*>, MutableMap<String, (Value<*>, Arguments) -> ValueBuiltin<*>>> = mutableMapOf()
+    val builtins: MutableMap<String, () -> Builtin> = mutableMapOf()
+    val valueBuiltins: MutableMap<KClass<*>, MutableMap<String, (Value<*>) -> ValueBuiltin<*>>> = mutableMapOf()
 
-    fun register(name: String, builder: (Arguments) -> Builtin) {
+    fun register(name: String, builder: () -> Builtin) {
         builtins[name] = builder
     }
 
     @Suppress("UNCHECKED_CAST")
-    inline fun <reified T : Value<*>> register(name: String, noinline builder: (T, Arguments) -> ValueBuiltin<*>) {
+    inline fun <reified T : Value<*>> register(name: String, noinline builder: (T) -> ValueBuiltin<*>) {
         if (!valueBuiltins.containsKey(T::class)) {
             valueBuiltins[T::class] = mutableMapOf()
         }
 
-        valueBuiltins[T::class]!![name] = builder as (Value<*>, Arguments) -> ValueBuiltin<*>
+        valueBuiltins[T::class]!![name] = builder as (Value<*>) -> ValueBuiltin<*>
     }
 
     fun initialize() {

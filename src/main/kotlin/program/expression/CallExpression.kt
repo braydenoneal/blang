@@ -1,94 +1,23 @@
 package program.expression
 
-import parser.expression.BuiltinExpressionParser
 import program.Program
-import program.RunException
-import program.expression.builtin.Builtin
-import program.expression.value.FunctionValue
+import program.expression.value.CallableValue
 import program.expression.value.Value
 
 data class CallExpression(
     val left: Expression,
     val arguments: Arguments,
-    var leftValue: Value<*>? = null,
-    var builtin: Builtin? = null,
+    var leftValue: CallableValue? = null,
 ) : Expression {
     override fun innerEvaluate(program: Program): Value<*> {
-        if (left is FunctionValue) {
-            return left.call(program, arguments)
+        if (leftValue == null) {
+            leftValue = left.evaluate(program).cast<CallableValue>()
         }
 
-        if (left is IdentifierExpression) {
-            for (importStatement in program.imports) {
-                if (importStatement.name == left.name) {
-                    val importProgram = program.getCustomImportProgram(importStatement)
-                    return call(left.name, program, importProgram)
-                }
-            }
-
-            val function = program.functions[left.name]
-
-            if (function != null) {
-                return function.call(program, arguments)
-            }
-
-            val variable = program.scope.getNullable(left.name)
-
-            if (variable != null && variable is FunctionValue) {
-                return variable.call(program, arguments)
-            }
-
-            if (builtin == null) {
-                val builder = BuiltinExpressionParser.builtins[left.name]
-
-                if (builder != null) {
-                    builtin = builder.invoke(arguments)
-                }
-            }
-
-            return builtin!!.evaluate(program)
-        }
-
-        if (left is DotExpression) {
-            if (leftValue == null) {
-                leftValue = left.left.evaluate(program)
-            }
-
-            if (builtin == null) {
-                val value = leftValue!!
-                val name = left.right
-
-                val type = value.typeString()
-                val valueBuiltins = BuiltinExpressionParser.valueBuiltins[value::class] ?: throw RunException("Type $type does not have any builtins")
-                val builder = valueBuiltins[name] ?: throw RunException("Type $type does not have builtin $name")
-
-                builtin = builder.invoke(value, arguments)
-            }
-
-            return builtin!!.evaluate(program)
-        }
-
-        throw RunException("Expression is not callable")
-    }
-
-    fun call(name: String, program: Program, functionProgram: Program): Value<*> {
-        val function = functionProgram.getFunction(name)
-
-        if (function != null) {
-            return function.call(program, arguments)
-        }
-
-        val variable = program.scope.get(name)
-
-        if (variable is FunctionValue) {
-            return variable.call(program, arguments)
-        }
-
-        throw RunException("'$left' does not refer to a function")
+        return leftValue!!.call(program, arguments)
     }
 
     override fun done(program: Program) {
         leftValue = null
-        builtin = null
     }
 }

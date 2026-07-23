@@ -4,8 +4,8 @@ import program.Program
 import program.RunException
 import program.Scope
 import program.expression.Arguments
+import program.expression.Callable
 import program.expression.Expression
-import program.statement.IncompleteException
 import program.statement.ReturnStatement
 import program.statement.StatementList
 
@@ -15,13 +15,8 @@ data class Function(
     val statements: StatementList,
     var scope: Scope? = null,
     var running: Boolean = false,
-    var arguments: Arguments? = null,
-) {
-    fun innerCall(program: Program, arguments: Arguments): Value<*> {
-        if (this.arguments == null) {
-            this.arguments = arguments
-        }
-
+) : Callable {
+    override fun innerCall(program: Program, arguments: Arguments): Value<*> {
         if (scope == null) {
             scope = Scope(program.scopes.last())
         }
@@ -44,8 +39,6 @@ data class Function(
             throw RunException("Extra argument(s) provided")
         }
 
-        this.arguments?.done()
-        this.arguments = null
         running = true
         program.addScope(scope)
 
@@ -59,28 +52,18 @@ data class Function(
         return returnValue
     }
 
-    fun call(program: Program, arguments: Arguments): Value<*> {
-        try {
-            val value = innerCall(program, arguments)
-            done(program)
-            return value
-        } catch (_: IncompleteException) {
-            abort(program)
-            throw IncompleteException()
-        }
-    }
-
-    fun abort(program: Program) {
+    override fun abort(program: Program, arguments: Arguments) {
         if (running) {
             program.endScope()
         } else {
-            arguments?.abort()
+            arguments.abort()
         }
     }
 
-    fun done(program: Program) {
+    override fun done(program: Program, arguments: Arguments) {
         scope = null
         running = false
+        arguments.done()
         program.endScope()
     }
 }

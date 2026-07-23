@@ -9,7 +9,7 @@ import program.statement.Statement
 class FunctionStatementParser : StatementParser {
     override fun parse(parser: Parser): Statement {
         val name = parser.expect(Type.IDENTIFIER)
-        val functionStatement = FunctionStatement(name, FunctionParser.parse(parser))
+        val functionStatement = FunctionStatement(FunctionParser.parse(parser))
         parser.program.addFunction(name, functionStatement)
         return functionStatement
     }

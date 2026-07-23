@@ -1,4 +1,4 @@
-package program.expression.builtin
+package program.expression.value.builtin
 
 import program.Program
 import program.RunException
@@ -8,8 +8,8 @@ import program.expression.value.IntegerValue
 import program.expression.value.Value
 import kotlin.math.max
 
-data class MaximumBuiltin(override val arguments: Arguments) : Builtin(arguments) {
-    override fun innerEvaluate(program: Program): Value<*> {
+class MaximumBuiltin : Builtin {
+    override fun innerCall(program: Program, arguments: Arguments): Value<*> {
         var a = arguments.getAny(program, "a")
         var b = arguments.getAny(program, "b")
 

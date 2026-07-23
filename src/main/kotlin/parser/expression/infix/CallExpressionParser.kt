@@ -6,12 +6,11 @@ import parser.expression.ExpressionParser
 import parser.tokenizer.Token
 import parser.tokenizer.Type
 import program.expression.*
-import java.util.*
 
 class CallExpressionParser(override val precedence: Int) : InfixParser {
     override fun parse(parser: Parser, token: Token, left: Expression): Expression {
-        val namelessArguments: MutableList<Expression> = Stack()
-        val namedArguments: MutableMap<String, Expression> = HashMap()
+        val namelessArguments: MutableList<Expression> = mutableListOf()
+        val namedArguments: MutableMap<String, Expression> = mutableMapOf()
         var parseDefaults = false
 
         while (!parser.peekIs(Type.RIGHT_PARENTHESIS)) {

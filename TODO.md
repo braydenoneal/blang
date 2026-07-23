@@ -5,7 +5,6 @@
     - way to check if token is part of a group (i.e. token is a keyword)
     - register access expression handling
     - register AssignExpression handling (register equals operator)
-    - dot expressions return BuiltinValue that can be called?
 - features
     - list slicing
     - add properties to many values to replace some functions (`item.tag` instead of `tag(item)`, etc)

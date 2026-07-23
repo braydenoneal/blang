@@ -1,4 +1,4 @@
-package program.expression.builtin
+package program.expression.value.builtin
 
 import program.Program
 import program.expression.Arguments
@@ -6,8 +6,8 @@ import program.expression.value.FloatValue
 import program.expression.value.Value
 import kotlin.math.floor
 
-data class FloorBuiltin(override val arguments: Arguments) : Builtin(arguments) {
-    override fun innerEvaluate(program: Program): Value<*> {
+class FloorBuiltin : Builtin {
+    override fun innerCall(program: Program, arguments: Arguments): Value<*> {
         return FloatValue(floor(arguments.get<FloatValue>(program, "value").value.toDouble()).toFloat())
     }
 }

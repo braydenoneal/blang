@@ -1,4 +1,4 @@
-package program.expression.builtin
+package program.expression.value.builtin
 
 import program.Program
 import program.expression.Arguments
@@ -7,8 +7,8 @@ import program.expression.value.Range
 import program.expression.value.RangeValue
 import program.expression.value.Value
 
-data class RangeBuiltin(override val arguments: Arguments) : Builtin(arguments) {
-    override fun innerEvaluate(program: Program): Value<*> {
+class RangeBuiltin : Builtin {
+    override fun innerCall(program: Program, arguments: Arguments): Value<*> {
         val start = arguments.get<IntegerValue>(program, "start", IntegerValue(0)).value
         val end = arguments.get<IntegerValue>(program, "end").value
         val step = arguments.get<IntegerValue>(program, "step", IntegerValue(1)).value

@@ -17,6 +17,16 @@ class StructValue(value: MutableList<Pair<String, Value<*>>>) : Value<MutableLis
         return "$print}"
     }
 
+    fun has(property: String): Boolean {
+        for ((first, _) in value) {
+            if (first == property) {
+                return true
+            }
+        }
+
+        return false
+    }
+
     fun get(property: String): Value<*> {
         for ((first, second) in value) {
             if (first == property) {

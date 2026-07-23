@@ -7,7 +7,7 @@ class TypeFunction : Test() {
         return """
             boolean = type(false)
             float = type(0.1)
-            function = type(fn a: a)
+            callable = type(fn a: a)
             integer = type(1)
             list = type([0])
             nullType = type(null)
@@ -21,7 +21,7 @@ class TypeFunction : Test() {
         return listOf(
             Expect("boolean", StringValue("boolean")),
             Expect("float", StringValue("float")),
-            Expect("function", StringValue("function")),
+            Expect("callable", StringValue("callable")),
             Expect("integer", StringValue("integer")),
             Expect("list", StringValue("list")),
             Expect("nullType", StringValue("null")),

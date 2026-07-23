@@ -1,17 +1,14 @@
-package program.expression.builtin.list
+package program.expression.value.builtin.list
 
 import program.Program
 import program.expression.Arguments
-import program.expression.builtin.ValueBuiltin
 import program.expression.value.IntegerValue
 import program.expression.value.ListValue
 import program.expression.value.Value
+import program.expression.value.builtin.ValueBuiltin
 
-data class ListRemoveBuiltin(
-    override val value: ListValue,
-    override val arguments: Arguments,
-) : ValueBuiltin<ListValue>(value, arguments) {
-    override fun innerEvaluate(program: Program): Value<*> {
+class ListRemoveBuiltin(override val value: ListValue) : ValueBuiltin<ListValue>(value) {
+    override fun innerCall(program: Program, arguments: Arguments): Value<*> {
         val removeValue = arguments.getAny(program, "value")
 
         if (removeValue is IntegerValue) {
