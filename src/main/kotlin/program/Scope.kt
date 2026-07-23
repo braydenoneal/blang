@@ -1,5 +1,6 @@
 package program
 
+import program.expression.value.Null
 import program.expression.value.Value
 
 class Scope(
@@ -29,6 +30,10 @@ class Scope(
     }
 
     fun set(name: String, value: Value<*>): Value<*> {
+        if (name == "_") {
+            return Null.VALUE
+        }
+
         val parentWithVariable = parentWithVariable(name)
 
         if (parentWithVariable != null) {
@@ -50,11 +55,12 @@ class Scope(
         return value
     }
 
-    fun setLocal(name: String, value: Value<*>) {
-        variables[name] = value
-    }
+    fun setLocal(name: String, value: Value<*>): Value<*> {
+        if (name == "_") {
+            return Null.VALUE
+        }
 
-    fun getLocal(name: String): Value<*>? {
-        return variables[name]
+        variables[name] = value
+        return value
     }
 }

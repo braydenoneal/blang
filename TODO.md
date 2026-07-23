@@ -7,7 +7,6 @@
     - register AssignExpression handling (register equals operator)
     - dot expressions return BuiltinValue that can be called?
 - features
-    - underscore for unused variables
     - list slicing
     - add properties to many values to replace some functions (`item.tag` instead of `tag(item)`, etc)
     - list destructuring?

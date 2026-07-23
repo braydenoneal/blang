@@ -5,11 +5,11 @@ import program.expression.value.IntegerValue
 class Functions : Test() {
     override fun body(): String {
         return """
-            fn add(a, b) {
+            fn add(a, b, _) {
                 return a + b
             }
             
-            a = add(12, 4)
+            a = add(12, 4, "unused")
             
             nameless = fn a: a + 1
             

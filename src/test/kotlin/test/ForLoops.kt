@@ -28,6 +28,12 @@ class ForLoops : Test() {
             for i in range(0, 3, 1) {
                 d = i
             }
+            
+            e = 0
+            
+            for _ in range(end=3) {
+                e += 1
+            }
         """.trimIndent()
     }
 
@@ -37,6 +43,7 @@ class ForLoops : Test() {
             Expect("b", IntegerValue(2)),
             Expect("c", IntegerValue(2)),
             Expect("d", IntegerValue(2)),
+            Expect("e", IntegerValue(3)),
         )
     }
 }

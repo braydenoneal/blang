@@ -19,7 +19,7 @@ data class AssignExpression(
             is IdentifierExpression -> {
                 if (operator == "=") {
                     if (local) {
-                        program.scope.variables[left.name] = value
+                        program.scope.setLocal(left.name, value)
                     } else {
                         return program.scope.set(left.name, value)
                     }
