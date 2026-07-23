@@ -10,7 +10,7 @@ import program.statement.ReturnStatement
 import program.statement.StatementList
 
 object FunctionParser {
-    fun parse(parser: Parser, isStatement: Boolean = true): Function {
+    fun parse(parser: Parser, isStatement: Boolean = true, hasParameters: Boolean = true): Function {
         val parameters: MutableList<String> = mutableListOf()
         val defaultParameters: MutableList<Pair<String, Expression>> = mutableListOf()
 
@@ -20,7 +20,7 @@ object FunctionParser {
 
         val endTokenType = if (isStatement) Type.RIGHT_PARENTHESIS else Type.COLON
 
-        while (!parser.peekIs(endTokenType)) {
+        while (!parser.peekIs(endTokenType) && hasParameters) {
             val parameterName = parser.expect(Type.IDENTIFIER)
 
             if (parser.peekIs(Type.EQUALS)) {

@@ -32,6 +32,9 @@ class Functions : Test() {
             f = withDefaults(1, 2, 3)
             
             g = (fn a: a + 1)(1)
+            
+            getter = get: g + 1
+            h = getter
         """.trimIndent()
     }
 
@@ -44,6 +47,7 @@ class Functions : Test() {
             Expect("e", IntegerValue(3)),
             Expect("f", IntegerValue(3)),
             Expect("g", IntegerValue(2)),
+            Expect("h", IntegerValue(3)),
         )
     }
 }
