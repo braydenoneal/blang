@@ -2,7 +2,7 @@ package parser.tokenizer
 
 enum class Type(val regex: String) {
     WHITESPACE("([ \\t\\r])"),
-    COMMENT("(#([^\\n]*))"),
+    COMMENT("((#([^\\n]*))|((?s)/\\*.*?\\*/))"),
     IMPORT_KEYWORD("(import)([^A-Za-z0-9_]{1})"),
     FN_KEYWORD("(fn)([^A-Za-z0-9_]{1})"),
     RETURN_KEYWORD("(return)([^A-Za-z0-9_]{1})"),

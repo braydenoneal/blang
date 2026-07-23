@@ -28,6 +28,7 @@ object Tests {
             FunctionArguments(),
             Scope(),
             Wait(),
+            Comments(),
         )
     }
 
