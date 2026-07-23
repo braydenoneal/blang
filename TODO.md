@@ -10,7 +10,6 @@
     - list slicing
     - add properties to many values to replace some functions (`item.tag` instead of `tag(item)`, etc)
     - list destructuring?
-    - import renames (`import x as y`)
     - allow del as an alternative to `.remove()` functions (`del someList[3]`)
     - switch statement
     - better error context (source location, etc)
@@ -40,3 +39,4 @@
     - get file name
 - other
     - `.blang` file extension
+    - test import renames (`import x as y`)

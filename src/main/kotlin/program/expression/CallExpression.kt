@@ -16,7 +16,7 @@ data class CallExpression(
     override fun innerEvaluate(program: Program): Value<*> {
         if (left is IdentifierExpression) {
             for (importStatement in program.imports) {
-                if (importStatement.identifiers.last() == left.name) {
+                if (importStatement.name == left.name) {
                     val importProgram = program.getCustomImportProgram(importStatement)
                     return call(left.name, program, importProgram)
                 }
