@@ -1,41 +1,45 @@
 ## Todo
 
-- split function parameters/arguments and statements (for both parsing and execution)
-- way to check if token is part of a group (i.e. token is a keyword)
-- register access expression handling
-- in-language operator overloading
-- register AssignExpression handling (register equals operator)
-- dot expressions return BuiltinValue that can be called?
-- support for variable length arguments `mapOf(Pair(), Pair(), Pair(), etc.)`
-- random and random choice functions
-- switch statement
-- list slicing
-- get file name builtin
-- `.blang` file extension
-- add properties to many values to replace some functions (`item.tag` instead of `tag(item)`, etc)
-- optional/nullable or just null handling features
-- formatted strings
-- multiline comments
-- struct this keyword in functions
-- struct access by `["id"]`
-- struct destructuring? (order dependant)
-- struct destructuring? (name dependant)
-- list destructuring?
-- struct get function? (`key: get { return this.a + 1; }`)
-- struct variable name shorthand (`id` instead of `id: id`)
-- struct operator overloading
-- breakpoints
-- allow del as an alternative to `.remove()` functions
-- surround keyword with backticks to use as an identifier
-- underscore for unused variables
-- import renames (`import x as y`)
-- better error context (source location, etc)
-- static types?
-- method overloading?
-- method annotations?
-- enums?
-- generics?
-- list comprehension?
-- in-language errors, exceptions?
-- interfaces?
-- struct inheritance/traits?
+- code cleanup
+    - split function parameters/arguments and statements (for both parsing and execution)
+    - way to check if token is part of a group (i.e. token is a keyword)
+    - register access expression handling
+    - register AssignExpression handling (register equals operator)
+    - dot expressions return BuiltinValue that can be called?
+- features
+    - multiline comments
+    - underscore for unused variables
+    - list slicing
+    - add properties to many values to replace some functions (`item.tag` instead of `tag(item)`, etc)
+    - list destructuring?
+    - surround keyword with backticks to use as an identifier
+    - import renames (`import x as y`)
+    - allow del as an alternative to `.remove()` functions (`del someList[3]`)
+    - switch statement
+    - better error context (source location, etc)
+    - breakpoints
+    - support for variable length arguments `mapOf(Pair(), Pair(), Pair(), etc.)`
+    - optional/nullable or just null handling features
+    - formatted strings
+    - in-language operator overloading
+    - struct this keyword in functions
+    - struct access by `["id"]`
+    - struct destructuring? (order dependant)
+    - struct destructuring? (name dependant)
+    - struct get function? (`key: get { return this.a + 1; }`)
+    - struct variable name shorthand (`id` instead of `id: id`)
+    - struct operator overloading
+    - static types?
+    - method overloading?
+    - method annotations?
+    - enums?
+    - generics?
+    - list comprehension?
+    - in-language errors, exceptions?
+    - interfaces?
+    - struct inheritance/traits?
+- standard library
+    - random and random choice builtins
+    - get file name
+- other
+    - `.blang` file extension
