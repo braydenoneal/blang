@@ -25,7 +25,7 @@ interface PrefixParser {
             register(Type.FLOAT, LiteralExpressionParser())
             register(Type.INTEGER, LiteralExpressionParser())
             register(Type.NULL, LiteralExpressionParser())
-            register(Type.FN_KEYWORD, FunctionExpressionParser())
+            register(Type.FN_KEYWORD, FunctionValueParser())
             register(Type.VAR_KEYWORD, VariableExpressionParser())
             register(Type.MINUS, UnaryExpressionParser(6))
             register(Type.PLUS, UnaryExpressionParser(6))

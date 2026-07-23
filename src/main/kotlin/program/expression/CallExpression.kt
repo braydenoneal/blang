@@ -14,6 +14,10 @@ data class CallExpression(
     var builtin: Builtin? = null,
 ) : Expression {
     override fun innerEvaluate(program: Program): Value<*> {
+        if (left is FunctionValue) {
+            return left.call(program, arguments)
+        }
+
         if (left is IdentifierExpression) {
             for (importStatement in program.imports) {
                 if (importStatement.name == left.name) {
@@ -33,9 +37,7 @@ data class CallExpression(
             if (variable != null && variable is FunctionValue) {
                 return variable.call(program, arguments)
             }
-        }
 
-        if (left is IdentifierExpression) {
             if (builtin == null) {
                 val builder = BuiltinExpressionParser.builtins[left.name]
 

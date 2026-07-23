@@ -7,6 +7,7 @@
     - register AssignExpression handling (register equals operator)
     - dot expressions return BuiltinValue that can be called?
 - features
+    - get function (`someVar = get: 1 + 1; a = someVar; print(a)` → 2)
     - list slicing
     - add properties to many values to replace some functions (`item.tag` instead of `tag(item)`, etc)
     - list destructuring?

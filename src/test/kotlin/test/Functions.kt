@@ -30,6 +30,8 @@ class Functions : Test() {
             d = withDefaults(1, 2)
             e = withDefaults(1, b=2, c=3)
             f = withDefaults(1, 2, 3)
+            
+            g = (fn a: a + 1)(1)
         """.trimIndent()
     }
 
@@ -41,6 +43,7 @@ class Functions : Test() {
             Expect("d", IntegerValue(0)),
             Expect("e", IntegerValue(3)),
             Expect("f", IntegerValue(3)),
+            Expect("g", IntegerValue(2)),
         )
     }
 }
