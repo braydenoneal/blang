@@ -9,7 +9,24 @@
     - register AssignExpression handling (register equals operator)
     - look into whether Value needs to have a generic type
 - features
-    - Range syntax (`0..8 step 2`)
+    - add the following operators
+        - `a..b`
+        - `a..<b`
+        - `a in b`
+        - `a !in b`
+        - `a[0]`
+        - `a[0] = b`
+        - `a -= 1`
+        - `a += 1`
+        - `a *= 1`
+        - `a /= 1`
+        - `a %= 1`
+        - `a //= 1`
+        - `a == b`
+        - `a != b`
+    - range syntax (`0..8 step 2`)
+    - custom infix functions?
+        - `a to b` (`a <function name> b`)
     - list slicing
     - add properties to many values to replace some functions (`item.tag` instead of `tag(item)`, etc)
     - list destructuring?
