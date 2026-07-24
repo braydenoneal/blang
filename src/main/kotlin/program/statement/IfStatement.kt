@@ -2,7 +2,6 @@ package program.statement
 
 import program.Program
 import program.expression.Expression
-import program.expression.value.BooleanValue
 import program.expression.value.Value
 
 class IfStatement(
@@ -18,9 +17,7 @@ class IfStatement(
             conditionValue = conditionResult
         }
 
-        val value = conditionValue
-
-        if (value is BooleanValue && value.value) {
+        if (conditionValue!!.truth()) {
             val result = statements.runNext(program)
             return result
         }
@@ -33,7 +30,7 @@ class IfStatement(
 
             val elseIfValue = elseIfStatement.conditionValue
 
-            if (elseIfValue is BooleanValue && elseIfValue.value) {
+            if (elseIfValue!!.truth()) {
                 val result = elseIfStatement.statements.runNext(program)
                 return result
             }

@@ -7,7 +7,7 @@ import program.expression.Expression
 import program.expression.value.util.FunctionReference
 import program.statement.IncompleteException
 
-abstract class Value<T>(open val value: T) : Expression {
+abstract class Value<T>(open val value: T) : Expression, Operand<T>() {
     override fun innerEvaluate(program: Program): Value<*> {
         return this
     }
@@ -32,6 +32,15 @@ abstract class Value<T>(open val value: T) : Expression {
 
     inline fun <reified T : Value<*>> cast(): T {
         return this as? T ?: throw RunException("Value is not of type ${T::class}")
+    }
+
+    @Suppress("UNCHECKED_CAST")
+    fun cast(other: Value<*>): T {
+        if (other.value::class.isInstance(value)) {
+            return other.value as T
+        }
+
+        throw RunException("Values are not the same type")
     }
 
     fun call(program: Program, arguments: Arguments): Value<*> {

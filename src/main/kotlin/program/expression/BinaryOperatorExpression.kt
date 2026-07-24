@@ -26,13 +26,21 @@ class BinaryOperatorExpression(
             a is StringValue -> b = StringValue(b.value.toString())
         }
 
-        if (a::class != b::class) {
-            throw RunException("Operands are not of the same type")
+        return when (operator) {
+            "+" -> a.plus(a.cast(b))
+            "-" -> a.minus(a.cast(b))
+            "*" -> a.times(a.cast(b))
+            "//" -> a.floorDivide(a.cast(b))
+            "/" -> a.divide(a.cast(b))
+            "%" -> a.remainder(a.cast(b))
+            "^" -> a.exponentiate(a.cast(b))
+            "<=" -> BooleanValue(a.compareTo(a.cast(b)) <= 0)
+            ">=" -> BooleanValue(a.compareTo(a.cast(b)) >= 0)
+            "<" -> BooleanValue(a.compareTo(a.cast(b)) < 0)
+            ">" -> BooleanValue(a.compareTo(a.cast(b)) > 0)
+            "and" -> BooleanValue(a.truth() && b.truth())
+            "or" -> BooleanValue(a.truth() || b.truth())
+            else -> throw RunException("Unknown operator")
         }
-
-        val operators = BinaryOperators.binaryOperators[a::class] ?: throw RunException("Type of ${a.typeString()} does not have any binary operators")
-        val operatorFunction = operators[operator] ?: throw RunException("Type of ${a.typeString()} does not support binary operator of $operator")
-
-        return operatorFunction.invoke(a, b)
     }
 }

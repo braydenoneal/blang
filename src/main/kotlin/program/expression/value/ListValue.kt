@@ -105,4 +105,8 @@ class ListValue(override val value: MutableList<Value<*>>) : Value<MutableList<V
 
         return this
     }
+
+    override fun plus(other: MutableList<Value<*>>): Value<*> {
+        return ListValue(value.plus(other).toMutableList())
+    }
 }

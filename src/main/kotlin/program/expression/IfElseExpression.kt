@@ -1,8 +1,6 @@
 package program.expression
 
 import program.Program
-import program.RunException
-import program.expression.value.BooleanValue
 import program.expression.value.Value
 
 class IfElseExpression(
@@ -12,11 +10,6 @@ class IfElseExpression(
 ) : Expression {
     override fun innerEvaluate(program: Program): Value<*> {
         val conditionValue = condition.evaluate(program)
-
-        if (conditionValue is BooleanValue) {
-            return if (conditionValue.value) expressionA.evaluate(program) else expressionB.evaluate(program)
-        }
-
-        throw RunException("Condition is not a boolean")
+        return if (conditionValue.truth()) expressionA.evaluate(program) else expressionB.evaluate(program)
     }
 }

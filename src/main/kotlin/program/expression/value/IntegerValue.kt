@@ -1,5 +1,47 @@
 package program.expression.value
 
+import kotlin.math.pow
+
 class IntegerValue(value: Int) : Value<Int>(value) {
     override fun typeString(): String = "integer"
+
+    override fun negative(): Value<*> {
+        return IntegerValue(-value)
+    }
+
+    override fun positive(): Value<*> {
+        return this
+    }
+
+    override fun plus(other: Int): Value<*> {
+        return IntegerValue(value + other)
+    }
+
+    override fun minus(other: Int): Value<*> {
+        return IntegerValue(value - other)
+    }
+
+    override fun times(other: Int): Value<*> {
+        return IntegerValue(value * other)
+    }
+
+    override fun floorDivide(other: Int): Value<*> {
+        return IntegerValue(value / other)
+    }
+
+    override fun divide(other: Int): Value<*> {
+        return IntegerValue(value / other)
+    }
+
+    override fun remainder(other: Int): Value<*> {
+        return IntegerValue((value + other) % other)
+    }
+
+    override fun exponentiate(other: Int): Value<*> {
+        return IntegerValue(value.toDouble().pow(other.toDouble()).toInt())
+    }
+
+    override fun compareTo(other: Int): Int {
+        return value.compareTo(other)
+    }
 }

@@ -1,9 +1,7 @@
 package program.statement
 
 import program.Program
-import program.RunException
 import program.expression.Expression
-import program.expression.value.BooleanValue
 import program.expression.value.Value
 
 class WhileStatement(
@@ -17,24 +15,18 @@ class WhileStatement(
             conditionValue = conditionResult
         }
 
-        val value = conditionValue
+        if (conditionValue!!.truth()) {
+            val statement = statements.runNext(program)
 
-        if (value is BooleanValue) {
-            if (value.value) {
-                val statement = statements.runNext(program)
-
-                if (statement is ReturnStatement || statement is BreakStatement) {
-                    return statement
-                }
-
-                conditionValue = null
-                throw IncompleteException()
+            if (statement is ReturnStatement || statement is BreakStatement) {
+                return statement
             }
 
-            return this
+            conditionValue = null
+            throw IncompleteException()
         }
 
-        throw RunException("Expression is not a boolean")
+        return this
     }
 
     override fun done(program: Program) {

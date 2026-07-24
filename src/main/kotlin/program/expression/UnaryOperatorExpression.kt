@@ -2,6 +2,7 @@ package program.expression
 
 import program.Program
 import program.RunException
+import program.expression.value.BooleanValue
 import program.expression.value.Value
 
 class UnaryOperatorExpression(
@@ -11,9 +12,11 @@ class UnaryOperatorExpression(
     override fun innerEvaluate(program: Program): Value<*> {
         val value = operand.evaluate(program)
 
-        val operators = UnaryOperators.unaryOperators[value::class] ?: throw RunException("Type of ${value.typeString()} does not have any unary operators")
-        val operatorFunction = operators[operator] ?: throw RunException("Type of ${value.typeString()} does not support unary operator of $operator")
-
-        return operatorFunction.invoke(value)
+        return when (operator) {
+            "-" -> value.negative()
+            "+" -> value.positive()
+            "!" -> BooleanValue(!value.truth())
+            else -> throw RunException("Unknown operator")
+        }
     }
 }

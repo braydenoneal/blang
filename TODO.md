@@ -1,7 +1,6 @@
 ## Todo
 
 - code cleanup
-    - define operator functionality in value classes
     - implement syntax for creating objects
     - implement `toString` for all values
     - split function parameters/arguments and statements (for both parsing and execution)
