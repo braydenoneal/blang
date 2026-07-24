@@ -4,7 +4,7 @@ import program.Program
 import program.expression.value.ListValue
 import program.expression.value.Value
 
-data class ListExpression(
+class ListExpression(
     val expressions: MutableList<Expression>,
     val computed: MutableList<Value<*>> = mutableListOf(),
 ) : Expression {

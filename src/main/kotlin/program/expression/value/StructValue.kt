@@ -1,5 +1,9 @@
 package program.expression.value
 
+import program.Program
+import program.expression.Arguments
+import program.expression.value.util.Null
+
 class StructValue(value: MutableList<Pair<String, Value<*>>>) : Value<MutableList<Pair<String, Value<*>>>>(value) {
     override fun typeString(): String = "struct"
 
@@ -15,16 +19,6 @@ class StructValue(value: MutableList<Pair<String, Value<*>>>) : Value<MutableLis
         }
 
         return "$print}"
-    }
-
-    fun has(property: String): Boolean {
-        for ((first, _) in value) {
-            if (first == property) {
-                return true
-            }
-        }
-
-        return false
     }
 
     fun get(property: String): Value<*> {
@@ -46,5 +40,69 @@ class StructValue(value: MutableList<Pair<String, Value<*>>>) : Value<MutableLis
         }
 
         return Null.VALUE
+    }
+
+    override fun getItem(name: String): Value<*> {
+        val item = get(name)
+
+        if (item == Null.VALUE) {
+            return super.getItem(name)
+        }
+
+        return item
+    }
+
+    override fun getFunction(name: String): (Program, Arguments) -> Value<*> {
+        return when (name) {
+            "entries" -> ::entries
+            "keys" -> ::keys
+            "remove" -> ::remove
+            "values" -> ::values
+            else -> super.getFunction(name)
+        }
+    }
+
+    fun entries(@Suppress("unused") program: Program, @Suppress("unused") arguments: Arguments): Value<*> {
+        val list: MutableList<Value<*>> = mutableListOf()
+
+        for ((first, second) in value) {
+            list.add(StructValue(mutableListOf("key" to StringValue(first), "value" to second)))
+        }
+
+        return ListValue(list)
+    }
+
+    fun keys(@Suppress("unused") program: Program, @Suppress("unused") arguments: Arguments): Value<*> {
+        val list: MutableList<Value<*>> = mutableListOf()
+
+        for (entry in value) {
+            list.add(StringValue(entry.first))
+        }
+
+        return ListValue(list)
+    }
+
+    fun remove(program: Program, arguments: Arguments): Value<*> {
+        val removeValue = arguments.getAny(program, "value")
+
+        if (removeValue is StringValue) {
+            for (i in value.indices) {
+                if (value[i].first == removeValue.value) {
+                    value.removeAt(i)
+                }
+            }
+        }
+
+        return this
+    }
+
+    fun values(@Suppress("unused") program: Program, @Suppress("unused") arguments: Arguments): Value<*> {
+        val list: MutableList<Value<*>> = mutableListOf()
+
+        for (entry in value) {
+            list.add(entry.second)
+        }
+
+        return ListValue(list)
     }
 }

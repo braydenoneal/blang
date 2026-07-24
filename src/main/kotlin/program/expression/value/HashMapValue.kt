@@ -1,5 +1,7 @@
 package program.expression.value
 
+import program.expression.value.util.Null
+
 // The value parameter type -> Java variable to be wrapped
 class HashMapValue(value: HashMap<Value<*>, Value<*>>) : Value<HashMap<Value<*>, Value<*>>>(value) {
     override fun typeString(): String = "hashMap"

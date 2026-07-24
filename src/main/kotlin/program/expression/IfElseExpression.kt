@@ -5,7 +5,7 @@ import program.RunException
 import program.expression.value.BooleanValue
 import program.expression.value.Value
 
-data class IfElseExpression(
+class IfElseExpression(
     val condition: Expression,
     val expressionA: Expression,
     val expressionB: Expression,

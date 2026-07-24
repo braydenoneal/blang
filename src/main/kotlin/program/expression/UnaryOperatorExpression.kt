@@ -4,7 +4,7 @@ import program.Program
 import program.RunException
 import program.expression.value.Value
 
-data class UnaryOperatorExpression(
+class UnaryOperatorExpression(
     val operator: String,
     val operand: Expression,
 ) : Expression {

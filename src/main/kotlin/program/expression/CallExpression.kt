@@ -1,17 +1,16 @@
 package program.expression
 
 import program.Program
-import program.expression.value.CallableValue
 import program.expression.value.Value
 
-data class CallExpression(
+class CallExpression(
     val left: Expression,
     val arguments: Arguments,
-    var leftValue: CallableValue? = null,
+    var leftValue: Value<*>? = null,
 ) : Expression {
     override fun innerEvaluate(program: Program): Value<*> {
         if (leftValue == null) {
-            leftValue = left.evaluate(program).cast<CallableValue>()
+            leftValue = left.evaluate(program)
         }
 
         return leftValue!!.call(program, arguments)

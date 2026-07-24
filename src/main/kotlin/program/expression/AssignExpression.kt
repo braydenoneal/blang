@@ -6,7 +6,7 @@ import program.expression.value.ListValue
 import program.expression.value.StructValue
 import program.expression.value.Value
 
-data class AssignExpression(
+class AssignExpression(
     val operator: String,
     val left: Expression,
     val right: Expression,

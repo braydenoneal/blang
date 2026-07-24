@@ -2,7 +2,7 @@ package program.statement
 
 import program.Program
 
-data class StatementList(
+class StatementList(
     val ran: MutableList<Statement> = mutableListOf(),
     val toRun: MutableList<Statement> = mutableListOf(),
 ) {

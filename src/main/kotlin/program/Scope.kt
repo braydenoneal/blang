@@ -1,7 +1,7 @@
 package program
 
-import program.expression.value.Null
 import program.expression.value.Value
+import program.expression.value.util.Null
 
 class Scope(
     val parent: Scope?,

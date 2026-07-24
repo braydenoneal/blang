@@ -2,7 +2,7 @@ package testing.test
 
 import program.expression.value.BooleanValue
 import program.expression.value.IntegerValue
-import program.expression.value.Null
+import program.expression.value.util.Null
 
 class ControlStatements : Test() {
     override fun body(): String {

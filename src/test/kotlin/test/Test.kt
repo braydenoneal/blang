@@ -43,7 +43,7 @@ abstract class Test {
         return Result(expects.size - failed.size, expects.size)
     }
 
-    data class Expect(val name: String, val value: Value<*>)
+    class Expect(val name: String, val value: Value<*>)
 
-    data class Result(val passed: Int, val total: Int)
+    class Result(val passed: Int, val total: Int)
 }

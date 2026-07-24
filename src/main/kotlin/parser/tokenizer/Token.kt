@@ -2,7 +2,7 @@ package parser.tokenizer
 
 import java.util.regex.Pattern
 
-data class Token(val value: String, val type: Type) {
+class Token(val value: String, val type: Type) {
     companion object {
         fun tokenize(source: String): MutableList<Token> {
             val tokens: MutableList<Token> = mutableListOf()

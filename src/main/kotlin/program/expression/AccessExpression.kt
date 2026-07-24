@@ -4,7 +4,7 @@ import program.Program
 import program.expression.value.ListValue
 import program.expression.value.Value
 
-data class AccessExpression(
+class AccessExpression(
     val left: Expression,
     val right: Expression,
 ) : Expression {

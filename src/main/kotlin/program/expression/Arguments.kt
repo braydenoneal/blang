@@ -4,11 +4,12 @@ import program.Program
 import program.RunException
 import program.expression.value.Value
 
-data class Arguments(
+class Arguments(
     val namelessArguments: MutableList<Expression>,
     val namedArguments: MutableMap<String, Expression>,
     var index: Int = 0,
     var computed: MutableMap<String, Value<*>> = mutableMapOf(),
+    var counter: Int = 0,
 ) {
     fun getAny(program: Program, name: String, default: Value<*>? = null): Value<*> {
         if (computed.containsKey(name)) {
@@ -47,6 +48,7 @@ data class Arguments(
 
     fun done() {
         index = 0
+        counter = 0
         computed.clear()
     }
 

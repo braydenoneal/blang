@@ -1,6 +1,5 @@
 package parser
 
-import parser.expression.BuiltinExpressionParser
 import parser.expression.ExpressionParser
 import parser.statement.StatementParser
 import parser.tokenizer.Token
@@ -84,7 +83,6 @@ open class Parser(val program: Program) {
         fun initialize() {
             ExpressionParser.initialize()
             StatementParser.initialize()
-            BuiltinExpressionParser.initialize()
         }
     }
 }

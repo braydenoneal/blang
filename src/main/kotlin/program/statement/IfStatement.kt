@@ -5,7 +5,7 @@ import program.expression.Expression
 import program.expression.value.BooleanValue
 import program.expression.value.Value
 
-data class IfStatement(
+class IfStatement(
     val condition: Expression,
     val statements: StatementList,
     val elseIfStatements: MutableList<ElseIfStatement>,

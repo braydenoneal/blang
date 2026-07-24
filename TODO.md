@@ -1,11 +1,16 @@
 ## Todo
 
 - code cleanup
+    - define operator functionality in value classes
+    - implement syntax for creating objects
+    - implement `toString` for all values
     - split function parameters/arguments and statements (for both parsing and execution)
     - way to check if token is part of a group (i.e. token is a keyword)
     - register access expression handling
     - register AssignExpression handling (register equals operator)
+    - look into whether Value needs to have a generic type
 - features
+    - Range syntax (`0..8 step 2`)
     - list slicing
     - add properties to many values to replace some functions (`item.tag` instead of `tag(item)`, etc)
     - list destructuring?

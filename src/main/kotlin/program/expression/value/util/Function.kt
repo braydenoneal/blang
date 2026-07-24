@@ -1,22 +1,22 @@
-package program.expression.value
+package program.expression.value.util
 
 import program.Program
 import program.RunException
 import program.Scope
 import program.expression.Arguments
-import program.expression.Callable
 import program.expression.Expression
+import program.expression.value.Value
 import program.statement.ReturnStatement
 import program.statement.StatementList
 
-data class Function(
+class Function(
     val parameters: MutableList<String>,
     val defaultParameters: MutableList<Pair<String, Expression>>,
     val statements: StatementList,
     var scope: Scope? = null,
     var running: Boolean = false,
-) : Callable {
-    override fun innerCall(program: Program, arguments: Arguments): Value<*> {
+) {
+    fun call(program: Program, arguments: Arguments): Value<*> {
         if (scope == null) {
             scope = Scope(program.scopes.last())
         }
@@ -52,7 +52,7 @@ data class Function(
         return returnValue
     }
 
-    override fun abort(program: Program, arguments: Arguments) {
+    fun abort(program: Program, arguments: Arguments) {
         if (running) {
             program.endScope()
         } else {
@@ -60,7 +60,7 @@ data class Function(
         }
     }
 
-    override fun done(program: Program, arguments: Arguments) {
+    fun done(program: Program, arguments: Arguments) {
         scope = null
         running = false
         arguments.done()

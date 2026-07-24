@@ -2,7 +2,7 @@ package program.statement
 
 import program.Program
 
-data class ImportStatement(
+class ImportStatement(
     val identifiers: MutableList<String>,
     val name: String,
 ) : Statement {

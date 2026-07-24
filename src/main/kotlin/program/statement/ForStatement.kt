@@ -8,7 +8,7 @@ import program.expression.value.ListValue
 import program.expression.value.RangeValue
 import program.expression.value.Value
 
-data class ForStatement(
+class ForStatement(
     val itemName: String,
     val listExpression: Expression,
     val statements: StatementList,

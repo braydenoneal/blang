@@ -1,4 +1,6 @@
-package program.expression.value
+package program.expression.value.util
+
+import program.expression.value.NullValue
 
 class Null {
     companion object {

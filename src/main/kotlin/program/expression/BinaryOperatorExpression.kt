@@ -4,7 +4,7 @@ import program.Program
 import program.RunException
 import program.expression.value.*
 
-data class BinaryOperatorExpression(
+class BinaryOperatorExpression(
     val operator: String,
     val left: Expression,
     val right: Expression,

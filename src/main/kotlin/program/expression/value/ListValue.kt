@@ -1,8 +1,10 @@
 package program.expression.value
 
+import program.Program
 import program.RunException
+import program.expression.Arguments
 
-class ListValue(value: MutableList<Value<*>>) : Value<MutableList<Value<*>>>(value) {
+class ListValue(override val value: MutableList<Value<*>>) : Value<MutableList<Value<*>>>(value) {
     override fun typeString(): String = "list"
 
     override fun toString(): String {
@@ -40,5 +42,67 @@ class ListValue(value: MutableList<Value<*>>) : Value<MutableList<Value<*>>>(val
     fun set(index: Value<*>, setValue: Value<*>): Value<*> {
         value[wrap(index)] = setValue
         return setValue
+    }
+
+    override fun getItem(name: String): Value<*> {
+        return when (name) {
+            "size" -> IntegerValue(value.size)
+            else -> super.getItem(name)
+        }
+    }
+
+    override fun getFunction(name: String): (Program, Arguments) -> Value<*> {
+        return when (name) {
+            "append" -> ::append
+            "containsAll" -> ::containsAll
+            "contains" -> ::contains
+            "insert" -> ::insert
+            "pop" -> ::pop
+            "remove" -> ::remove
+            else -> super.getFunction(name)
+        }
+    }
+
+    fun append(program: Program, arguments: Arguments): Value<*> {
+        value.add(arguments.getAny(program, "value"))
+        return this
+    }
+
+    fun containsAll(program: Program, arguments: Arguments): Value<*> {
+        val nextListValue = arguments.getAny(program, "value")
+
+        if (nextListValue is ListValue) {
+            return BooleanValue(value.containsAll(nextListValue.value))
+        }
+
+        throw RunException("Expression is not a list")
+    }
+
+    fun contains(program: Program, arguments: Arguments): Value<*> {
+        return BooleanValue(value.contains(arguments.getAny(program, "value").evaluate(program)))
+    }
+
+    fun insert(program: Program, arguments: Arguments): Value<*> {
+        val index = arguments.get<IntegerValue>(program, "index").value
+        val insertValue = arguments.getAny(program, "value")
+        value.add(index, insertValue)
+        return this
+    }
+
+    fun pop(@Suppress("unused") program: Program, @Suppress("unused") arguments: Arguments): Value<*> {
+        value.removeLast()
+        return this
+    }
+
+    fun remove(program: Program, arguments: Arguments): Value<*> {
+        val removeValue = arguments.getAny(program, "value")
+
+        if (removeValue is IntegerValue) {
+            value.removeAt(removeValue.value)
+        } else {
+            value.remove(removeValue)
+        }
+
+        return this
     }
 }

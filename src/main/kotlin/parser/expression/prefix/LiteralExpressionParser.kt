@@ -5,7 +5,11 @@ import parser.Parser
 import parser.tokenizer.Token
 import parser.tokenizer.Type
 import program.expression.Expression
-import program.expression.value.*
+import program.expression.value.BooleanValue
+import program.expression.value.FloatValue
+import program.expression.value.IntegerValue
+import program.expression.value.StringValue
+import program.expression.value.util.Null
 
 class LiteralExpressionParser : PrefixParser {
     override fun parse(parser: Parser, token: Token): Expression {
