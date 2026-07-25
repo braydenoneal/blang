@@ -10,13 +10,11 @@
     - look into whether Value needs to have a generic type
 - features
     - add the following operators
-        - `a..b`
-        - `a..<b`
         - `a in b`
         - `a !in b`
-    - range syntax (`0..8 step 2`)
     - custom infix functions?
         - `a to b` (`a <function name> b`)
+    - range syntax (`0..8 step 2`)
     - list slicing
     - add properties to many values to replace some functions (`item.tag` instead of `tag(item)`, etc)
     - list destructuring?

@@ -1,5 +1,6 @@
 package program.expression.value
 
+import program.expression.value.util.Range
 import kotlin.math.pow
 
 class IntegerValue(value: Int) : Value<Int>(value) {
@@ -13,16 +14,12 @@ class IntegerValue(value: Int) : Value<Int>(value) {
         return this
     }
 
-    override fun plus(other: Int): Value<*> {
-        return IntegerValue(value + other)
-    }
-
     override fun minus(other: Int): Value<*> {
         return IntegerValue(value - other)
     }
 
-    override fun times(other: Int): Value<*> {
-        return IntegerValue(value * other)
+    override fun plus(other: Int): Value<*> {
+        return IntegerValue(value + other)
     }
 
     override fun floorDivide(other: Int): Value<*> {
@@ -37,11 +34,19 @@ class IntegerValue(value: Int) : Value<Int>(value) {
         return IntegerValue((value + other) % other)
     }
 
+    override fun times(other: Int): Value<*> {
+        return IntegerValue(value * other)
+    }
+
     override fun exponentiate(other: Int): Value<*> {
         return IntegerValue(value.toDouble().pow(other.toDouble()).toInt())
     }
 
     override fun compareTo(other: Int): Int {
         return value.compareTo(other)
+    }
+
+    override fun rangeTo(other: Int): Value<*> {
+        return RangeValue(Range(value, other, 1))
     }
 }

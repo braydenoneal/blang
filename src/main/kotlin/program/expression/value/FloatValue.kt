@@ -14,16 +14,12 @@ class FloatValue(value: Float) : Value<Float>(value) {
         return this
     }
 
-    override fun plus(other: Float): Value<*> {
-        return FloatValue(value + other)
-    }
-
     override fun minus(other: Float): Value<*> {
         return FloatValue(value - other)
     }
 
-    override fun times(other: Float): Value<*> {
-        return FloatValue(value * other)
+    override fun plus(other: Float): Value<*> {
+        return FloatValue(value + other)
     }
 
     override fun floorDivide(other: Float): Value<*> {
@@ -36,6 +32,10 @@ class FloatValue(value: Float) : Value<Float>(value) {
 
     override fun remainder(other: Float): Value<*> {
         return FloatValue((value + other) % other)
+    }
+
+    override fun times(other: Float): Value<*> {
+        return FloatValue(value * other)
     }
 
     override fun exponentiate(other: Float): Value<*> {

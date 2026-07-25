@@ -58,4 +58,8 @@ abstract class Operand<T> {
     open fun equalsOther(other: T): Boolean {
         throw RunException("Value does not implement equals")
     }
+
+    open fun rangeTo(other: T): Value<*> {
+        throw RunException("Value does not implement rangeTo")
+    }
 }

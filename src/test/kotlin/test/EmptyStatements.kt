@@ -5,7 +5,7 @@ import program.expression.value.IntegerValue
 class EmptyStatements : Test() {
     override fun body(): String {
         return """
-            for i in range(end=3) {}
+            for i in 0..3 {}
             
             a = 0
             

@@ -9,10 +9,10 @@ class NumberLiterals : Test() {
             a = 1
             b = -1
             c = 1.0123
-            d = 1.
+            d = 1.0
             e = .1
             f = -1.0123
-            g = -1.
+            g = -1.0
             h = -.1
         """.trimIndent()
     }

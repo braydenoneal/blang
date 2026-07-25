@@ -4,9 +4,9 @@ fun main() {
     Program.initialize()
     Program(
         """
-            print(2)
-            a = print
-            a(1)
+            for i in 0..10 {
+                print(i)
+            }
         """.trimIndent(),
     ).run(true)
 }

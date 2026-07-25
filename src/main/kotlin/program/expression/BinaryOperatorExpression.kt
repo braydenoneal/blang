@@ -36,6 +36,7 @@ class BinaryOperatorExpression(
             "or" -> BooleanValue(a.truth() || b.truth())
             "==" -> BooleanValue(a.equalsOther(a.cast(b)))
             "!=" -> BooleanValue(!a.equalsOther(a.cast(b)))
+            ".." -> a.rangeTo(a.cast(b))
             else -> throw RunException("Unknown operator")
         }
     }
