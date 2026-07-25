@@ -56,6 +56,10 @@ class StringValue(value: String) : Value<String>(value) {
         }
     }
 
+    override fun contains(item: Value<*>): Boolean {
+        return value.contains(item.cast<StringValue>().value)
+    }
+
     fun contains(program: Program, arguments: Arguments): Value<*> {
         val item = arguments.get<StringValue>(program, "value").value
         return BooleanValue(value.contains(item))

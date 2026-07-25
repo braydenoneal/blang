@@ -62,4 +62,8 @@ abstract class Operand<T> {
     open fun rangeTo(other: T): Value<*> {
         throw RunException("Value does not implement rangeTo")
     }
+
+    open fun contains(item: Value<*>): Boolean {
+        throw RunException("Value does not implement contains")
+    }
 }

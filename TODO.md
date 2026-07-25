@@ -10,9 +10,6 @@
     - look into whether Value needs to have a generic type
 - features
     - implement toPair base function (`to(other) -> pair`)
-    - add the following operators
-        - `a in b`
-        - `a !in b`
     - list slicing
     - add properties to many values to replace some functions (`item.tag` instead of `tag(item)`, etc)
     - list destructuring?

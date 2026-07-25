@@ -14,7 +14,7 @@ class ControlStatements : Test() {
                 list.append(i)
             }
             
-            a = list.contains(5)
+            a = 5 in list
             
             b = 0
             

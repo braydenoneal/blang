@@ -14,8 +14,8 @@ class Lists : Test() {
             list2.insert(1, 1)
             list2.pop()
             list2.remove(1)
-            contains = list2.contains(0)
-            notContains = list2.contains(1)
+            contains = 0 in list2
+            notContains = 1 in list2
             containsAll = list.containsAll([false, 0])
             notContainsAll = list.containsAll([false, 0, 1])
             list3 = [0]

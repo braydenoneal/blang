@@ -11,6 +11,7 @@ enum class Type(val regex: String) {
     ELIF_KEYWORD("(elif)([^A-Za-z0-9_`]{1})"),
     WHILE_KEYWORD("(while)([^A-Za-z0-9_`]{1})"),
     FOR_KEYWORD("(for)([^A-Za-z0-9_`]{1})"),
+    NOT_IN_KEYWORD("(!in)([^A-Za-z0-9_`]{1})"),
     IN_KEYWORD("(in)([^A-Za-z0-9_`]{1})"),
     BREAK_KEYWORD("(break)([^A-Za-z0-9_`]{1})"),
     CONTINUE_KEYWORD("(continue)([^A-Za-z0-9_`]{1})"),

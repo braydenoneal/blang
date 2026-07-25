@@ -90,6 +90,10 @@ class ListValue(override val value: MutableList<Value<*>>) : Value<MutableList<V
         throw RunException("Expression is not a list")
     }
 
+    override fun contains(item: Value<*>): Boolean {
+        return value.contains(item)
+    }
+
     fun contains(program: Program, arguments: Arguments): Value<*> {
         return BooleanValue(value.contains(arguments.getAny(program, "value")))
     }

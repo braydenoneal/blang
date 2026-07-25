@@ -37,6 +37,8 @@ class BinaryOperatorExpression(
             "==" -> BooleanValue(a.equalsOther(a.cast(b)))
             "!=" -> BooleanValue(!a.equalsOther(a.cast(b)))
             ".." -> a.rangeTo(a.cast(b))
+            "in" -> BooleanValue(b.contains(a))
+            "!in" -> BooleanValue(!b.contains(a))
             else -> throw RunException("Unknown operator")
         }
     }
