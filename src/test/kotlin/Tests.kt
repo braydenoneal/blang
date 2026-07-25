@@ -29,6 +29,7 @@ object Tests {
             Scope(),
             Wait(),
             Comments(),
+            InfixFunctions(),
         )
     }
 

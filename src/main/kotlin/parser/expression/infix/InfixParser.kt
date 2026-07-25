@@ -31,11 +31,12 @@ interface InfixParser {
             register(Type.SLASH, BinaryOperatorExpressionParser(4))
             register(Type.PERCENT, BinaryOperatorExpressionParser(4))
             register(Type.COMPARISON_OPERATOR, BinaryOperatorExpressionParser(4))
-            register(Type.CARET, BinaryOperatorExpressionParser(5))
-            register(Type.DOT_DOT, BinaryOperatorExpressionParser(5))
-            register(Type.LEFT_PARENTHESIS, CallExpressionParser(6))
-            register(Type.LEFT_SQUARE_BRACE, AccessExpressionParser(7))
-            register(Type.DOT, DotExpressionParser(7))
+            register(Type.IDENTIFIER, InfixFunctionExpressionParser(5))
+            register(Type.CARET, BinaryOperatorExpressionParser(6))
+            register(Type.DOT_DOT, BinaryOperatorExpressionParser(7))
+            register(Type.LEFT_PARENTHESIS, CallExpressionParser(8))
+            register(Type.LEFT_SQUARE_BRACE, AccessExpressionParser(9))
+            register(Type.DOT, DotExpressionParser(9))
         }
     }
 }
