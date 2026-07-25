@@ -81,4 +81,12 @@ abstract class Value<T>(open val value: T) : Expression, Operand<T>() {
     fun callFunction(program: Program, arguments: Arguments, name: String): Value<*> {
         return getFunction(name).invoke(program, arguments)
     }
+
+    open fun iteratorGet(index: Int): Value<*> {
+        throw RunException("Value does not implement iterator get")
+    }
+
+    open fun iteratorSize(): Int {
+        throw RunException("Value does not implement iterator size")
+    }
 }

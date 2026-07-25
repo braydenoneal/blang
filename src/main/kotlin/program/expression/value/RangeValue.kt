@@ -11,6 +11,14 @@ class RangeValue(value: Range) : Value<Range>(value) {
         return "range(" + value.start + ", " + value.end + ", " + value.step + ")"
     }
 
+    override fun iteratorGet(index: Int): Value<*> {
+        return IntegerValue(value.start + index * value.step)
+    }
+
+    override fun iteratorSize(): Int {
+        return (value.end - value.start) / value.step
+    }
+
     override fun getFunction(name: String): (Program, Arguments) -> Value<*> {
         return when (name) {
             "step" -> ::step

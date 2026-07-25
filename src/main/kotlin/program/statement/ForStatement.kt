@@ -1,69 +1,49 @@
 package program.statement
 
 import program.Program
-import program.RunException
 import program.expression.Expression
-import program.expression.value.IntegerValue
-import program.expression.value.ListValue
-import program.expression.value.RangeValue
 import program.expression.value.Value
 
 class ForStatement(
     val itemName: String,
-    val listExpression: Expression,
+    val expression: Expression,
     val statements: StatementList,
-    var listValue: Value<*>? = null,
+    var value: Value<*>? = null,
     var index: Int = 0,
 ) : Statement {
     override fun innerExecute(program: Program): Statement {
-        if (listValue == null) {
-            val listResult = listExpression.evaluate(program)
-            listValue = listResult
+        if (value == null) {
+            val listResult = expression.evaluate(program)
+            value = listResult
         }
 
-        val value = listValue
+        val value = value!!
+        val size = value.iteratorSize()
 
-        if (value is ListValue) {
-            val item = value.value[index]
-
-            program.scope.set(itemName, item)
-            val result = statements.runNext(program)
-
-            if (result is ReturnStatement || result is BreakStatement) {
-                return result as? ReturnStatement ?: this
-            }
-
-            index++
-
-            if (index >= value.value.size) {
-                return this
-            }
-
-            throw IncompleteException()
-        } else if (value is RangeValue) {
-            val number = value.value.start + index * value.value.step
-
-            program.scope.set(itemName, IntegerValue(number))
-            val result = statements.runNext(program)
-
-            if (result is ReturnStatement || result is BreakStatement) {
-                return result as? ReturnStatement ?: this
-            }
-
-            index++
-
-            if ((value.value.start + index * value.value.step) >= value.value.end) {
-                return this
-            }
-
-            throw IncompleteException()
+        if (index >= size) {
+            return this
         }
 
-        throw RunException("Expression is not a list or a range")
+        val item = value.iteratorGet(index)
+        program.scope.set(itemName, item)
+
+        val result = statements.runNext(program)
+
+        if (result is ReturnStatement || result is BreakStatement) {
+            return result as? ReturnStatement ?: this
+        }
+
+        index++
+
+        if (index >= size) {
+            return this
+        }
+
+        throw IncompleteException()
     }
 
     override fun done(program: Program) {
-        listValue = null
+        value = null
         index = 0
     }
 }

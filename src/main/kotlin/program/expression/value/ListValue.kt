@@ -21,8 +21,8 @@ class ListValue(override val value: MutableList<Value<*>>) : Value<MutableList<V
         return "$print]"
     }
 
-    fun asIndex(item: Value<*>): Int {
-        var index = item.cast<IntegerValue>().value
+    fun wrapIndex(index: Int): Int {
+        var index = index
 
         if (index >= value.size) {
             throw RunException("Index " + index + " out of range for list of size " + value.size)
@@ -33,6 +33,10 @@ class ListValue(override val value: MutableList<Value<*>>) : Value<MutableList<V
         }
 
         return index
+    }
+
+    fun asIndex(item: Value<*>): Int {
+        return wrapIndex(item.cast<IntegerValue>().value)
     }
 
     override fun get(item: Value<*>): Value<*> {
@@ -49,6 +53,14 @@ class ListValue(override val value: MutableList<Value<*>>) : Value<MutableList<V
             "size" -> IntegerValue(value.size)
             else -> super.getItem(name)
         }
+    }
+
+    override fun iteratorGet(index: Int): Value<*> {
+        return value[wrapIndex(index)]
+    }
+
+    override fun iteratorSize(): Int {
+        return value.size
     }
 
     override fun getFunction(name: String): (Program, Arguments) -> Value<*> {
