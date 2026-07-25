@@ -91,7 +91,7 @@ class ListValue(override val value: MutableList<Value<*>>) : Value<MutableList<V
     }
 
     fun contains(program: Program, arguments: Arguments): Value<*> {
-        return BooleanValue(value.contains(arguments.getAny(program, "value").evaluate(program)))
+        return BooleanValue(value.contains(arguments.getAny(program, "value")))
     }
 
     fun insert(program: Program, arguments: Arguments): Value<*> {
