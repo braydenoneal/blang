@@ -1,5 +1,7 @@
 package program.expression.value
 
+import program.Program
+import program.expression.Arguments
 import kotlin.math.floor
 import kotlin.math.pow
 
@@ -44,5 +46,21 @@ class FloatValue(value: Float) : Value<Float>(value) {
 
     override fun compareTo(other: Float): Int {
         return value.compareTo(other)
+    }
+
+    override fun getFunction(name: String): ((Program, Arguments) -> Value<*>)? {
+        return when (name) {
+            "toInt" -> ::toInt
+            else -> super.getFunction(name)
+        }
+    }
+
+    fun toInt(
+        @Suppress("unused")
+        program: Program,
+        @Suppress("unused")
+        arguments: Arguments,
+    ): Value<*> {
+        return IntegerValue(value.toInt())
     }
 }
