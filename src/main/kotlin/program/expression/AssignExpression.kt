@@ -2,7 +2,6 @@ package program.expression
 
 import program.Program
 import program.RunException
-import program.expression.value.ListValue
 import program.expression.value.StructValue
 import program.expression.value.Value
 
@@ -18,47 +17,55 @@ class AssignExpression(
         when (left) {
             is IdentifierExpression -> {
                 if (operator == "=") {
-                    if (local) {
+                    return if (local) {
                         program.scope.setLocal(left.name, value)
                     } else {
-                        return program.scope.set(left.name, value)
+                        program.scope.set(left.name, value)
                     }
                 }
 
-                val prev = program.scope.get(left.name)
-                val arithmetic = BinaryOperatorExpression(if (operator == "+=") "+" else "-", prev, value).evaluate(program)
-
-                return program.scope.set(left.name, arithmetic)
+                val previous = program.scope.get(left.name)
+                return program.scope.set(left.name, augmentAssign(program, previous, value))
             }
 
             is AccessExpression -> {
-                val list = left.left.evaluate(program).cast<ListValue>()
-                val index = left.right.evaluate(program)
+                val operand = left.left.evaluate(program)
+                val item = left.right.evaluate(program)
 
                 if (operator == "=") {
-                    return list.set(index, value)
+                    return operand.set(item, value)
                 }
 
-                val prev = list.get(index)
-                val arithmetic = BinaryOperatorExpression(if (operator == "+=") "+" else "-", prev, value).evaluate(program)
-
-                return list.set(index, arithmetic)
+                val previous = operand.get(item)
+                return operand.set(item, augmentAssign(program, previous, value))
             }
 
             is DotExpression -> {
                 val struct = left.left.evaluate(program).cast<StructValue>()
 
                 if (operator == "=") {
-                    return struct.set(left.right, value)
+                    return struct.setProperty(left.right, value)
                 }
 
-                val prev = struct.get(left.right)
-                val arithmetic = BinaryOperatorExpression(if (operator == "+=") "+" else "-", prev, value).evaluate(program)
-
-                return struct.set(left.right, arithmetic)
+                val previous = struct.getProperty(left.right)
+                return struct.setProperty(left.right, augmentAssign(program, previous, value))
             }
 
             else -> throw RunException("Expression is not assignable")
         }
+    }
+
+    fun augmentAssign(program: Program, previous: Value<*>, setValue: Value<*>): Value<*> {
+        val arithmeticOperator = when (operator) {
+            "-=" -> "-"
+            "+=" -> "+"
+            "//=" -> "//"
+            "/=" -> "/"
+            "%=" -> "%"
+            "*=" -> "*"
+            else -> throw RunException("Unrecognized operator")
+        }
+
+        return BinaryOperatorExpression(arithmeticOperator, previous, setValue).evaluate(program)
     }
 }

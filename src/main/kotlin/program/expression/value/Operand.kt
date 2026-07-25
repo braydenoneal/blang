@@ -11,16 +11,12 @@ abstract class Operand<T> {
         throw RunException("Value does not implement positive")
     }
 
-    open fun plus(other: T): Value<*> {
-        throw RunException("Value does not implement add")
-    }
-
     open fun minus(other: T): Value<*> {
         throw RunException("Value does not implement minus")
     }
 
-    open fun times(other: T): Value<*> {
-        throw RunException("Value does not implement times")
+    open fun plus(other: T): Value<*> {
+        throw RunException("Value does not implement add")
     }
 
     open fun floorDivide(other: T): Value<*> {
@@ -35,6 +31,10 @@ abstract class Operand<T> {
         throw RunException("Value does not implement remainder")
     }
 
+    open fun times(other: T): Value<*> {
+        throw RunException("Value does not implement times")
+    }
+
     open fun exponentiate(other: T): Value<*> {
         throw RunException("Value does not implement exponentiate")
     }
@@ -45,5 +45,13 @@ abstract class Operand<T> {
 
     open fun truth(): Boolean {
         throw RunException("Value does not implement truth")
+    }
+
+    open fun get(item: Value<*>): Value<*> {
+        throw RunException("Value does not implement get")
+    }
+
+    open fun set(item: Value<*>, setValue: Value<*>): Value<*> {
+        throw RunException("Value does not implement set")
     }
 }

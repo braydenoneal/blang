@@ -21,7 +21,7 @@ class StructValue(value: MutableList<Pair<String, Value<*>>>) : Value<MutableLis
         return "$print}"
     }
 
-    fun get(property: String): Value<*> {
+    fun getProperty(property: String): Value<*> {
         for ((first, second) in value) {
             if (first == property) {
                 return second
@@ -31,7 +31,7 @@ class StructValue(value: MutableList<Pair<String, Value<*>>>) : Value<MutableLis
         return Null.VALUE
     }
 
-    fun set(property: String, setValue: Value<*>): Value<*> {
+    fun setProperty(property: String, setValue: Value<*>): Value<*> {
         for (i in value.indices) {
             if (value[i].first == property) {
                 value[i] = value[i].first to setValue
@@ -43,7 +43,7 @@ class StructValue(value: MutableList<Pair<String, Value<*>>>) : Value<MutableLis
     }
 
     override fun getItem(name: String): Value<*> {
-        val item = get(name)
+        val item = getProperty(name)
 
         if (item == Null.VALUE) {
             return super.getItem(name)
@@ -62,7 +62,12 @@ class StructValue(value: MutableList<Pair<String, Value<*>>>) : Value<MutableLis
         }
     }
 
-    fun entries(@Suppress("unused") program: Program, @Suppress("unused") arguments: Arguments): Value<*> {
+    fun entries(
+        @Suppress("unused")
+        program: Program,
+        @Suppress("unused")
+        arguments: Arguments,
+    ): Value<*> {
         val list: MutableList<Value<*>> = mutableListOf()
 
         for ((first, second) in value) {
@@ -72,7 +77,12 @@ class StructValue(value: MutableList<Pair<String, Value<*>>>) : Value<MutableLis
         return ListValue(list)
     }
 
-    fun keys(@Suppress("unused") program: Program, @Suppress("unused") arguments: Arguments): Value<*> {
+    fun keys(
+        @Suppress("unused")
+        program: Program,
+        @Suppress("unused")
+        arguments: Arguments,
+    ): Value<*> {
         val list: MutableList<Value<*>> = mutableListOf()
 
         for (entry in value) {
@@ -96,7 +106,12 @@ class StructValue(value: MutableList<Pair<String, Value<*>>>) : Value<MutableLis
         return this
     }
 
-    fun values(@Suppress("unused") program: Program, @Suppress("unused") arguments: Arguments): Value<*> {
+    fun values(
+        @Suppress("unused")
+        program: Program,
+        @Suppress("unused")
+        arguments: Arguments,
+    ): Value<*> {
         val list: MutableList<Value<*>> = mutableListOf()
 
         for (entry in value) {

@@ -27,12 +27,12 @@ class BinaryOperatorExpression(
         }
 
         return when (operator) {
-            "+" -> a.plus(a.cast(b))
             "-" -> a.minus(a.cast(b))
-            "*" -> a.times(a.cast(b))
+            "+" -> a.plus(a.cast(b))
             "//" -> a.floorDivide(a.cast(b))
             "/" -> a.divide(a.cast(b))
             "%" -> a.remainder(a.cast(b))
+            "*" -> a.times(a.cast(b))
             "^" -> a.exponentiate(a.cast(b))
             "<=" -> BooleanValue(a.compareTo(a.cast(b)) <= 0)
             ">=" -> BooleanValue(a.compareTo(a.cast(b)) >= 0)

@@ -1,7 +1,6 @@
 package program.expression
 
 import program.Program
-import program.expression.value.ListValue
 import program.expression.value.Value
 
 class AccessExpression(
@@ -9,8 +8,6 @@ class AccessExpression(
     val right: Expression,
 ) : Expression {
     override fun innerEvaluate(program: Program): Value<*> {
-        val list = left.evaluate(program).cast<ListValue>()
-        val index = right.evaluate(program)
-        return list.get(index)
+        return left.evaluate(program).get(right.evaluate(program))
     }
 }
