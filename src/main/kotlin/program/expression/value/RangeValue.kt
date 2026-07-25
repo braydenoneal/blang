@@ -19,6 +19,15 @@ class RangeValue(value: Range) : Value<Range>(value) {
         return (value.end - value.start) / value.step
     }
 
+    override fun getItem(name: String): Value<*> {
+        return when (name) {
+            "start" -> IntegerValue(value.start)
+            "end" -> IntegerValue(value.end)
+            "step" -> IntegerValue(value.step)
+            else -> super.getItem(name)
+        }
+    }
+
     override fun getFunction(name: String): ((Program, Arguments) -> Value<*>)? {
         return when (name) {
             "step" -> ::step
