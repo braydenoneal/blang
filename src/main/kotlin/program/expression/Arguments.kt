@@ -51,8 +51,4 @@ class Arguments(
         counter = 0
         computed.clear()
     }
-
-    companion object {
-        val EMPTY: Arguments = Arguments(mutableListOf(), mutableMapOf())
-    }
 }
