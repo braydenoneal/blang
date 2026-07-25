@@ -74,12 +74,29 @@ abstract class Value<T>(open val value: T) : Expression, Operand<T>() {
         return FunctionReferenceValue(FunctionReference(this, name))
     }
 
-    open fun getFunction(name: String): (Program, Arguments) -> Value<*> {
-        throw RunException("Value has no functions")
+    open fun getFunction(name: String): ((Program, Arguments) -> Value<*>)? {
+        return null
+    }
+
+    fun getBaseFunction(name: String): ((Program, Arguments) -> Value<*>)? {
+        return when (name) {
+            "toString" -> ::toStringValue
+            else -> null
+        }
+    }
+
+    fun toStringValue(
+        @Suppress("unused")
+        program: Program,
+        @Suppress("unused")
+        arguments: Arguments,
+    ): Value<*> {
+        return StringValue(this.toString())
     }
 
     fun callFunction(program: Program, arguments: Arguments, name: String): Value<*> {
-        return getFunction(name).invoke(program, arguments)
+        val function = getFunction(name) ?: getBaseFunction(name) ?: throw RunException("Value has no functions")
+        return function.invoke(program, arguments)
     }
 
     open fun iteratorGet(index: Int): Value<*> {

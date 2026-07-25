@@ -1,5 +1,7 @@
 package program.expression.value
 
+import program.Program
+import program.expression.Arguments
 import program.expression.value.util.Range
 import kotlin.math.pow
 
@@ -48,5 +50,21 @@ class IntegerValue(value: Int) : Value<Int>(value) {
 
     override fun rangeTo(other: Int): Value<*> {
         return RangeValue(Range(value, other, 1))
+    }
+
+    override fun getFunction(name: String): ((Program, Arguments) -> Value<*>)? {
+        return when (name) {
+            "toFloat" -> ::toFloat
+            else -> super.getFunction(name)
+        }
+    }
+
+    fun toFloat(
+        @Suppress("unused")
+        program: Program,
+        @Suppress("unused")
+        arguments: Arguments,
+    ): Value<*> {
+        return FloatValue(value.toFloat())
     }
 }

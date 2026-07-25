@@ -63,7 +63,7 @@ class ListValue(override val value: MutableList<Value<*>>) : Value<MutableList<V
         return value.size
     }
 
-    override fun getFunction(name: String): (Program, Arguments) -> Value<*> {
+    override fun getFunction(name: String): ((Program, Arguments) -> Value<*>)? {
         return when (name) {
             "append" -> ::append
             "containsAll" -> ::containsAll

@@ -52,7 +52,7 @@ class StructValue(value: MutableList<Pair<String, Value<*>>>) : Value<MutableLis
         return item
     }
 
-    override fun getFunction(name: String): (Program, Arguments) -> Value<*> {
+    override fun getFunction(name: String): ((Program, Arguments) -> Value<*>)? {
         return when (name) {
             "entries" -> ::entries
             "keys" -> ::keys

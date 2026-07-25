@@ -9,7 +9,7 @@
     - register AssignExpression handling (register equals operator)
     - look into whether Value needs to have a generic type
 - features
-    - allow Value class to define shared functions (`to(other) -> pair`)
+    - implement toPair base function (`to(other) -> pair`)
     - add the following operators
         - `a in b`
         - `a !in b`

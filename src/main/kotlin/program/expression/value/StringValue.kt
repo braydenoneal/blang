@@ -45,7 +45,7 @@ class StringValue(value: String) : Value<String>(value) {
         return StringValue(value[asIndex(item)].toString())
     }
 
-    override fun getFunction(name: String): (Program, Arguments) -> Value<*> {
+    override fun getFunction(name: String): ((Program, Arguments) -> Value<*>)? {
         return when (name) {
             "contains" -> ::contains
             "uppercase" -> ::uppercase
