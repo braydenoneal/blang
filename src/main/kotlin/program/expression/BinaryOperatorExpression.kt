@@ -13,12 +13,6 @@ class BinaryOperatorExpression(
         var a = left.evaluate(program)
         var b = right.evaluate(program)
 
-        if (operator == "==") {
-            return BooleanValue(a == b)
-        } else if (operator == "!=") {
-            return BooleanValue(a != b)
-        }
-
         when {
             a is IntegerValue && b is FloatValue -> a = FloatValue(a.value.toFloat())
             a is FloatValue && b is IntegerValue -> b = FloatValue(b.value.toFloat())
@@ -40,6 +34,8 @@ class BinaryOperatorExpression(
             ">" -> BooleanValue(a.compareTo(a.cast(b)) > 0)
             "and" -> BooleanValue(a.truth() && b.truth())
             "or" -> BooleanValue(a.truth() || b.truth())
+            "==" -> BooleanValue(a.equalsOther(a.cast(b)))
+            "!=" -> BooleanValue(!a.equalsOther(a.cast(b)))
             else -> throw RunException("Unknown operator")
         }
     }

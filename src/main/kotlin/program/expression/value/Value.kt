@@ -28,6 +28,10 @@ abstract class Value<T>(open val value: T) : Expression, Operand<T>() {
         return value.hashCode()
     }
 
+    override fun equalsOther(other: T): Boolean {
+        return value == other
+    }
+
     abstract fun typeString(): String
 
     inline fun <reified T : Value<*>> cast(): T {

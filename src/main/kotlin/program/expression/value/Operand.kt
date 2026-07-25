@@ -54,4 +54,8 @@ abstract class Operand<T> {
     open fun set(item: Value<*>, setValue: Value<*>): Value<*> {
         throw RunException("Value does not implement set")
     }
+
+    open fun equalsOther(other: T): Boolean {
+        throw RunException("Value does not implement equals")
+    }
 }
