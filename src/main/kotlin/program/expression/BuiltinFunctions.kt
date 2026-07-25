@@ -29,6 +29,10 @@ object BuiltinFunctions {
         "wait" to ::wait,
     )
 
+    fun register(name: String, function: (Program, Arguments) -> Value<*>) {
+        builtins[name] = function
+    }
+
     fun absoluteValue(program: Program, arguments: Arguments): Value<*> {
         val value = arguments.getAny(program, "value")
 

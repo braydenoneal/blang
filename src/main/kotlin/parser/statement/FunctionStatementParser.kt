@@ -3,14 +3,15 @@ package parser.statement
 import parser.Parser
 import parser.expression.prefix.FunctionParser
 import parser.tokenizer.Type
+import program.expression.value.FunctionValue
 import program.statement.FunctionStatement
 import program.statement.Statement
 
 class FunctionStatementParser : StatementParser {
     override fun parse(parser: Parser): Statement {
         val name = parser.expect(Type.IDENTIFIER)
-        val functionStatement = FunctionStatement(FunctionParser.parse(parser))
-        parser.program.addFunction(name, functionStatement)
-        return functionStatement
+        val function = FunctionParser.parse(parser)
+        parser.program.addFunction(name, FunctionValue(function))
+        return FunctionStatement(function)
     }
 }

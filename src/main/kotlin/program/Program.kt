@@ -1,7 +1,7 @@
 package program
 
 import parser.Parser
-import program.statement.FunctionStatement
+import program.expression.value.FunctionValue
 import program.statement.ImportStatement
 import program.statement.IncompleteException
 import program.statement.StatementList
@@ -12,7 +12,7 @@ open class Program(
     open var name: String = "name",
     open val imports: MutableList<ImportStatement> = mutableListOf(),
     open val statements: StatementList = StatementList(),
-    open val functions: MutableMap<String, FunctionStatement> = mutableMapOf(),
+    open val functions: MutableMap<String, FunctionValue> = mutableMapOf(),
     open val scopes: MutableList<Scope> = mutableListOf(),
 ) {
     var wait = false
@@ -66,11 +66,11 @@ open class Program(
         imports.add(importStatement)
     }
 
-    fun addFunction(name: String, function: FunctionStatement) {
+    fun addFunction(name: String, function: FunctionValue) {
         functions[name] = function
     }
 
-    fun getFunction(name: String): FunctionStatement? {
+    fun getFunction(name: String): FunctionValue? {
         return functions[name]
     }
 

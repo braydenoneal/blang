@@ -2,7 +2,6 @@ package program.expression
 
 import program.Program
 import program.expression.value.FunctionReferenceValue
-import program.expression.value.FunctionValue
 import program.expression.value.Value
 import program.expression.value.util.FunctionReference
 
@@ -17,7 +16,7 @@ class IdentifierExpression(val name: String) : Expression {
         val function = program.functions[name]
 
         if (function != null) {
-            return FunctionValue(function.function)
+            return function
         }
 
         for (importStatement in program.imports) {
@@ -26,7 +25,7 @@ class IdentifierExpression(val name: String) : Expression {
                 val function = importProgram.getFunction(name)
 
                 if (function != null) {
-                    return FunctionValue(function.function)
+                    return function
                 }
             }
         }
