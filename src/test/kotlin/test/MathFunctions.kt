@@ -8,9 +8,9 @@ class MathFunctions : Test() {
     override fun body(): String {
         return """
             abs = abs(-1)
-            int = int(2.0)
-            float = float(3)
-            str = str(4)
+            int = 2.0.toInt()
+            float = 3.toFloat()
+            str = 4.toString()
             round = round(5.4)
             min = min(6, 7)
             max = max(6, 7)

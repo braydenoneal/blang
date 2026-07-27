@@ -24,7 +24,7 @@ class Lists : Test() {
             listOfList[1][1] = 1
             nested = listOfList[1][1]
             nameless = [[[0]]][0][0][0]
-            length = len([0, 1, 2])
+            length = [0, 1, 2].size
             nestedCall = [0, [0]]
             nestedCall[1].append(2)
             nestedCall[1].insert(1, 1)

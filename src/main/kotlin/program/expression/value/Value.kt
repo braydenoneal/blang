@@ -91,7 +91,7 @@ abstract class Value<T>(open val value: T) : Expression, Operand<T>() {
         @Suppress("unused")
         arguments: Arguments,
     ): Value<*> {
-        return StringValue(this.toString())
+        return StringValue(toString())
     }
 
     fun callFunction(program: Program, arguments: Arguments, name: String): Value<*> {

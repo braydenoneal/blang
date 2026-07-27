@@ -2,9 +2,11 @@ package program.expression
 
 import program.Program
 import program.RunException
-import program.expression.value.*
+import program.expression.value.FloatValue
+import program.expression.value.IntegerValue
+import program.expression.value.StringValue
+import program.expression.value.Value
 import program.expression.value.util.Null
-import program.expression.value.util.Range
 import program.statement.IncompleteException
 import kotlin.math.abs
 import kotlin.math.max
@@ -14,17 +16,12 @@ import kotlin.math.roundToInt
 object BuiltinFunctions {
     val builtins: MutableMap<String, (Program, Arguments) -> Value<*>> = mutableMapOf(
         "abs" to ::absoluteValue,
-        "int" to ::integer,
-        "float" to ::floatCast,
-        "str" to ::stringCast,
         "round" to ::round,
         "floor" to ::floor,
         "ceil" to ::ceil,
-        "len" to ::length,
         "print" to ::print,
         "min" to ::minimum,
         "max" to ::maximum,
-        "range" to ::range,
         "type" to ::type,
         "wait" to ::wait,
     )
@@ -49,20 +46,8 @@ object BuiltinFunctions {
         return FloatValue(kotlin.math.ceil(arguments.get<FloatValue>(program, "value").value.toDouble()).toFloat())
     }
 
-    fun floatCast(program: Program, arguments: Arguments): Value<*> {
-        return FloatValue(arguments.get<IntegerValue>(program, "value").value.toFloat())
-    }
-
     fun floor(program: Program, arguments: Arguments): Value<*> {
         return FloatValue(kotlin.math.floor(arguments.get<FloatValue>(program, "value").value.toDouble()).toFloat())
-    }
-
-    fun integer(program: Program, arguments: Arguments): Value<*> {
-        return IntegerValue(arguments.get<FloatValue>(program, "value").value.toInt())
-    }
-
-    fun length(program: Program, arguments: Arguments): Value<*> {
-        return IntegerValue(arguments.get<ListValue>(program, "value").value.size)
     }
 
     fun minMax(program: Program, arguments: Arguments, minimum: Boolean): Value<*> {
@@ -104,13 +89,6 @@ object BuiltinFunctions {
         return Null.VALUE
     }
 
-    fun range(program: Program, arguments: Arguments): Value<*> {
-        val start = arguments.get<IntegerValue>(program, "start", IntegerValue(0)).value
-        val end = arguments.get<IntegerValue>(program, "end").value
-        val step = arguments.get<IntegerValue>(program, "step", IntegerValue(1)).value
-        return RangeValue(Range(start, end, step))
-    }
-
     fun round(program: Program, arguments: Arguments): Value<*> {
         val value = arguments.getAny(program, "value")
 
@@ -121,10 +99,6 @@ object BuiltinFunctions {
         }
 
         throw RunException("Expression is not a number")
-    }
-
-    fun stringCast(program: Program, arguments: Arguments): Value<*> {
-        return StringValue(arguments.getAny(program, "value").value.toString())
     }
 
     fun type(program: Program, arguments: Arguments): Value<*> {

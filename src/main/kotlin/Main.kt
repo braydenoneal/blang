@@ -4,9 +4,14 @@ fun main() {
     Program.initialize()
     Program(
         """
-            for i in 0..10 step 2 {
+            e = Range(0, 10, 2)
+            
+            for i in e {
                 print(i)
             }
+            
+            print(Range.test())
+            print(Range.TEST)
         """.trimIndent(),
     ).run(true)
 }

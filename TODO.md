@@ -8,6 +8,7 @@
     - register access expression handling
     - register AssignExpression handling (register equals operator)
     - look into whether Value needs to have a generic type
+    - accessing imports just change which program is passed to the rest of the expression?
 - features
     - implement toPair base function (`to(other) -> pair`)
     - list slicing

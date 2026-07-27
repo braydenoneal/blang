@@ -39,4 +39,33 @@ class RangeValue(value: Range) : Value<Range>(value) {
         val step = arguments.get<IntegerValue>(program, "value").value
         return RangeValue(Range(value.start, value.end, step))
     }
+
+    companion object : Static {
+        override val name: String = "Range"
+
+        override fun constructor(program: Program, arguments: Arguments): Value<*> {
+            val start = arguments.get<IntegerValue>(program, "start", IntegerValue(0)).value
+            val end = arguments.get<IntegerValue>(program, "end").value
+            val step = arguments.get<IntegerValue>(program, "step", IntegerValue(1)).value
+            return RangeValue(Range(start, end, step))
+        }
+
+        override fun getItem(name: String): Value<*>? {
+            return when (name) {
+                "TEST" -> IntegerValue(27)
+                else -> super.getItem(name)
+            }
+        }
+
+        override fun getFunction(name: String): ((Program, Arguments) -> Value<*>)? {
+            return when (name) {
+                "test" -> ::test
+                else -> super.getFunction(name)
+            }
+        }
+
+        fun test(program: Program, arguments: Arguments): Value<*> {
+            return StringValue("testFunction")
+        }
+    }
 }

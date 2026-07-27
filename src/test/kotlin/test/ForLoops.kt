@@ -13,25 +13,25 @@ class ForLoops : Test() {
             
             b = 0
             
-            for i in range(end=3) {
+            for i in Range(end=3) {
                 b = i
             }
             
             c = 0
             
-            for i in range(0, 3) {
+            for i in Range(0, 3) {
                 c = i
             }
             
             d = 0
             
-            for i in range(0, 3, 1) {
+            for i in Range(0, 3, 1) {
                 d = i
             }
             
             e = 0
             
-            for _ in range(end=3) {
+            for _ in Range(end=3) {
                 e += 1
             }
         """.trimIndent()

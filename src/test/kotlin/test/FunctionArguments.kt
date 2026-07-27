@@ -6,7 +6,7 @@ class FunctionArguments : Test() {
     override fun body(): String {
         return """
             fn customRange(start=0, end=1, step=1) {
-                return range(start, end, step)
+                return Range(start, end, step)
             }
             
             a = 0

@@ -4,7 +4,7 @@ import program.Program
 import program.RunException
 import program.expression.Arguments
 
-class ListValue(override val value: MutableList<Value<*>>) : Value<MutableList<Value<*>>>(value) {
+class ListValue(value: MutableList<Value<*>>) : Value<MutableList<Value<*>>>(value) {
     override fun typeString(): String = "list"
 
     override fun toString(): String {
