@@ -4,9 +4,9 @@ fun main() {
     Program.initialize()
     Program(
         """
-            for i in 0..10 step 2 {
-                print(i)
-            }
+            fruit = pair("Apple", 3)
+            print(fruit.first)
+            print(fruit.second)
         """.trimIndent(),
     ).run(true)
 }

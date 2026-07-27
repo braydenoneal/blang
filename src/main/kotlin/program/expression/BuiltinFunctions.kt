@@ -27,6 +27,7 @@ object BuiltinFunctions {
         "range" to ::range,
         "type" to ::type,
         "wait" to ::wait,
+        "pair" to ::pair,
     )
 
     fun register(name: String, function: (Program, Arguments) -> Value<*>) {
@@ -142,5 +143,10 @@ object BuiltinFunctions {
 
         program.waitUntilNextTick()
         throw IncompleteException()
+    }
+    fun pair(program: Program, arguments: Arguments): Value<*> {
+        val first = arguments.getAny(program, "first")
+        val second = arguments.getAny(program, "second")
+        return PairValue(Pair(first, second))
     }
 }
