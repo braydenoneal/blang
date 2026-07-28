@@ -5,9 +5,8 @@ import program.RunException
 import program.expression.Arguments
 import program.expression.Expression
 import program.expression.value.util.FunctionReference
-import program.statement.IncompleteException
 
-abstract class Value<T>(open val value: T) : Expression, Operand<T>() {
+abstract class Value<T>(open val value: T) : Expression, Callable, Operand<T>() {
     override fun innerEvaluate(program: Program): Value<*> {
         return this
     }
@@ -45,29 +44,6 @@ abstract class Value<T>(open val value: T) : Expression, Operand<T>() {
         }
 
         throw RunException("Values are not the same type")
-    }
-
-    fun call(program: Program, arguments: Arguments): Value<*> {
-        try {
-            val value = innerCall(program, arguments)
-            done(program, arguments)
-            return value
-        } catch (_: IncompleteException) {
-            abort(program, arguments)
-            throw IncompleteException()
-        }
-    }
-
-    open fun innerCall(program: Program, arguments: Arguments): Value<*> {
-        throw RunException("Value cannot be called")
-    }
-
-    open fun abort(program: Program, arguments: Arguments) {
-        arguments.abort()
-    }
-
-    open fun done(program: Program, arguments: Arguments) {
-        arguments.done()
     }
 
     open fun getItem(program: Program, name: String): Value<*> {

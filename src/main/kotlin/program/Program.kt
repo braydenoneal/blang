@@ -1,8 +1,6 @@
 package program
 
 import parser.Parser
-import parser.statement.StaticStatementsParser
-import parser.statement.StructStatementParser
 import program.expression.value.FunctionValue
 import program.expression.value.util.StructDefinition
 import program.statement.ImportStatement
@@ -104,8 +102,6 @@ open class Program(
     companion object {
         fun initialize() {
             Parser.initialize()
-            StructStatementParser.initialize()
-            StaticStatementsParser.initialize()
         }
     }
 }

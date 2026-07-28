@@ -9,7 +9,7 @@ import program.expression.value.FunctionValue
 import program.expression.value.util.StructDefinition
 import program.statement.FunctionStatement
 import program.statement.Statement
-import program.statement.StaticStatements
+import program.statement.StaticStatement
 import program.statement.StructStatement
 
 class StructStatementParser : StatementParser {
@@ -23,18 +23,19 @@ class StructStatementParser : StatementParser {
         var parsedStatic = false
 
         while (!(parser.peekIs(Type.RIGHT_CURLY_BRACE))) {
-            when (val statement = StructStatementParser.parse(parser)) {
+            when (val statement = StatementParser.parse(parser)) {
                 is FunctionStatement -> functions[statement.name] = FunctionValue(statement.function)
-                is StaticStatements -> {
-                    if (!parsedStatic) {
-                        staticFunctions = statement.functions
-                        staticVariables = statement.variables
-                    } else {
+                is StaticStatement -> {
+                    if (parsedStatic) {
                         throw ParseException("Cannot define static more than once")
                     }
 
+                    staticFunctions = statement.functions
+                    staticVariables = statement.variables
                     parsedStatic = true
                 }
+
+                else -> throw ParseException("Statement ${statement::class} not allowed in a struct definition")
             }
         }
 
@@ -42,24 +43,5 @@ class StructStatementParser : StatementParser {
         val struct = StructDefinition(parameters, defaultParameters, functions, staticFunctions, staticVariables)
         parser.program.addStruct(name, struct)
         return StructStatement(name, struct)
-    }
-
-    companion object {
-        val statementParsers: MutableMap<Type, StatementParser> = mutableMapOf()
-
-        fun register(type: Type, parser: StatementParser) {
-            statementParsers[type] = parser
-        }
-
-        fun initialize() {
-            register(Type.FN_KEYWORD, FunctionStatementParser())
-            register(Type.STATIC_KEYWORD, StaticStatementsParser())
-        }
-
-        fun parse(parser: Parser): Statement {
-            val token = parser.next()
-            val statementParser = statementParsers[token.type] ?: throw ParseException("Unrecognized token for struct definition ${token.type}")
-            return statementParser.parse(parser)
-        }
     }
 }

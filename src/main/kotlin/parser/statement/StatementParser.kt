@@ -26,6 +26,8 @@ interface StatementParser {
             register(Type.CONTINUE_KEYWORD, ContinueStatementParser())
             register(Type.RETURN_KEYWORD, ReturnStatementParser())
             register(Type.STRUCT_KEYWORD, StructStatementParser())
+            register(Type.STATIC_KEYWORD, StaticStatementParser())
+            register(Type.VAR_KEYWORD, StaticVariableStatementParser())
         }
 
         fun parse(parser: Parser): Statement {

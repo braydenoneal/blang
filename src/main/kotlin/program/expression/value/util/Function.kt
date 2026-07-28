@@ -5,8 +5,8 @@ import program.RunException
 import program.Scope
 import program.expression.Arguments
 import program.expression.Expression
+import program.expression.value.Callable
 import program.expression.value.Value
-import program.statement.IncompleteException
 import program.statement.ReturnStatement
 import program.statement.StatementList
 
@@ -16,19 +16,8 @@ class Function(
     val statements: StatementList,
     var scope: Scope? = null,
     var running: Boolean = false,
-) {
-    fun call(program: Program, arguments: Arguments): Value<*> {
-        try {
-            val value = innerCall(program, arguments)
-            done(program, arguments)
-            return value
-        } catch (_: IncompleteException) {
-            abort(program, arguments)
-            throw IncompleteException()
-        }
-    }
-
-    fun innerCall(program: Program, arguments: Arguments): Value<*> {
+) : Callable {
+    override fun innerCall(program: Program, arguments: Arguments): Value<*> {
         if (scope == null) {
             scope = Scope(program.scopes.last())
         }
@@ -68,7 +57,7 @@ class Function(
         return returnValue
     }
 
-    fun abort(program: Program, arguments: Arguments) {
+    override fun abort(program: Program, arguments: Arguments) {
         if (running) {
             program.endScope()
         } else {
@@ -76,7 +65,7 @@ class Function(
         }
     }
 
-    fun done(program: Program, arguments: Arguments) {
+    override fun done(program: Program, arguments: Arguments) {
         scope = null
         running = false
         arguments.done()

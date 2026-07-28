@@ -14,7 +14,9 @@ interface Statement {
         }
     }
 
-    fun innerExecute(program: Program): Statement
+    fun innerExecute(program: Program): Statement {
+        return this
+    }
 
     fun abort(program: Program) {}
 
