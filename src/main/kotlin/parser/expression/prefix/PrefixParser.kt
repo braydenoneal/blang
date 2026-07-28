@@ -19,7 +19,6 @@ interface PrefixParser {
             register(Type.IDENTIFIER, IdentifierExpressionParser())
             register(Type.LEFT_PARENTHESIS, GroupExpressionParser())
             register(Type.LEFT_SQUARE_BRACE, ListExpressionParser())
-            register(Type.LEFT_CURLY_BRACE, StructExpressionParser())
             register(Type.BOOLEAN, LiteralExpressionParser())
             register(Type.QUOTE, LiteralExpressionParser())
             register(Type.FLOAT, LiteralExpressionParser())

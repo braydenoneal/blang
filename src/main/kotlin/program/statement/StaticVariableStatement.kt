@@ -1,9 +1,12 @@
 package program.statement
 
 import program.Program
-import program.expression.value.util.Function
+import program.expression.Expression
 
-class FunctionStatement(val name: String, val function: Function) : Statement {
+class StaticVariableStatement(
+    val name: String,
+    val expression: Expression,
+) : Statement {
     override fun innerExecute(program: Program): Statement {
         return this
     }

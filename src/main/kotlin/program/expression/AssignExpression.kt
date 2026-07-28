@@ -2,7 +2,6 @@ package program.expression
 
 import program.Program
 import program.RunException
-import program.expression.value.StructValue
 import program.expression.value.Value
 
 class AssignExpression(
@@ -40,16 +39,16 @@ class AssignExpression(
                 return operand.set(item, augmentAssign(program, previous, value))
             }
 
-            is DotExpression -> {
-                val struct = left.left.evaluate(program).cast<StructValue>()
-
-                if (operator == "=") {
-                    return struct.setProperty(left.right, value)
-                }
-
-                val previous = struct.getProperty(left.right)
-                return struct.setProperty(left.right, augmentAssign(program, previous, value))
-            }
+//            is DotExpression -> {
+//                val struct = left.left.evaluate(program).cast<StructValue>()
+//
+//                if (operator == "=") {
+//                    return struct.setProperty(left.right, value)
+//                }
+//
+//                val previous = struct.getProperty(left.right)
+//                return struct.setProperty(left.right, augmentAssign(program, previous, value))
+//            }
 
             else -> throw RunException("Expression is not assignable")
         }

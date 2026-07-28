@@ -45,14 +45,14 @@ class StringValue(value: String) : Value<String>(value) {
         return StringValue(value[asIndex(item)].toString())
     }
 
-    override fun getFunction(name: String): ((Program, Arguments) -> Value<*>)? {
+    override fun getFunction(program: Program, name: String): ((Program, Arguments) -> Value<*>)? {
         return when (name) {
             "contains" -> ::contains
             "uppercase" -> ::uppercase
             "lowercase" -> ::lowercase
             "length" -> ::length
             "substring" -> ::substring
-            else -> super.getFunction(name)
+            else -> super.getFunction(program, name)
         }
     }
 

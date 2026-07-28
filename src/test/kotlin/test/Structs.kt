@@ -1,36 +1,38 @@
 package testing.test
 
 import program.expression.value.IntegerValue
-import program.expression.value.ListValue
-import program.expression.value.StringValue
-import program.expression.value.StructValue
 
 class Structs : Test() {
     override fun body(): String {
         return """
-            a = { a: 1 }
-            b = a.a
-            c = { a: { a: 1 }}
-            d = { a: 1 }
-            d.remove("a")
-            e = c.keys()
-            f = c.values()
-            g = c.entries()
-            h = { a: { a: 0 }}
-            h.a.a = 1
+            struct Test(a, b, c) {
+                fn test() {
+                    return self.b
+                }
+                
+                static {
+                    var TEST = 27
+                    
+                    fn test() {
+                        return 1
+                    }
+                }
+            }
+            
+            a = Test(1, 2, 3)
+            b = a.c
+            c = a.test()
+            d = Test.TEST
+            e = Test.test()
         """.trimIndent()
     }
 
     override fun expects(): List<Expect> {
         return listOf(
-            Expect("a", StructValue(mutableListOf("a" to IntegerValue(1)))),
-            Expect("b", IntegerValue(1)),
-            Expect("c", StructValue(mutableListOf("a" to StructValue(mutableListOf("a" to IntegerValue(1)))))),
-            Expect("d", StructValue(mutableListOf())),
-            Expect("e", ListValue(mutableListOf(StringValue("a")))),
-            Expect("f", ListValue(mutableListOf(StructValue(mutableListOf("a" to IntegerValue(1)))))),
-            Expect("g", ListValue(mutableListOf(StructValue(mutableListOf("key" to StringValue("a"), "value" to StructValue(mutableListOf("a" to IntegerValue(1)))))))),
-            Expect("h", StructValue(mutableListOf("a" to StructValue(mutableListOf("a" to IntegerValue(1)))))),
+            Expect("b", IntegerValue(3)),
+            Expect("c", IntegerValue(2)),
+            Expect("d", IntegerValue(27)),
+            Expect("e", IntegerValue(1)),
         )
     }
 }

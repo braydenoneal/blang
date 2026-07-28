@@ -13,7 +13,6 @@ class TypeFunction : Test() {
             nullType = type(null)
             range = type(0..1)
             string = type("string")
-            struct = type({a: 1})
         """.trimIndent()
     }
 
@@ -27,7 +26,6 @@ class TypeFunction : Test() {
             Expect("nullType", StringValue("null")),
             Expect("range", StringValue("range")),
             Expect("string", StringValue("string")),
-            Expect("struct", StringValue("struct")),
         )
     }
 }

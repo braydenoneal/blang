@@ -16,16 +16,20 @@ abstract class Test {
 
         try {
             program.run()
+        } catch (exception: Exception) {
+            failed.add("\u001B[31m${exception}\u001B[0m")
+        }
 
-            for (expect in expects) {
+        for (expect in expects) {
+            try {
                 val value = program.topScope.get(expect.name)
 
                 if (expect.value != value) {
                     failed.add("\u001B[31mFailed: ${expect.name} is $value, expected ${expect.value}\u001B[0m")
                 }
+            } catch (exception: Exception) {
+                failed.add("\u001B[31m${exception}\u001B[0m")
             }
-        } catch (exception: Exception) {
-            failed.add("\u001B[31m${exception}\u001B[0m")
         }
 
         if (failed.isNotEmpty()) {

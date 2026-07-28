@@ -6,6 +6,7 @@ import program.Scope
 import program.expression.Arguments
 import program.expression.Expression
 import program.expression.value.Value
+import program.statement.IncompleteException
 import program.statement.ReturnStatement
 import program.statement.StatementList
 
@@ -17,11 +18,26 @@ class Function(
     var running: Boolean = false,
 ) {
     fun call(program: Program, arguments: Arguments): Value<*> {
+        try {
+            val value = innerCall(program, arguments)
+            done(program, arguments)
+            return value
+        } catch (_: IncompleteException) {
+            abort(program, arguments)
+            throw IncompleteException()
+        }
+    }
+
+    fun innerCall(program: Program, arguments: Arguments): Value<*> {
         if (scope == null) {
             scope = Scope(program.scopes.last())
         }
 
         val scope = scope!!
+
+        if (arguments.hasSelf) {
+            scope.setLocal("self", arguments.getAny(program, "self"))
+        }
 
         for (name in parameters) {
             if (name !in scope.variables) {
@@ -35,7 +51,7 @@ class Function(
             }
         }
 
-        if (arguments.namelessArguments.size + arguments.namedArguments.size > parameters.size + defaultParameters.size) {
+        if (arguments.namelessArguments.size + arguments.namedArguments.size - (if (arguments.hasSelf) 1 else 0) > parameters.size + defaultParameters.size) {
             throw RunException("Extra argument(s) provided")
         }
 

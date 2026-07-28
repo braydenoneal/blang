@@ -10,6 +10,7 @@ class Arguments(
     var index: Int = 0,
     var computed: MutableMap<String, Value<*>> = mutableMapOf(),
     var counter: Int = 0,
+    var hasSelf: Boolean = false,
 ) {
     fun getAny(program: Program, name: String, default: Value<*>? = null): Value<*> {
         if (computed.containsKey(name)) {

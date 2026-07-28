@@ -1,7 +1,10 @@
 package program
 
 import parser.Parser
+import parser.statement.StaticStatementsParser
+import parser.statement.StructStatementParser
 import program.expression.value.FunctionValue
+import program.expression.value.util.StructDefinition
 import program.statement.ImportStatement
 import program.statement.IncompleteException
 import program.statement.StatementList
@@ -13,6 +16,7 @@ open class Program(
     open val imports: MutableList<ImportStatement> = mutableListOf(),
     open val statements: StatementList = StatementList(),
     open val functions: MutableMap<String, FunctionValue> = mutableMapOf(),
+    open val structs: MutableMap<String, StructDefinition> = mutableMapOf(),
     open val scopes: MutableList<Scope> = mutableListOf(),
 ) {
     var wait = false
@@ -70,8 +74,16 @@ open class Program(
         functions[name] = function
     }
 
+    fun addStruct(name: String, struct: StructDefinition) {
+        structs[name] = struct
+    }
+
     fun getFunction(name: String): FunctionValue? {
         return functions[name]
+    }
+
+    fun getStruct(name: String): StructDefinition? {
+        return structs[name]
     }
 
     fun addScope(scope: Scope) {
@@ -92,6 +104,8 @@ open class Program(
     companion object {
         fun initialize() {
             Parser.initialize()
+            StructStatementParser.initialize()
+            StaticStatementsParser.initialize()
         }
     }
 }

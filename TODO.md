@@ -1,7 +1,8 @@
 ## Todo
 
 - code cleanup
-    - implement syntax for creating objects
+    - parsing and execution flow diagrams
+    - cleanup getting items and executing functions for values
     - implement `toString` for all values
     - split function parameters/arguments and statements (for both parsing and execution)
     - way to check if token is part of a group (i.e. token is a keyword)

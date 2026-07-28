@@ -48,10 +48,10 @@ class FloatValue(value: Float) : Value<Float>(value) {
         return value.compareTo(other)
     }
 
-    override fun getFunction(name: String): ((Program, Arguments) -> Value<*>)? {
+    override fun getFunction(program: Program, name: String): ((Program, Arguments) -> Value<*>)? {
         return when (name) {
             "toInt" -> ::toInt
-            else -> super.getFunction(name)
+            else -> super.getFunction(program, name)
         }
     }
 

@@ -70,11 +70,11 @@ abstract class Value<T>(open val value: T) : Expression, Operand<T>() {
         arguments.done()
     }
 
-    open fun getItem(name: String): Value<*> {
+    open fun getItem(program: Program, name: String): Value<*> {
         return FunctionReferenceValue(FunctionReference(this, name))
     }
 
-    open fun getFunction(name: String): ((Program, Arguments) -> Value<*>)? {
+    open fun getFunction(program: Program, name: String): ((Program, Arguments) -> Value<*>)? {
         return null
     }
 
@@ -95,7 +95,7 @@ abstract class Value<T>(open val value: T) : Expression, Operand<T>() {
     }
 
     fun callFunction(program: Program, arguments: Arguments, name: String): Value<*> {
-        val function = getFunction(name) ?: getBaseFunction(name) ?: throw RunException("Value has no functions")
+        val function = getFunction(program, name) ?: getBaseFunction(name) ?: throw RunException("Value has no functions")
         return function.invoke(program, arguments)
     }
 

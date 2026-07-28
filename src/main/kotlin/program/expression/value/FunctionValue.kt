@@ -8,7 +8,7 @@ class FunctionValue(value: Function) : Value<Function>(value) {
     override fun typeString(): String = "function"
 
     override fun innerCall(program: Program, arguments: Arguments): Value<*> {
-        return value.call(program, arguments)
+        return value.innerCall(program, arguments)
     }
 
     override fun toString(): String {

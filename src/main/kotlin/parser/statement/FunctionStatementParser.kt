@@ -12,6 +12,6 @@ class FunctionStatementParser : StatementParser {
         val name = parser.expect(Type.IDENTIFIER)
         val function = FunctionParser.parse(parser)
         parser.program.addFunction(name, FunctionValue(function))
-        return FunctionStatement(function)
+        return FunctionStatement(name, function)
     }
 }

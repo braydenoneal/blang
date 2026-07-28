@@ -48,10 +48,10 @@ class ListValue(value: MutableList<Value<*>>) : Value<MutableList<Value<*>>>(val
         return setValue
     }
 
-    override fun getItem(name: String): Value<*> {
+    override fun getItem(program: Program, name: String): Value<*> {
         return when (name) {
             "size" -> IntegerValue(value.size)
-            else -> super.getItem(name)
+            else -> super.getItem(program, name)
         }
     }
 
@@ -63,7 +63,7 @@ class ListValue(value: MutableList<Value<*>>) : Value<MutableList<Value<*>>>(val
         return value.size
     }
 
-    override fun getFunction(name: String): ((Program, Arguments) -> Value<*>)? {
+    override fun getFunction(program: Program, name: String): ((Program, Arguments) -> Value<*>)? {
         return when (name) {
             "append" -> ::append
             "containsAll" -> ::containsAll
@@ -71,7 +71,7 @@ class ListValue(value: MutableList<Value<*>>) : Value<MutableList<Value<*>>>(val
             "insert" -> ::insert
             "pop" -> ::pop
             "remove" -> ::remove
-            else -> super.getFunction(name)
+            else -> super.getFunction(program, name)
         }
     }
 
