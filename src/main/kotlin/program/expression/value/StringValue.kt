@@ -63,7 +63,8 @@ class StringValue(value: String) : Value<String>(value) {
 
     fun contains(program: Program, arguments: Arguments): Value<*> {
         val item = arguments.get<StringValue>(program, "value").value
-        return BooleanValue(value.contains(item))
+        val ignoreCase = arguments.get<BooleanValue>(program, "ignoreCase", BooleanValue(false)).value
+        return BooleanValue(value.contains(item, ignoreCase))
     }
 
     fun uppercase(
