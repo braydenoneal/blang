@@ -6,14 +6,12 @@
     - implement `toString` for all values
     - split function parameters/arguments and statements (for both parsing and execution)
     - way to check if token is part of a group (i.e. token is a keyword)
-    - register access expression handling
-    - register AssignExpression handling (register equals operator)
-    - look into whether Value needs to have a generic type
+    - more registering
     - accessing imports just change which program is passed to the rest of the expression?
 - features
+    - allow accessing static members through instances
     - implement toPair base function (`to(other) -> pair`)
     - list slicing
-    - add properties to many values to replace some functions (`item.tag` instead of `tag(item)`, etc)
     - list destructuring?
     - allow del as an alternative to `.remove()` functions (`del someList[3]`)
     - switch statement
@@ -22,16 +20,11 @@
     - support for variable length arguments `mapOf(Pair(), Pair(), Pair(), etc.)`
     - optional/nullable or just null handling features
     - formatted strings
-    - in-language operator overloading
-    - struct this keyword in functions
-    - struct access by `["id"]`
     - struct destructuring? (order dependant)
     - struct destructuring? (name dependant)
-    - struct get function? (`key: get { return this.a + 1; }`)
     - struct variable name shorthand (`id` instead of `id: id`)
     - struct operator overloading
     - static types?
-    - method overloading?
     - method annotations?
     - enums?
     - generics?

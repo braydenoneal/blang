@@ -52,6 +52,7 @@ class StringValue(value: String) : Value<String>(value) {
             "lowercase" -> ::lowercase
             "length" -> ::length
             "substring" -> ::substring
+            "lines" -> ::lines
             else -> super.getFunction(program, name)
         }
     }
@@ -96,5 +97,15 @@ class StringValue(value: String) : Value<String>(value) {
         val start = arguments.get<IntegerValue>(program, "start").value
         val end = arguments.get<IntegerValue>(program, "end").value
         return StringValue(value.substring(start, end))
+    }
+
+    fun lines(
+        @Suppress("unused")
+        program: Program,
+        @Suppress("unused")
+        arguments: Arguments,
+    ): Value<*> {
+        val lines: MutableList<Value<*>> = value.lines().map { string -> StringValue(string) }.toMutableList()
+        return ListValue(lines)
     }
 }
