@@ -55,6 +55,10 @@ abstract class Value<T>(open val value: T) : Operand<T>(), Callable {
         return FunctionReferenceValue(FunctionReference(this, name)).withSpan(span)
     }
 
+    open fun assignItem(name: String, setValue: Value<*>): Value<*> {
+        throw RunException("Value has no assignable item $name", span)
+    }
+
     open fun getFunction(program: Program, name: String): ((Program, Arguments) -> Value<*>)? {
         return null
     }

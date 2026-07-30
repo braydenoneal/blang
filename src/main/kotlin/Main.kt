@@ -5,9 +5,12 @@ fun main() {
     Program.initialize()
     val program = Program(
         """
-            a = "Hello\nWorld\n!"
-            print(a.lines())
-            a = 0 + false
+            struct Test(a) {}
+            
+            a = Test(1)
+            print(a.a)
+            a.a = 2
+            print(a.a)
         """.trimIndent(),
     )
 

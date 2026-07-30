@@ -39,16 +39,16 @@ class AssignExpression(
                 return operand.set(item, augmentAssign(program, previous, value))
             }
 
-//            is DotExpression -> {
-//                val struct = left.left.evaluate(program).cast<StructValue>()
-//
-//                if (operator == "=") {
-//                    return struct.setProperty(left.right, value)
-//                }
-//
-//                val previous = struct.getProperty(left.right)
-//                return struct.setProperty(left.right, augmentAssign(program, previous, value))
-//            }
+            is DotExpression -> {
+                val leftValue = left.left.evaluate(program)
+
+                if (operator == "=") {
+                    return leftValue.assignItem(left.right, value)
+                }
+
+                val previous = leftValue.getItem(program, left.right)
+                return leftValue.assignItem(left.right, augmentAssign(program, previous, value))
+            }
 
             else -> throw RunException("Expression is not assignable", span)
         }

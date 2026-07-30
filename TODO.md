@@ -1,6 +1,7 @@
 ## Todo
 
 - code cleanup
+    - some way of restructuring the entire paradigm of the code in order to implement things without complicating the stuff currently in place???
     - parsing and execution flow diagrams
     - cleanup getting items and executing functions for values
     - implement `toString` for all values
@@ -10,7 +11,7 @@
     - accessing imports just change which program is passed to the rest of the expression?
     - auto registration with reflection and annotations?
 - features
-    - struct property assigning (`someStruct.a = 0`)
+    - immutable variables
     - allow accessing static members through instances
     - implement toPair base function (`to(other) -> pair`)
     - list slicing
