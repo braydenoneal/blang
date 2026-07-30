@@ -40,7 +40,7 @@ class StructStatementParser : StatementParser {
         }
 
         parser.expect(Type.RIGHT_CURLY_BRACE)
-        val struct = StructDefinition(parameters, defaultParameters, functions, staticFunctions, staticVariables)
+        val struct = StructDefinition(name, parameters, defaultParameters, functions, staticFunctions, staticVariables)
         parser.program.addStruct(name, struct)
         return StructStatement(name, struct)
     }

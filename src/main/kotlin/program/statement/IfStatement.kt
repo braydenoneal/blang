@@ -52,6 +52,20 @@ class IfStatement(
         }
     }
 
+    override fun toString(): String {
+        val string = StringBuilder("if $condition { $statements }")
+
+        for (statement in elseIfStatements) {
+            string.append(" elif ${statement.condition} { ${statement.statements} }")
+        }
+
+        if (elseStatement != null) {
+            string.append(" else { ${elseStatement.statements} }")
+        }
+
+        return string.toString()
+    }
+
     class ElseIfStatement(
         val condition: Expression,
         val statements: StatementList,

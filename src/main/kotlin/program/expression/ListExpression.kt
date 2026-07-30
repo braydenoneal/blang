@@ -27,4 +27,8 @@ class ListExpression(
     override fun done(program: Program) {
         computed.clear()
     }
+
+    override fun toString(): String {
+        return expressions.joinToString(", ")
+    }
 }

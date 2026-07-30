@@ -10,4 +10,8 @@ class AccessExpression(
     override fun innerEvaluate(program: Program): Value<*> {
         return left.evaluate(program).get(right.evaluate(program))
     }
+
+    override fun toString(): String {
+        return "$left[$right]"
+    }
 }

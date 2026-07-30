@@ -32,4 +32,8 @@ class WhileStatement(
     override fun done(program: Program) {
         conditionValue = null
     }
+
+    override fun toString(): String {
+        return "while $condition { $statements }"
+    }
 }

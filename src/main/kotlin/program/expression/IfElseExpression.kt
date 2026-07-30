@@ -12,4 +12,8 @@ class IfElseExpression(
         val conditionValue = condition.evaluate(program)
         return if (conditionValue.truth()) expressionA.evaluate(program) else expressionB.evaluate(program)
     }
+
+    override fun toString(): String {
+        return "$expressionA if $condition else $expressionB"
+    }
 }

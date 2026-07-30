@@ -20,8 +20,14 @@ interface Static {
     }
 
     companion object {
-        val staticCompanions: MutableMap<String, Static> = mutableMapOf(
-            RangeValue.name to RangeValue.Companion,
-        )
+        val staticCompanions: MutableMap<String, Static> = mutableMapOf()
+
+        fun register(static: Static) {
+            staticCompanions[static.name] = static
+        }
+
+        fun initialize() {
+            register(RangeValue.Companion)
+        }
     }
 }

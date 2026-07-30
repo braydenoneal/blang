@@ -34,4 +34,12 @@ class StatementList(
     fun clear() {
         statements.clear()
     }
+
+    override fun toString(): String {
+        if (statements.size == 1) {
+            return statements.first().toString()
+        }
+
+        return "${statements.size} statements"
+    }
 }

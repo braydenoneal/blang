@@ -32,4 +32,8 @@ class IdentifierExpression(val name: String) : Expression() {
 
         return FunctionReferenceValue(FunctionReference(null, name)).withSpan(span)
     }
+
+    override fun toString(): String {
+        return name
+    }
 }

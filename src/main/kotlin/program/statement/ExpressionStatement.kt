@@ -8,4 +8,8 @@ class ExpressionStatement(val expression: Expression) : Statement() {
         expression.evaluate(program)
         return this
     }
+
+    override fun toString(): String {
+        return expression.toString()
+    }
 }

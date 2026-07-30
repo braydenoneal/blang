@@ -46,4 +46,8 @@ class ForStatement(
         value = null
         index = 0
     }
+
+    override fun toString(): String {
+        return "for $itemName in $expression { $statements }"
+    }
 }

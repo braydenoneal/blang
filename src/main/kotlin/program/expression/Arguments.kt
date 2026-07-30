@@ -62,4 +62,18 @@ class Arguments(
         counter = 0
         computed.clear()
     }
+
+    override fun toString(): String {
+        val strings = mutableListOf<String>()
+
+        for (argument in namelessArguments) {
+            strings.add(argument.toString())
+        }
+
+        for ((name, _) in namedArguments) {
+            strings.add(name)
+        }
+
+        return strings.joinToString(", ")
+    }
 }

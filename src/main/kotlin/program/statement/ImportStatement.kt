@@ -10,4 +10,14 @@ class ImportStatement(
         program.addImport(this)
         return this
     }
+
+    override fun toString(): String {
+        val string = "import ${identifiers.joinToString(".")}"
+
+        if (name != identifiers.last()) {
+            return "$string as $name"
+        }
+
+        return string
+    }
 }

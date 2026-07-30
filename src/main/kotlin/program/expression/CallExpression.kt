@@ -19,4 +19,8 @@ class CallExpression(
     override fun done(program: Program) {
         leftValue = null
     }
+
+    override fun toString(): String {
+        return "$left($arguments)"
+    }
 }

@@ -5,12 +5,12 @@ fun main() {
     Program.initialize()
     val program = Program(
         """
-            struct Test(a) {}
+            a = 0 + 1
+            b = !false
             
-            a = Test(1)
-            print(a.a)
-            a.a = 2
-            print(a.a)
+            for i in 0..3 {
+                print(i)
+            }
         """.trimIndent(),
     )
 

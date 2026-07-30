@@ -67,4 +67,8 @@ class AssignExpression(
 
         return BinaryOperatorExpression(arithmeticOperator, previous, setValue).evaluate(program)
     }
+
+    override fun toString(): String {
+        return "$left $operator $right"
+    }
 }

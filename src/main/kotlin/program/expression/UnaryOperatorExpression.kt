@@ -19,4 +19,8 @@ class UnaryOperatorExpression(
             else -> throw RunException("Unknown operator", span)
         }
     }
+
+    override fun toString(): String {
+        return "$operator$operand"
+    }
 }

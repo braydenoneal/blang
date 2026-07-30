@@ -8,4 +8,8 @@ class DeleteStatement(val name: String) : Statement() {
         program.scope.delete(name) ?: run { throw RunException("Variable with name '$name' does not exist", span) }
         return this
     }
+
+    override fun toString(): String {
+        return "del $name"
+    }
 }

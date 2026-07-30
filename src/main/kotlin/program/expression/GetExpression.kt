@@ -9,4 +9,8 @@ class GetExpression(val function: Function) : Expression() {
     override fun innerEvaluate(program: Program): Value<*> {
         return FunctionValue(function).call(program, Arguments(mutableListOf(), mutableMapOf()))
     }
+
+    override fun toString(): String {
+        return "get: ${function.statements}"
+    }
 }

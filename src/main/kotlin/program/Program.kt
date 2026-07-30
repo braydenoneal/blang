@@ -2,6 +2,7 @@ package program
 
 import parser.Parser
 import program.expression.value.FunctionValue
+import program.expression.value.Static
 import program.expression.value.util.StructDefinition
 import program.statement.ImportStatement
 import program.statement.IncompleteException
@@ -102,6 +103,7 @@ open class Program(
     companion object {
         fun initialize() {
             Parser.initialize()
+            Static.initialize()
         }
     }
 }

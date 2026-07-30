@@ -42,4 +42,8 @@ class BinaryOperatorExpression(
             else -> throw RunException("Unknown operator", span)
         }
     }
+
+    override fun toString(): String {
+        return "$left $operator $right"
+    }
 }

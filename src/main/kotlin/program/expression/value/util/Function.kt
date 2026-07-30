@@ -71,4 +71,18 @@ class Function(
         arguments.done()
         program.endScope()
     }
+
+    override fun toString(): String {
+        val strings = mutableListOf<String>()
+
+        for (name in parameters) {
+            strings.add(name)
+        }
+
+        for ((name, _) in defaultParameters) {
+            strings.add(name)
+        }
+
+        return "(${strings.joinToString(", ")}) { $statements }"
+    }
 }
