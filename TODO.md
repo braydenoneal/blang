@@ -1,6 +1,7 @@
 ## Todo
 
 - code cleanup
+    - separate parsed AST from executing program? (source code -parse→ ast -run→ execution)
     - some way of restructuring the entire paradigm of the code in order to implement things without complicating the stuff currently in place???
     - parsing and execution flow diagrams
     - cleanup getting items and executing functions for values

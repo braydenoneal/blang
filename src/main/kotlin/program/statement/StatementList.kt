@@ -3,41 +3,35 @@ package program.statement
 import program.Program
 
 class StatementList(
-    val ran: MutableList<Statement> = mutableListOf(),
-    val toRun: MutableList<Statement> = mutableListOf(),
+    val statements: MutableList<Statement> = mutableListOf(),
+    var index: Int = 0,
 ) {
     fun runNext(program: Program): Statement {
-        if (toRun.isEmpty()) {
+        if (statements.isEmpty()) {
             return EmptyStatement()
         }
 
-        val result = toRun.first().execute(program)
-
-        ran.add(toRun.removeFirst())
+        val result = statements[index].execute(program)
+        index++
 
         if (result is ReturnStatement || result is BreakStatement || result is ContinueStatement) {
-            toRun.addAll(ran)
-            ran.clear()
-
+            index = 0
             return result
         }
 
-        if (toRun.isEmpty()) {
-            toRun.addAll(ran)
-            ran.clear()
-
-            return toRun.last()
+        if (index >= statements.size) {
+            index = 0
+            return statements.last()
         }
 
         throw IncompleteException()
     }
 
     fun add(statement: Statement) {
-        toRun.add(statement)
+        statements.add(statement)
     }
 
     fun clear() {
-        ran.clear()
-        toRun.clear()
+        statements.clear()
     }
 }

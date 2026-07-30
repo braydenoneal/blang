@@ -27,7 +27,8 @@ class Arguments(
         }
 
         if (namelessArguments.size > index) {
-            val value = namelessArguments[index++].evaluate(program)
+            val value = namelessArguments[index].evaluate(program)
+            index++
             computed[name] = value
             return value
         }
