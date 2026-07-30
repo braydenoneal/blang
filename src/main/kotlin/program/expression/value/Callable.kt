@@ -18,7 +18,7 @@ interface Callable {
     }
 
     fun innerCall(program: Program, arguments: Arguments): Value<*> {
-        throw RunException("Value cannot be called")
+        throw RunException("Value cannot be called", arguments.span)
     }
 
     fun abort(program: Program, arguments: Arguments) {

@@ -1,9 +1,18 @@
 package program.statement
 
+import parser.Parser
+import parser.tokenizer.Span
 import program.Program
 
-interface Statement {
-    fun execute(program: Program): Statement {
+abstract class Statement {
+    var span = Span.NONE
+
+    fun withSpan(start: Int, parser: Parser): Statement {
+        span = Span(start, parser.spanEnd())
+        return this
+    }
+
+    open fun execute(program: Program): Statement {
         try {
             val statement = innerExecute(program)
             done(program)
@@ -14,11 +23,11 @@ interface Statement {
         }
     }
 
-    fun innerExecute(program: Program): Statement {
+    open fun innerExecute(program: Program): Statement {
         return this
     }
 
-    fun abort(program: Program) {}
+    open fun abort(program: Program) {}
 
-    fun done(program: Program) {}
+    open fun done(program: Program) {}
 }

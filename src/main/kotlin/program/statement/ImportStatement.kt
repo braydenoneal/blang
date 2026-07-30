@@ -5,7 +5,7 @@ import program.Program
 class ImportStatement(
     val identifiers: MutableList<String>,
     val name: String,
-) : Statement {
+) : Statement() {
     override fun innerExecute(program: Program): Statement {
         program.addImport(this)
         return this

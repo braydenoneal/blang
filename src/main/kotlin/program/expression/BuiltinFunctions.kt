@@ -39,7 +39,7 @@ object BuiltinFunctions {
             return FloatValue(abs(value.value))
         }
 
-        throw RunException("Expression is not a number")
+        throw RunException("Expression is not a number", arguments.span)
     }
 
     fun ceil(program: Program, arguments: Arguments): Value<*> {
@@ -66,7 +66,7 @@ object BuiltinFunctions {
             return FloatValue(if (minimum) min(a.value, b.value) else max(a.value, b.value))
         }
 
-        throw RunException("Arguments are not numbers")
+        throw RunException("Arguments are not numbers", arguments.span)
     }
 
     fun maximum(program: Program, arguments: Arguments): Value<*> {
@@ -98,7 +98,7 @@ object BuiltinFunctions {
             return IntegerValue(value.value.roundToInt())
         }
 
-        throw RunException("Expression is not a number")
+        throw RunException("Expression is not a number", arguments.span)
     }
 
     fun type(program: Program, arguments: Arguments): Value<*> {

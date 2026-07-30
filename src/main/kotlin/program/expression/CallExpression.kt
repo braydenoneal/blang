@@ -7,7 +7,7 @@ class CallExpression(
     val left: Expression,
     val arguments: Arguments,
     var leftValue: Value<*>? = null,
-) : Expression {
+) : Expression() {
     override fun innerEvaluate(program: Program): Value<*> {
         if (leftValue == null) {
             leftValue = left.evaluate(program)

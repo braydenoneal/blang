@@ -12,14 +12,14 @@ import program.expression.value.StringValue
 import program.expression.value.util.Null
 
 class LiteralExpressionParser : PrefixParser {
-    override fun parse(parser: Parser, token: Token): Expression {
+    override fun parse(parser: Parser, spanStart: Int, token: Token): Expression {
         return when (token.type) {
             Type.BOOLEAN -> BooleanValue(token.value == "true")
             Type.QUOTE -> StringValue(token.value)
             Type.FLOAT -> FloatValue(token.value.toFloat())
             Type.INTEGER -> IntegerValue(token.value.toInt())
             Type.NULL -> Null.VALUE
-            else -> throw ParseException("Invalid literal")
+            else -> throw ParseException("Invalid literal", parser.spanFrom(spanStart))
         }
     }
 }

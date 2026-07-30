@@ -10,7 +10,7 @@ import program.statement.Statement
 import program.statement.StatementList
 
 class IfStatementParser : StatementParser {
-    override fun parse(parser: Parser): Statement {
+    override fun parse(parser: Parser, spanStart: Int): Statement {
         val statements = StatementList()
         val elseIfStatements: MutableList<ElseIfStatement> = mutableListOf()
         var elseStatement: ElseStatement? = null

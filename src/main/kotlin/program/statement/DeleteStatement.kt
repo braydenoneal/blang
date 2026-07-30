@@ -3,9 +3,9 @@ package program.statement
 import program.Program
 import program.RunException
 
-class DeleteStatement(val name: String) : Statement {
+class DeleteStatement(val name: String) : Statement() {
     override fun innerExecute(program: Program): Statement {
-        program.scope.delete(name) ?: run { throw RunException("Variable with name '$name' does not exist") }
+        program.scope.delete(name) ?: run { throw RunException("Variable with name '$name' does not exist", span) }
         return this
     }
 }

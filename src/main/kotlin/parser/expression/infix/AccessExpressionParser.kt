@@ -8,7 +8,7 @@ import program.expression.AccessExpression
 import program.expression.Expression
 
 class AccessExpressionParser(override val precedence: Int) : InfixParser {
-    override fun parse(parser: Parser, token: Token, left: Expression): Expression {
+    override fun parse(parser: Parser, spanStart: Int, token: Token, left: Expression): Expression {
         val index = ExpressionParser.parse(parser, precedence, true)
         parser.expect(Type.RIGHT_SQUARE_BRACE)
         return AccessExpression(left, index)

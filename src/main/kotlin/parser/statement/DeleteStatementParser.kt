@@ -7,9 +7,9 @@ import program.statement.DeleteStatement
 import program.statement.Statement
 
 class DeleteStatementParser : StatementParser {
-    override fun parse(parser: Parser): Statement {
+    override fun parse(parser: Parser, spanStart: Int): Statement {
         if (!parser.peekIs(Type.IDENTIFIER)) {
-            throw ParseException("Expression is not an identifier")
+            throw ParseException("Expression is not an identifier", parser.spanFrom(spanStart))
         }
 
         val name = parser.next().value

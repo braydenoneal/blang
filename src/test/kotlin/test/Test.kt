@@ -1,6 +1,7 @@
 package testing.test
 
 import program.Program
+import program.ProgramException
 import program.expression.value.Value
 
 abstract class Test {
@@ -16,8 +17,8 @@ abstract class Test {
 
         try {
             program.run()
-        } catch (exception: Exception) {
-            failed.add("\u001B[31m${exception}\u001B[0m")
+        } catch (exception: ProgramException) {
+            failed.add(exception.getError(program))
         }
 
         for (expect in expects) {
@@ -27,8 +28,8 @@ abstract class Test {
                 if (expect.value != value) {
                     failed.add("\u001B[31mFailed: ${expect.name} is $value, expected ${expect.value}\u001B[0m")
                 }
-            } catch (exception: Exception) {
-                failed.add("\u001B[31m${exception}\u001B[0m")
+            } catch (exception: ProgramException) {
+                failed.add(exception.getError(program))
             }
         }
 

@@ -7,7 +7,7 @@ import program.expression.BinaryOperatorExpression
 import program.expression.Expression
 
 class BinaryOperatorExpressionParser(override val precedence: Int) : InfixParser {
-    override fun parse(parser: Parser, token: Token, left: Expression): Expression {
+    override fun parse(parser: Parser, spanStart: Int, token: Token, left: Expression): Expression {
         val right = ExpressionParser.parse(parser, precedence)
         return BinaryOperatorExpression(token.value, left, right)
     }

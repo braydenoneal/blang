@@ -10,14 +10,15 @@ import program.expression.Expression
 
 object ExpressionParser {
     fun parse(parser: Parser, precedence: Int = 0, skipNewline: Boolean = false): Expression {
+        val spanStart = parser.spanStart()
         val token = parser.next()
-        val prefixParser = prefixParsers[token.type] ?: throw ParseException("Invalid prefix token")
-        var left = prefixParser.parse(parser, token)
+        val prefixParser = prefixParsers[token.type] ?: throw ParseException("Invalid prefix token '${token.value}'", parser.spanFrom(spanStart))
+        var left = prefixParser.parse(parser, spanStart, token).withSpan(spanStart, parser)
 
         while (precedence < nextPrecedence(parser, skipNewline)) {
             val token = parser.next()
-            val infixParser = infixParsers[token.type] ?: throw ParseException("Invalid infix token")
-            left = infixParser.parse(parser, token, left)
+            val infixParser = infixParsers[token.type] ?: throw ParseException("Invalid infix token '${token.value}'", parser.spanFrom(spanStart))
+            left = infixParser.parse(parser, spanStart, token, left).withSpan(spanStart, parser)
         }
 
         return left

@@ -8,7 +8,7 @@ import program.statement.StatementList
 import program.statement.WhileStatement
 
 class WhileStatementParser : StatementParser {
-    override fun parse(parser: Parser): Statement {
+    override fun parse(parser: Parser, spanStart: Int): Statement {
         val statements = StatementList()
         val condition = ExpressionParser.parse(parser)
         parser.expect(Type.LEFT_CURLY_BRACE)

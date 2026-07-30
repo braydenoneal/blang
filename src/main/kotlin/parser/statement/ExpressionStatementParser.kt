@@ -6,7 +6,7 @@ import program.statement.ExpressionStatement
 import program.statement.Statement
 
 class ExpressionStatementParser : StatementParser {
-    override fun parse(parser: Parser): Statement {
+    override fun parse(parser: Parser, spanStart: Int): Statement {
         val expression = ExpressionParser.parse(parser)
         parser.expectStatementEnd()
         return ExpressionStatement(expression)

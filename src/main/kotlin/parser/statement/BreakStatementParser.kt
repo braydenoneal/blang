@@ -5,7 +5,7 @@ import program.statement.BreakStatement
 import program.statement.Statement
 
 class BreakStatementParser : StatementParser {
-    override fun parse(parser: Parser): Statement {
+    override fun parse(parser: Parser, spanStart: Int): Statement {
         parser.expectStatementEnd()
         return BreakStatement()
     }

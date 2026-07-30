@@ -1,3 +1,3 @@
 package program.statement
 
-class ContinueStatement : Statement
+class ContinueStatement : Statement()

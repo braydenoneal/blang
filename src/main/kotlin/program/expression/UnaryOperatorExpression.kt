@@ -8,7 +8,7 @@ import program.expression.value.Value
 class UnaryOperatorExpression(
     val operator: String,
     val operand: Expression,
-) : Expression {
+) : Expression() {
     override fun innerEvaluate(program: Program): Value<*> {
         val value = operand.evaluate(program)
 
@@ -16,7 +16,7 @@ class UnaryOperatorExpression(
             "-" -> value.negative()
             "+" -> value.positive()
             "!" -> BooleanValue(!value.truth())
-            else -> throw RunException("Unknown operator")
+            else -> throw RunException("Unknown operator", span)
         }
     }
 }

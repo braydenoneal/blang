@@ -10,13 +10,13 @@ class InfixFunctionExpression(
     val left: Expression,
     val arguments: Arguments,
     var leftValue: Value<*>? = null,
-) : Expression {
+) : Expression() {
     override fun innerEvaluate(program: Program): Value<*> {
         if (leftValue == null) {
             leftValue = left.evaluate(program)
         }
 
-        return FunctionReferenceValue(FunctionReference(leftValue, name)).call(program, arguments)
+        return FunctionReferenceValue(FunctionReference(leftValue, name)).withSpan(span).call(program, arguments)
     }
 
     override fun done(program: Program) {

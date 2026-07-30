@@ -2,11 +2,13 @@ package parser
 
 import parser.expression.ExpressionParser
 import parser.statement.StatementParser
+import parser.tokenizer.Span
 import parser.tokenizer.Token
 import parser.tokenizer.Token.Companion.tokenize
 import parser.tokenizer.Type
 import program.Program
 import program.Scope
+import kotlin.math.min
 
 open class Parser(val program: Program) {
     var tokens: MutableList<Token> = mutableListOf()
@@ -27,6 +29,18 @@ open class Parser(val program: Program) {
         }
 
         program.parsed = true
+    }
+
+    fun spanStart(): Int {
+        return tokens[min(position, tokens.size - 1)].span.start
+    }
+
+    fun spanEnd(): Int {
+        return tokens[min(position, tokens.size - 1)].span.end
+    }
+
+    fun spanFrom(start: Int): Span {
+        return Span(start, spanEnd())
     }
 
     fun peek(): Token {

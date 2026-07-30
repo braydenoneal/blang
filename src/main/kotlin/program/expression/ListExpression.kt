@@ -7,7 +7,7 @@ import program.expression.value.Value
 class ListExpression(
     val expressions: MutableList<Expression>,
     val computed: MutableList<Value<*>> = mutableListOf(),
-) : Expression {
+) : Expression() {
     override fun innerEvaluate(program: Program): Value<*> {
         val values: MutableList<Value<*>> = mutableListOf()
 

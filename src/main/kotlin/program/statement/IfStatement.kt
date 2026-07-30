@@ -10,7 +10,7 @@ class IfStatement(
     val elseIfStatements: MutableList<ElseIfStatement>,
     val elseStatement: ElseStatement?,
     var conditionValue: Value<*>?,
-) : Statement {
+) : Statement() {
     override fun innerExecute(program: Program): Statement {
         if (conditionValue == null) {
             val conditionResult = condition.evaluate(program)

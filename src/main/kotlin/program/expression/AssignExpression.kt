@@ -9,7 +9,7 @@ class AssignExpression(
     val left: Expression,
     val right: Expression,
     var local: Boolean = false,
-) : Expression {
+) : Expression() {
     override fun innerEvaluate(program: Program): Value<*> {
         val value = right.evaluate(program)
 
@@ -23,7 +23,7 @@ class AssignExpression(
                     }
                 }
 
-                val previous = program.scope.get(left.name)
+                val previous = program.scope.get(left.name, span)
                 return program.scope.set(left.name, augmentAssign(program, previous, value))
             }
 
@@ -50,7 +50,7 @@ class AssignExpression(
 //                return struct.setProperty(left.right, augmentAssign(program, previous, value))
 //            }
 
-            else -> throw RunException("Expression is not assignable")
+            else -> throw RunException("Expression is not assignable", span)
         }
     }
 
@@ -62,7 +62,7 @@ class AssignExpression(
             "/=" -> "/"
             "%=" -> "%"
             "*=" -> "*"
-            else -> throw RunException("Unrecognized operator")
+            else -> throw RunException("Unrecognized operator", span)
         }
 
         return BinaryOperatorExpression(arithmeticOperator, previous, setValue).evaluate(program)

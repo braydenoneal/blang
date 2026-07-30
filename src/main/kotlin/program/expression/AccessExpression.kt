@@ -6,7 +6,7 @@ import program.expression.value.Value
 class AccessExpression(
     val left: Expression,
     val right: Expression,
-) : Expression {
+) : Expression() {
     override fun innerEvaluate(program: Program): Value<*> {
         return left.evaluate(program).get(right.evaluate(program))
     }

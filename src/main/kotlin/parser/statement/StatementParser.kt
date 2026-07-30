@@ -5,7 +5,7 @@ import parser.tokenizer.Type
 import program.statement.Statement
 
 interface StatementParser {
-    fun parse(parser: Parser): Statement
+    fun parse(parser: Parser, spanStart: Int): Statement
 
     companion object {
         val statementParsers: MutableMap<Type, StatementParser> = mutableMapOf()
@@ -31,10 +31,11 @@ interface StatementParser {
         }
 
         fun parse(parser: Parser): Statement {
+            val spanStart = parser.spanStart()
             val token = parser.peek()
-            val statementParser = statementParsers[token.type] ?: return expressionStatementParser.parse(parser)
+            val statementParser = statementParsers[token.type] ?: return expressionStatementParser.parse(parser, spanStart).withSpan(spanStart, parser)
             parser.next()
-            return statementParser.parse(parser)
+            return statementParser.parse(parser, spanStart).withSpan(spanStart, parser)
         }
     }
 }

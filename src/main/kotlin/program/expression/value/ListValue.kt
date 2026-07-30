@@ -25,7 +25,7 @@ class ListValue(value: MutableList<Value<*>>) : Value<MutableList<Value<*>>>(val
         var index = index
 
         if (index >= value.size) {
-            throw RunException("Index " + index + " out of range for list of size " + value.size)
+            throw RunException("Index $index out of range for list of size ${value.size}", span)
         }
 
         while (index < 0) {
@@ -87,7 +87,7 @@ class ListValue(value: MutableList<Value<*>>) : Value<MutableList<Value<*>>>(val
             return BooleanValue(value.containsAll(nextListValue.value))
         }
 
-        throw RunException("Expression is not a list")
+        throw RunException("Expression is not a list", span)
     }
 
     override fun contains(item: Value<*>): Boolean {

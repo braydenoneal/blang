@@ -41,7 +41,7 @@ class Function(
         }
 
         if (arguments.namelessArguments.size + arguments.namedArguments.size - (if (arguments.hasSelf) 1 else 0) > parameters.size + defaultParameters.size) {
-            throw RunException("Extra argument(s) provided")
+            throw RunException("Extra argument(s) provided", arguments.span)
         }
 
         running = true

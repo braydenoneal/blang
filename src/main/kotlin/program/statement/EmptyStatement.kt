@@ -1,3 +1,3 @@
 package program.statement
 
-class EmptyStatement : Statement
+class EmptyStatement : Statement()

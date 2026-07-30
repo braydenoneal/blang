@@ -1,3 +1,5 @@
 package parser.tokenizer
 
-class TokenException(message: String) : RuntimeException(message)
+import program.ProgramException
+
+class TokenException(message: String, span: Span = Span.NONE) : ProgramException(message, span)

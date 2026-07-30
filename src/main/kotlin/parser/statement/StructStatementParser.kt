@@ -13,7 +13,7 @@ import program.statement.StaticStatement
 import program.statement.StructStatement
 
 class StructStatementParser : StatementParser {
-    override fun parse(parser: Parser): Statement {
+    override fun parse(parser: Parser, spanStart: Int): Statement {
         val name = parser.expect(Type.IDENTIFIER)
         val (parameters, defaultParameters) = ParametersParser.parse(parser, isStatement = true, hasParameters = true)
         parser.expect(Type.LEFT_CURLY_BRACE)
@@ -27,7 +27,7 @@ class StructStatementParser : StatementParser {
                 is FunctionStatement -> functions[statement.name] = FunctionValue(statement.function)
                 is StaticStatement -> {
                     if (parsedStatic) {
-                        throw ParseException("Cannot define static more than once")
+                        throw ParseException("Cannot define static more than once", parser.spanFrom(spanStart))
                     }
 
                     staticFunctions = statement.functions
@@ -35,7 +35,7 @@ class StructStatementParser : StatementParser {
                     parsedStatic = true
                 }
 
-                else -> throw ParseException("Statement ${statement::class} not allowed in a struct definition")
+                else -> throw ParseException("Statement ${statement::class} not allowed in a struct definition", parser.spanFrom(spanStart))
             }
         }
 

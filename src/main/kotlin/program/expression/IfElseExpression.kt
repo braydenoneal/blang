@@ -7,7 +7,7 @@ class IfElseExpression(
     val condition: Expression,
     val expressionA: Expression,
     val expressionB: Expression,
-) : Expression {
+) : Expression() {
     override fun innerEvaluate(program: Program): Value<*> {
         val conditionValue = condition.evaluate(program)
         return if (conditionValue.truth()) expressionA.evaluate(program) else expressionB.evaluate(program)

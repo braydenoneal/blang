@@ -8,7 +8,7 @@ interface Static {
     val name: String
 
     fun constructor(program: Program, arguments: Arguments): Value<*> {
-        throw RunException("$name does not implement constructor")
+        throw RunException("$name does not implement constructor", arguments.span)
     }
 
     fun getItem(name: String): Value<*>? {

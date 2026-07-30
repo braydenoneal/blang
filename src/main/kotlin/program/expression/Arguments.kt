@@ -1,5 +1,7 @@
 package program.expression
 
+import parser.Parser
+import parser.tokenizer.Span
 import program.Program
 import program.RunException
 import program.expression.value.Value
@@ -12,6 +14,13 @@ class Arguments(
     var counter: Int = 0,
     var hasSelf: Boolean = false,
 ) {
+    var span = Span.NONE
+
+    fun withSpan(start: Int, parser: Parser): Arguments {
+        span = Span(start, parser.spanEnd())
+        return this
+    }
+
     fun getAny(program: Program, name: String, default: Value<*>? = null): Value<*> {
         if (computed.containsKey(name)) {
             return computed[name]!!
@@ -32,7 +41,7 @@ class Arguments(
         }
 
         if (default == null) {
-            throw RunException("Missing argument $name")
+            throw RunException("Missing argument $name", span)
         }
 
         computed[name] = default

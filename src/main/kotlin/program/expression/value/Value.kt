@@ -1,13 +1,18 @@
 package program.expression.value
 
+import parser.tokenizer.Span
 import program.Program
 import program.RunException
 import program.expression.Arguments
-import program.expression.Expression
 import program.expression.value.util.FunctionReference
 
-abstract class Value<T>(open val value: T) : Expression, Callable, Operand<T>() {
+abstract class Value<T>(open val value: T) : Operand<T>(), Callable {
     override fun innerEvaluate(program: Program): Value<*> {
+        return this
+    }
+
+    fun withSpan(span: Span): Value<*> {
+        this.span = span
         return this
     }
 
@@ -34,7 +39,7 @@ abstract class Value<T>(open val value: T) : Expression, Callable, Operand<T>() 
     abstract fun typeString(): String
 
     inline fun <reified T : Value<*>> cast(): T {
-        return this as? T ?: throw RunException("Value is not of type ${T::class}")
+        return this as? T ?: throw RunException("Value is not of type ${T::class}", span)
     }
 
     @Suppress("UNCHECKED_CAST")
@@ -43,11 +48,11 @@ abstract class Value<T>(open val value: T) : Expression, Callable, Operand<T>() 
             return other.value as T
         }
 
-        throw RunException("Values are not the same type")
+        throw RunException("Values are not the same type", span)
     }
 
     open fun getItem(program: Program, name: String): Value<*> {
-        return FunctionReferenceValue(FunctionReference(this, name))
+        return FunctionReferenceValue(FunctionReference(this, name)).withSpan(span)
     }
 
     open fun getFunction(program: Program, name: String): ((Program, Arguments) -> Value<*>)? {
@@ -76,10 +81,10 @@ abstract class Value<T>(open val value: T) : Expression, Callable, Operand<T>() 
     }
 
     open fun iteratorGet(index: Int): Value<*> {
-        throw RunException("Value does not implement iterator get")
+        throw RunException("Value does not implement iterator get", span)
     }
 
     open fun iteratorSize(): Int {
-        throw RunException("Value does not implement iterator size")
+        throw RunException("Value does not implement iterator size", span)
     }
 }

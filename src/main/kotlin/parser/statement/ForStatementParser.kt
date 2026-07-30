@@ -8,7 +8,7 @@ import program.statement.Statement
 import program.statement.StatementList
 
 class ForStatementParser : StatementParser {
-    override fun parse(parser: Parser): Statement {
+    override fun parse(parser: Parser, spanStart: Int): Statement {
         val statements = StatementList()
         val itemName = parser.expect(Type.IDENTIFIER)
         parser.expect(Type.IN_KEYWORD)

@@ -8,7 +8,7 @@ class WhileStatement(
     val condition: Expression,
     val statements: StatementList,
     var conditionValue: Value<*>? = null,
-) : Statement {
+) : Statement() {
     override fun innerExecute(program: Program): Statement {
         if (conditionValue == null) {
             val conditionResult = condition.evaluate(program)

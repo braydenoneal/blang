@@ -8,7 +8,7 @@ class BinaryOperatorExpression(
     val operator: String,
     val left: Expression,
     val right: Expression,
-) : Expression {
+) : Expression() {
     override fun innerEvaluate(program: Program): Value<*> {
         var a = left.evaluate(program)
         var b = right.evaluate(program)
@@ -39,7 +39,7 @@ class BinaryOperatorExpression(
             ".." -> a.rangeTo(a.cast(b))
             "in" -> BooleanValue(b.contains(a))
             "!in" -> BooleanValue(!b.contains(a))
-            else -> throw RunException("Unknown operator")
+            else -> throw RunException("Unknown operator", span)
         }
     }
 }

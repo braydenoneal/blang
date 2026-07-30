@@ -1,13 +1,22 @@
 package program.expression
 
+import parser.Parser
+import parser.tokenizer.Span
 import program.Program
 import program.expression.value.Value
 import program.statement.IncompleteException
 
-interface Expression {
-    fun evaluate(program: Program): Value<*> {
+abstract class Expression {
+    var span = Span.NONE
+
+    fun withSpan(start: Int, parser: Parser): Expression {
+        span = Span(start, parser.spanEnd())
+        return this
+    }
+
+    open fun evaluate(program: Program): Value<*> {
         try {
-            val value = innerEvaluate(program)
+            val value = innerEvaluate(program).withSpan(span)
             done(program)
             return value
         } catch (_: IncompleteException) {
@@ -16,9 +25,9 @@ interface Expression {
         }
     }
 
-    fun innerEvaluate(program: Program): Value<*>
+    abstract fun innerEvaluate(program: Program): Value<*>
 
-    fun abort(program: Program) {}
+    open fun abort(program: Program) {}
 
-    fun done(program: Program) {}
+    open fun done(program: Program) {}
 }

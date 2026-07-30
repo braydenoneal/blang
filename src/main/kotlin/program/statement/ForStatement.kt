@@ -10,7 +10,7 @@ class ForStatement(
     val statements: StatementList,
     var value: Value<*>? = null,
     var index: Int = 0,
-) : Statement {
+) : Statement() {
     override fun innerExecute(program: Program): Statement {
         if (value == null) {
             val listResult = expression.evaluate(program)

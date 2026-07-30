@@ -8,7 +8,7 @@ import parser.tokenizer.Type
 import program.expression.*
 
 class CallExpressionParser(override val precedence: Int) : InfixParser {
-    override fun parse(parser: Parser, token: Token, left: Expression): Expression {
+    override fun parse(parser: Parser, spanStart: Int, token: Token, left: Expression): Expression {
         val namelessArguments: MutableList<Expression> = mutableListOf()
         val namedArguments: MutableMap<String, Expression> = mutableMapOf()
         var parseDefaults = false
@@ -21,17 +21,13 @@ class CallExpressionParser(override val precedence: Int) : InfixParser {
             }
 
             if (parseDefaults) {
-                try {
-                    val assignExpression = expression as AssignExpression
-                    val identifierExpression = assignExpression.left
+                val assignExpression = expression as AssignExpression
+                val identifierExpression = assignExpression.left
 
-                    if (identifierExpression is IdentifierExpression) {
-                        namedArguments[identifierExpression.name] = assignExpression.right
-                    } else {
-                        throw ParseException("")
-                    }
-                } catch (_: ParseException) {
-                    throw ParseException("Function cannot have parameter with default after parameter without default")
+                if (identifierExpression is IdentifierExpression) {
+                    namedArguments[identifierExpression.name] = assignExpression.right
+                } else {
+                    throw ParseException("Argument name is not an identifier", parser.spanFrom(spanStart))
                 }
             } else {
                 namelessArguments.add(expression)
@@ -43,6 +39,6 @@ class CallExpressionParser(override val precedence: Int) : InfixParser {
         }
 
         parser.expect(Type.RIGHT_PARENTHESIS)
-        return CallExpression(left, Arguments(namelessArguments, namedArguments))
+        return CallExpression(left, Arguments(namelessArguments, namedArguments).withSpan(spanStart, parser))
     }
 }

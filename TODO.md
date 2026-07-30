@@ -8,14 +8,16 @@
     - way to check if token is part of a group (i.e. token is a keyword)
     - more registering
     - accessing imports just change which program is passed to the rest of the expression?
+    - auto registration with reflection and annotations?
 - features
+    - struct property assigning (`someStruct.a = 0`)
     - allow accessing static members through instances
     - implement toPair base function (`to(other) -> pair`)
     - list slicing
     - list destructuring?
     - allow del as an alternative to `.remove()` functions (`del someList[3]`)
     - switch statement
-    - better error context (source location, etc)
+    - better error messages
     - breakpoints
     - support for variable length arguments `mapOf(Pair(), Pair(), Pair(), etc.)`
     - optional/nullable or just null handling features

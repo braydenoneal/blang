@@ -1,5 +1,6 @@
 package program
 
+import parser.tokenizer.Span
 import program.expression.value.Value
 import program.expression.value.util.Null
 
@@ -17,8 +18,8 @@ class Scope(
         return value
     }
 
-    fun get(name: String): Value<*> {
-        return getNullable(name) ?: throw RunException("Variable '$name' does not exist")
+    fun get(name: String, span: Span = Span.NONE): Value<*> {
+        return getNullable(name) ?: throw RunException("Variable '$name' does not exist", span)
     }
 
     fun parentWithVariable(name: String): Scope? {

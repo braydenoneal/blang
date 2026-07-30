@@ -1,11 +1,19 @@
 import program.Program
+import program.ProgramException
 
 fun main() {
     Program.initialize()
-    Program(
+    val program = Program(
         """
             a = "Hello\nWorld\n!"
             print(a.lines())
+            a = 0 + false
         """.trimIndent(),
-    ).run(true)
+    )
+
+    try {
+        program.run(true)
+    } catch (exception: ProgramException) {
+        print(exception.getError(program))
+    }
 }

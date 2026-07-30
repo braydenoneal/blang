@@ -11,7 +11,7 @@ import program.statement.StaticStatement
 import program.statement.StaticVariableStatement
 
 class StaticStatementParser : StatementParser {
-    override fun parse(parser: Parser): Statement {
+    override fun parse(parser: Parser, spanStart: Int): Statement {
         parser.expect(Type.LEFT_CURLY_BRACE)
         val functions: MutableMap<String, FunctionValue> = mutableMapOf()
         val variables: MutableMap<String, Expression> = mutableMapOf()
@@ -20,7 +20,7 @@ class StaticStatementParser : StatementParser {
             when (val statement = StatementParser.parse(parser)) {
                 is FunctionStatement -> functions[statement.name] = FunctionValue(statement.function)
                 is StaticVariableStatement -> variables[statement.name] = statement.expression
-                else -> throw ParseException("Statement ${statement::class} not allowed in a static statement")
+                else -> throw ParseException("Statement ${statement::class} not allowed in a static statement", parser.spanFrom(spanStart))
             }
         }
 

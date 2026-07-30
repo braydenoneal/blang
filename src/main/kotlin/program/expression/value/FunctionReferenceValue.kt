@@ -42,7 +42,7 @@ class FunctionReferenceValue(value: FunctionReference) : Value<FunctionReference
             return staticCompanion.constructor(program, arguments)
         }
 
-        return BuiltinFunctions.builtins[value.name]?.invoke(program, arguments) ?: throw RunException("Function ${value.name} does not exist")
+        return BuiltinFunctions.builtins[value.name]?.invoke(program, arguments) ?: throw RunException("Function ${value.name} does not exist", span)
     }
 
     override fun getItem(program: Program, name: String): Value<*> {

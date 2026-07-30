@@ -1,3 +1,3 @@
 package program.statement
 
-class BreakStatement : Statement
+class BreakStatement : Statement()

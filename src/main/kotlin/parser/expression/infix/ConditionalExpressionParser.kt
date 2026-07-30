@@ -8,7 +8,7 @@ import program.expression.Expression
 import program.expression.IfElseExpression
 
 class ConditionalExpressionParser(override val precedence: Int) : InfixParser {
-    override fun parse(parser: Parser, token: Token, left: Expression): Expression {
+    override fun parse(parser: Parser, spanStart: Int, token: Token, left: Expression): Expression {
         val middle = ExpressionParser.parse(parser, precedence)
         parser.expect(Type.ELSE_KEYWORD)
         val right = ExpressionParser.parse(parser, precedence - 1)
