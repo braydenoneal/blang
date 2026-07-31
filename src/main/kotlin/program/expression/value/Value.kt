@@ -4,7 +4,8 @@ import parser.tokenizer.Span
 import program.Program
 import program.RunException
 import program.expression.Arguments
-import program.expression.value.util.FunctionReference
+import program.expression.value.util.ValueIdentifier
+import java.util.Locale.getDefault
 
 abstract class Value<T>(open val value: T) : Operand<T>(), Callable {
     override fun innerEvaluate(program: Program): Value<*> {
@@ -38,8 +39,10 @@ abstract class Value<T>(open val value: T) : Operand<T>(), Callable {
 
     abstract fun typeString(): String
 
+    val capitalType get(): String = typeString().replaceFirstChar { it.titlecase(getDefault()) }
+
     inline fun <reified T : Value<*>> cast(): T {
-        return this as? T ?: throw RunException("Value is not of type ${T::class}", span)
+        return this as? T ?: throw RunException("$capitalType is not of type ${T::class}", span)
     }
 
     @Suppress("UNCHECKED_CAST")
@@ -51,12 +54,16 @@ abstract class Value<T>(open val value: T) : Operand<T>(), Callable {
         throw RunException("Values are not the same type", span)
     }
 
-    open fun getItem(program: Program, name: String): Value<*> {
-        return FunctionReferenceValue(FunctionReference(this, name)).withSpan(span)
+    open fun getItem(program: Program, name: String): Value<*>? {
+        return null
+    }
+
+    fun getIdentifier(program: Program, name: String): Value<*> {
+        return (getItem(program, name) ?: ValueIdentifierValue(ValueIdentifier(this, name))).withSpan(span)
     }
 
     open fun assignItem(name: String, setValue: Value<*>): Value<*> {
-        throw RunException("Value has no assignable item $name", span)
+        throw RunException("$capitalType has no assignable item $name", span)
     }
 
     open fun getFunction(program: Program, name: String): ((Program, Arguments) -> Value<*>)? {
@@ -79,16 +86,16 @@ abstract class Value<T>(open val value: T) : Operand<T>(), Callable {
         return StringValue(toString())
     }
 
-    fun callFunction(program: Program, arguments: Arguments, name: String): Value<*> {
-        val function = getFunction(program, name) ?: getBaseFunction(name) ?: throw RunException("Value has no functions")
+    open fun callFunction(program: Program, arguments: Arguments, name: String): Value<*> {
+        val function = getFunction(program, name) ?: getBaseFunction(name) ?: throw RunException("$capitalType has no function '$name'")
         return function.invoke(program, arguments)
     }
 
     open fun iteratorGet(index: Int): Value<*> {
-        throw RunException("Value does not implement iterator get", span)
+        throw RunException("$capitalType does not implement iterator get", span)
     }
 
     open fun iteratorSize(): Int {
-        throw RunException("Value does not implement iterator size", span)
+        throw RunException("$capitalType does not implement iterator size", span)
     }
 }

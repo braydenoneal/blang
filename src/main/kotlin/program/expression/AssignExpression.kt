@@ -46,7 +46,7 @@ class AssignExpression(
                     return leftValue.assignItem(left.right, value)
                 }
 
-                val previous = leftValue.getItem(program, left.right)
+                val previous = leftValue.getIdentifier(program, left.right)
                 return leftValue.assignItem(left.right, augmentAssign(program, previous, value))
             }
 

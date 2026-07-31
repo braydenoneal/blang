@@ -48,7 +48,7 @@ class ListValue(value: MutableList<Value<*>>) : Value<MutableList<Value<*>>>(val
         return setValue
     }
 
-    override fun getItem(program: Program, name: String): Value<*> {
+    override fun getItem(program: Program, name: String): Value<*>? {
         return when (name) {
             "size" -> IntegerValue(value.size)
             else -> super.getItem(program, name)

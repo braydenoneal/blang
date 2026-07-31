@@ -1,9 +1,9 @@
 package program.expression
 
 import program.Program
-import program.expression.value.FunctionReferenceValue
 import program.expression.value.Value
-import program.expression.value.util.FunctionReference
+import program.expression.value.ValueIdentifierValue
+import program.expression.value.util.ValueIdentifier
 
 class InfixFunctionExpression(
     val name: String,
@@ -16,7 +16,7 @@ class InfixFunctionExpression(
             leftValue = left.evaluate(program)
         }
 
-        return FunctionReferenceValue(FunctionReference(leftValue, name)).withSpan(span).call(program, arguments)
+        return ValueIdentifierValue(ValueIdentifier(leftValue!!, name)).withSpan(span).call(program, arguments)
     }
 
     override fun done(program: Program) {

@@ -12,7 +12,7 @@ class StructValue(value: Struct) : Value<Struct>(value) {
         return value.variables.toString()
     }
 
-    override fun getItem(program: Program, name: String): Value<*> {
+    override fun getItem(program: Program, name: String): Value<*>? {
         return value.variables[name] ?: super.getItem(program, name)
     }
 
@@ -28,5 +28,11 @@ class StructValue(value: Struct) : Value<Struct>(value) {
     override fun getFunction(program: Program, name: String): ((Program, Arguments) -> Value<*>)? {
         val function = value.definition.functions[name] ?: return super.getFunction(program, name)
         return function.value::call
+    }
+
+    override fun callFunction(program: Program, arguments: Arguments, name: String): Value<*> {
+        arguments.hasSelf = true
+        arguments.namedArguments["self"] = this
+        return super.callFunction(program, arguments, name)
     }
 }

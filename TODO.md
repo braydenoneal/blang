@@ -1,6 +1,7 @@
 ## Todo
 
 - code cleanup
+    - documentation for classes and functions
     - separate parsed AST from executing program? (source code -parse→ ast -run→ execution)
     - some way of restructuring the entire paradigm of the code in order to implement things without complicating the stuff currently in place???
     - parsing and execution flow diagrams
@@ -11,6 +12,10 @@
     - accessing imports just change which program is passed to the rest of the expression?
     - auto registration with reflection and annotations?
 - features
+    - statement to specify an imported program to run a function in (`in a { print("Hi") }`)
+        - maybe also an infix operator as shorthand to run an imported program's function in the
+          imported program (`a::test()` runs in `a` and `a.test()` runs locally)
+        - note that multiple programs could be accessing a single program in the same tick
     - immutable variables
     - allow accessing static members through instances
     - implement toPair base function (`to(other) -> pair`)
