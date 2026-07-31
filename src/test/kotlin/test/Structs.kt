@@ -11,7 +11,7 @@ class Structs : Test() {
                 }
                 
                 static {
-                    var TEST = 27
+                    val TEST = 27
                     
                     fn test() {
                         return 1

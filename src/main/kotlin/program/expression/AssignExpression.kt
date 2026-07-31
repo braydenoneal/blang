@@ -69,6 +69,6 @@ class AssignExpression(
     }
 
     override fun toString(): String {
-        return "$left $operator $right"
+        return "${if (local) "var " else ""}$left $operator $right"
     }
 }

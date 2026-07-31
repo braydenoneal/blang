@@ -17,6 +17,7 @@ enum class Type(val regex: String) {
     CONTINUE_KEYWORD("(continue)([^A-Za-z0-9_`]{1}|\\z)"),
     DEL_KEYWORD("(del)([^A-Za-z0-9_`]{1}|\\z)"),
     VAR_KEYWORD("(var)([^A-Za-z0-9_`]{1}|\\z)"),
+    VAL_KEYWORD("(val)([^A-Za-z0-9_`]{1}|\\z)"),
     AS_KEYWORD("(as)([^A-Za-z0-9_`]{1}|\\z)"),
     GET_KEYWORD("(get)([^A-Za-z0-9_`]{1}|\\z)"),
     STRUCT_KEYWORD("(struct)([^A-Za-z0-9_`]{1}|\\z)"),
