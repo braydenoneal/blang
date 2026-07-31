@@ -11,10 +11,6 @@ class FunctionValue(value: Function) : Value<Function>(value) {
         return value.innerCall(program, arguments)
     }
 
-    override fun toString(): String {
-        return "fn" + value.parameters.toString() + ": " + value.statements.toString()
-    }
-
     override fun abort(program: Program, arguments: Arguments) {
         value.abort(program, arguments)
     }

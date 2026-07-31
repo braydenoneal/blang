@@ -23,7 +23,7 @@ class Token(val value: String, val type: Type, val span: Span) {
                 var error = true
 
                 for (type in Type.entries) {
-                    val matcher = Pattern.compile("^" + type.regex).matcher(source.substring(position))
+                    val matcher = Pattern.compile("^${type.regex}").matcher(source.substring(position))
 
                     if (matcher.find()) {
                         val group = if (type == Type.QUOTE) matcher.group(0) else matcher.group(1)
@@ -46,7 +46,7 @@ class Token(val value: String, val type: Type, val span: Span) {
                 }
 
                 if (error) {
-                    throw TokenException("Unrecognized character '" + source[position] + "' at position " + position, span)
+                    throw TokenException("Unrecognized character '${source[position]}' at position $position", span)
                 }
             }
 

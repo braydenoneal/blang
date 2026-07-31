@@ -52,6 +52,6 @@ object Tests {
             print("\u001B[32m")
         }
 
-        println("\nPassed " + result.passed + " of " + result.total + "\u001B[0m")
+        println("\nPassed ${result.passed} of ${result.total}\u001B[0m")
     }
 }

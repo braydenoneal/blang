@@ -8,7 +8,7 @@ class StringValue(value: String) : Value<String>(value) {
     override fun typeString(): String = "string"
 
     override fun toString(): String {
-        return "\"" + value + "\""
+        return "\"$value\""
     }
 
     override fun plus(other: String): Value<*> {
@@ -27,7 +27,7 @@ class StringValue(value: String) : Value<String>(value) {
         var index = index
 
         if (index >= value.length) {
-            throw RunException("Index $index out of range for string of length " + value.length, span)
+            throw RunException("Index $index out of range for string of length ${value.length}", span)
         }
 
         while (index < 0) {
