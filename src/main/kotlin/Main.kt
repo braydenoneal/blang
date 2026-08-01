@@ -8,7 +8,11 @@ fun main() {
             print(fruit.first)
             print(fruit.second)
             
-            fruitMap = 
+            foo = [pair("Spiderman 1", 2002), pair("Spiderman 2", 2004)]
+            
+            spidermanMovies = hash(foo)
+            print(spidermanMovies.keys())
+            print(spidermanMovies["Spiderman 1"])
         """.trimIndent(),
     ).run(true)
 }

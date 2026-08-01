@@ -151,6 +151,13 @@ object BuiltinFunctions {
         return PairValue(Pair(first, second))
     }
     fun hash(program: Program, arguments: Arguments): Value<*> {
-        val map = hashMapOf<>()
+
+        val map = hashMapOf<Value<*>, Value<*>>();
+        val listvalue = arguments.get<ListValue>(program, "ListValue")
+        for (v in listvalue.value) {
+            val pairVal = v.cast<PairValue>();
+            map[pairVal.value.first] = pairVal.value.second;
+        }
+        return HashMapValue(map);
     }
 }
