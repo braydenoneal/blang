@@ -28,6 +28,7 @@ object BuiltinFunctions {
         "type" to ::type,
         "wait" to ::wait,
         "pair" to ::pair,
+        "hash" to ::hash,
     )
 
     fun register(name: String, function: (Program, Arguments) -> Value<*>) {
@@ -148,5 +149,8 @@ object BuiltinFunctions {
         val first = arguments.getAny(program, "first")
         val second = arguments.getAny(program, "second")
         return PairValue(Pair(first, second))
+    }
+    fun hash(program: Program, arguments: Arguments): Value<*> {
+        val map = hashMapOf<>()
     }
 }
