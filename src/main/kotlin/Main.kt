@@ -5,12 +5,10 @@ fun main() {
     Program.initialize()
     val program = Program(
         """
-            a = 0 + 1
-            b = !false
-            
-            for i in 0..3 {
-                print(i)
-            }
+            a = "1\"2\{3{2 + 2}5\"6\}7{4 + 4}9\"A\}B"
+            b = "asdflkj"
+            print(a)
+            print(b)
         """.trimIndent(),
     )
 

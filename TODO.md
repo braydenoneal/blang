@@ -29,7 +29,6 @@
     - breakpoints
     - support for variable length arguments `mapOf(Pair(), Pair(), Pair(), etc.)`
     - optional/nullable or just null handling features
-    - formatted strings
     - struct destructuring? (order dependant)
     - struct destructuring? (name dependant)
     - struct variable name shorthand (`id` instead of `id: id`)

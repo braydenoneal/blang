@@ -29,10 +29,9 @@ enum class Type(val regex: Pattern) {
     BOOLEAN(Pattern.compile("""^(true|false)(?![A-Za-z0-9_`])""")),
     NULL(Pattern.compile("""^null(?![A-Za-z0-9_`])""")),
     IDENTIFIER(Pattern.compile("""^(`?)[A-Za-z_][A-Za-z0-9_]*(\1)""")),
-
-    //    QUOTE_START(Pattern.compile("""^(["'])((?:\\\1|\\\{|.)*?)((?<!\\)\{)""")),
-//    QUOTE_MIDDLE(Pattern.compile("""^(})((?:\\\1|\\\{|}|.)*?)((?<!\\)\{)""")),
-//    QUOTE_END(Pattern.compile("""^(})(.*?)((?<!\\)["'])""")),
+    QUOTE_START(Pattern.compile("""^(["'])((?:\\\1|\\\{|.)*?)((?<!\\)\{)""")),
+    QUOTE_MIDDLE(Pattern.compile("""^(})((?:\\\1|\\\{|}|.)*?)((?<!\\)\{)""")),
+    QUOTE_END(Pattern.compile("""^(})(.*?)((?<!\\)["'])""")),
     QUOTE(Pattern.compile("""^(["'])((?:\\\1|.)*?)((?<!\\)\1)""")),
     FLOAT(Pattern.compile("""^[0-9]*\.[0-9]+""")),
     DOT_DOT(Pattern.compile("""^\.{2}""")),

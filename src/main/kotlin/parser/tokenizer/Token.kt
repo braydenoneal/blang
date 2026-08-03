@@ -18,6 +18,7 @@ class Token(val value: String, val type: Type, val span: Span) {
             val tokens: MutableList<Token> = mutableListOf()
             var position = 0
             var span = Span.NONE
+            var stringOpen = false
 
             while (position < source.length) {
                 var error = true
@@ -26,10 +27,18 @@ class Token(val value: String, val type: Type, val span: Span) {
                     val matcher = type.regex.matcher(source.substring(position))
 
                     if (matcher.find()) {
+                        if (!stringOpen && type == Type.QUOTE_START) {
+                            stringOpen = true
+                        } else if (!stringOpen && (type == Type.QUOTE_MIDDLE || type == Type.QUOTE_END)) {
+                            continue
+                        } else if (type == Type.QUOTE_END) {
+                            stringOpen = false
+                        }
+
                         val group = matcher.group()
 
                         val value = when (type) {
-                            Type.QUOTE/*, Type.QUOTE_START, Type.QUOTE_MIDDLE, Type.QUOTE_END*/ -> quote_replace.entries.fold(
+                            Type.QUOTE, Type.QUOTE_START, Type.QUOTE_MIDDLE, Type.QUOTE_END -> quote_replace.entries.fold(
                                 group.substring(1, group.length - 1),
                             ) { string, (key, value) -> string.replace(key, value) }
 
