@@ -1,17 +1,17 @@
 package parser.tokenizer
 
-import java.util.regex.Pattern
-
 class Token(val value: String, val type: Type, val span: Span) {
     companion object {
         val quote_replace = mutableMapOf(
-            "\\t" to "\t",
-            "\\b" to "\b",
-            "\\n" to "\n",
-            "\\r" to "\r",
-            "\\'" to "\'",
-            "\\\"" to "\"",
-            "\\\\" to "\\",
+            """\t""" to "\t",
+            """\b""" to "\b",
+            """\n""" to "\n",
+            """\r""" to "\r",
+            """\'""" to "\'",
+            """\"""" to "\"",
+            """\\""" to "\\",
+            """\{""" to "{",
+            """\}""" to "}",
         )
 
         fun tokenize(source: String): MutableList<Token> {
@@ -23,20 +23,29 @@ class Token(val value: String, val type: Type, val span: Span) {
                 var error = true
 
                 for (type in Type.entries) {
-                    val matcher = Pattern.compile("^${type.regex}").matcher(source.substring(position))
+                    val matcher = type.regex.matcher(source.substring(position))
 
                     if (matcher.find()) {
-                        val group = if (type == Type.QUOTE) matcher.group(0) else matcher.group(1)
+                        val group = matcher.group()
+
+                        val value = when (type) {
+                            Type.QUOTE/*, Type.QUOTE_START, Type.QUOTE_MIDDLE, Type.QUOTE_END*/ -> quote_replace.entries.fold(
+                                group.substring(1, group.length - 1),
+                            ) { string, (key, value) -> string.replace(key, value) }
+
+                            Type.IDENTIFIER -> if (group.startsWith('`')) {
+                                group.substring(1, group.length - 1)
+                            } else {
+                                group
+                            }
+
+                            else -> group
+                        }
+
                         span = Span(position, position + group.length)
 
-                        if (type == Type.QUOTE) {
-                            var string = group.substring(1, group.length - 1)
-                            string = quote_replace.entries.fold(string) { string, (key, value) -> string.replace(key, value) }
-                            tokens.add(Token(string, type, span))
-                        } else if (type == Type.IDENTIFIER && group.startsWith("`")) {
-                            tokens.add(Token(group.substring(1, group.length - 1), type, span))
-                        } else if (type != Type.WHITESPACE && type != Type.COMMENT) {
-                            tokens.add(Token(group, type, span))
+                        if (type != Type.WHITESPACE && type != Type.COMMENT) {
+                            tokens.add(Token(value, type, span))
                         }
 
                         position += group.length

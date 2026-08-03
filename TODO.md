@@ -2,6 +2,7 @@
 
 - code cleanup
     - documentation for classes and functions
+    - convert mutable lists and maps to immutable if they can be immutable
     - separate parsed AST from executing program? (source code -parse→ ast -run→ execution)
     - some way of restructuring the entire paradigm of the code in order to implement things without complicating the stuff currently in place???
     - parsing and execution flow diagrams
@@ -23,6 +24,7 @@
     - list destructuring?
     - allow del as an alternative to `.remove()` functions (`del someList[3]`)
     - switch statement
+    - selective imports (`import b from a`)
     - better error messages
     - breakpoints
     - support for variable length arguments `mapOf(Pair(), Pair(), Pair(), etc.)`
