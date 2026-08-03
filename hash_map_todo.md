@@ -1,18 +1,5 @@
 ## HashMap Todo
 
-- [ ] Pair
-    - [ ] Create src/main/kotlin/program/expression/value/PairValue.kt
-        - Wraps a `Pair<Value<*>, Value<*>>`
-    - [ ] Override the `getItem` function in `PairValue`
-        - Add first and second accessors there
-        - Look at `getItem` in `ListValue` for an example
-    - [ ] Create `pair` function in src/main/kotlin/program/expression/BuiltinFunctions.kt
-        - Look at the `range` function in that file for a similar example
-        - Gets two arguments from the `arguments` parameter for first and second (`val first = arguments.anyValue(program, "first", 0)`, etc.)
-        - Returns a PairValue (`PairValue(Pair(first, second))`)
-    - [ ] Add the function and its in-language name in the `builtins` map at the top of that file
-    - [ ] Make a new test in src/test/kotlin/test
-    - [ ] Run the test in src/test/kotlin/Tests.kt `private fun tests()`
 - [ ] HashMap
     - [ ] Create src/main/kotlin/program/expression/value/HashMapValue.kt
         - Wraps a `HashMap<Value<*>, Value<*>>`

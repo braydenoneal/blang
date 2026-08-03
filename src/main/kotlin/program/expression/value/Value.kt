@@ -73,6 +73,7 @@ abstract class Value<T>(open val value: T) : Operand<T>(), Callable {
     fun getBaseFunction(name: String): ((Program, Arguments) -> Value<*>)? {
         return when (name) {
             "toString" -> ::toStringValue
+            "to" -> ::to
             else -> null
         }
     }
@@ -84,6 +85,10 @@ abstract class Value<T>(open val value: T) : Operand<T>(), Callable {
         arguments: Arguments,
     ): Value<*> {
         return StringValue(toString())
+    }
+
+    fun to(program: Program, arguments: Arguments): Value<*> {
+        return PairValue(this to arguments.getAny(program, "second"))
     }
 
     open fun callFunction(program: Program, arguments: Arguments, name: String): Value<*> {

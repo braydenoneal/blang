@@ -28,6 +28,7 @@ interface Static {
 
         fun initialize() {
             register(RangeValue.Companion)
+            register(PairValue.Companion)
         }
     }
 }

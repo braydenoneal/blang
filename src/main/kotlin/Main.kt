@@ -5,20 +5,10 @@ fun main() {
     Program.initialize()
     val program = Program(
         """
-            a = "0123456"
-            b = [0, 1, 2, 3, 4, 5, 6]
-            print('{a[1]}, {a[4]}')
-            print('{b[1]}, {b[4]}')
-            print(a[1:4])
-            print(b[1:4])
-            print(a[4:1])
-            print(b[4:1])
-            print(a[:4])
-            print(a[1:])
-            print(a[:])
-            print(b[:4])
-            print(b[1:])
-            print(b[:])
+            a = "one" to 2
+            print(a)
+            print(a.first)
+            print(a.second)
         """.trimIndent(),
     )
 

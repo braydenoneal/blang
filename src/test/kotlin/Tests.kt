@@ -30,6 +30,7 @@ object Tests {
             Wait(),
             Comments(),
             InfixFunctions(),
+            Pairs(),
         )
     }
 
