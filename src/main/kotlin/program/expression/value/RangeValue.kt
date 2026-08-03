@@ -36,6 +36,10 @@ class RangeValue(value: Range) : Value<Range>(value) {
         return RangeValue(Range(value.start, value.end, step))
     }
 
+    override fun getStatic(): Static {
+        return Companion
+    }
+
     companion object : Static {
         override val name: String = "Range"
 

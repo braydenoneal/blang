@@ -59,7 +59,7 @@ abstract class Value<T>(open val value: T) : Operand<T>(), Callable {
     }
 
     fun getIdentifier(program: Program, name: String): Value<*> {
-        return (getItem(program, name) ?: ValueIdentifierValue(ValueIdentifier(this, name))).withSpan(span)
+        return (getItem(program, name) ?: getStatic()?.getItem(name) ?: ValueIdentifierValue(ValueIdentifier(this, name))).withSpan(span)
     }
 
     open fun assignItem(name: String, setValue: Value<*>): Value<*> {
@@ -87,7 +87,7 @@ abstract class Value<T>(open val value: T) : Operand<T>(), Callable {
     }
 
     open fun callFunction(program: Program, arguments: Arguments, name: String): Value<*> {
-        val function = getFunction(program, name) ?: getBaseFunction(name) ?: throw RunException("$capitalType has no function '$name'")
+        val function = getFunction(program, name) ?: getBaseFunction(name) ?: getStatic()?.getFunction(name) ?: throw RunException("$capitalType has no function '$name'")
         return function.invoke(program, arguments)
     }
 
@@ -97,5 +97,9 @@ abstract class Value<T>(open val value: T) : Operand<T>(), Callable {
 
     open fun iteratorSize(): Int {
         throw RunException("$capitalType does not implement iterator size", span)
+    }
+
+    open fun getStatic(): Static? {
+        return null
     }
 }

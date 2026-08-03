@@ -13,7 +13,7 @@ class Structs : Test() {
                 static {
                     val TEST = 27
                     
-                    fn test() {
+                    fn test2() {
                         return 1
                     }
                 }
@@ -23,7 +23,9 @@ class Structs : Test() {
             b = a.c
             c = a.test()
             d = Test.TEST
-            e = Test.test()
+            e = Test.test2()
+            f = a.TEST
+            g = a.test2()
         """.trimIndent()
     }
 
@@ -33,6 +35,8 @@ class Structs : Test() {
             Expect("c", IntegerValue(2)),
             Expect("d", IntegerValue(27)),
             Expect("e", IntegerValue(1)),
+            Expect("f", IntegerValue(27)),
+            Expect("g", IntegerValue(1)),
         )
     }
 }

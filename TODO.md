@@ -18,7 +18,6 @@
           imported program (`a::test()` runs in `a` and `a.test()` runs locally)
         - note that multiple programs could be accessing a single program in the same tick
     - immutable variables
-    - allow accessing static members through instances
     - implement toPair base function (`to(other) -> pair`)
     - list slicing
     - list destructuring?
