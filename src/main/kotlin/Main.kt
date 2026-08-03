@@ -5,11 +5,11 @@ fun main() {
     Program.initialize()
     val program = Program(
         """
-            a = Map([
-                "a" to 1,
-                "b" to 2,
-                "c" to 3,
-            ])
+            a = {
+                "a": 1,
+                "b": 2,
+                "c": 3,
+            }
             
             print(a["a"])
             print(a["b"])

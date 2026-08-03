@@ -13,7 +13,6 @@
     - accessing imports just change which program is passed to the rest of the expression?
     - auto registration with reflection and annotations?
 - features
-    - map literal (`{ "a": 1, "b": 2, "c": 3 }`)
     - statement to specify an imported program to run a function in (`in a { print("Hi") }`)
         - maybe also an infix operator as shorthand to run an imported program's function in the
           imported program (`a::test()` runs in `a` and `a.test()` runs locally)

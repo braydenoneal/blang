@@ -1,18 +1,15 @@
 package testing.test
 
-import program.expression.value.IntegerValue
-import program.expression.value.ListValue
-import program.expression.value.PairValue
-import program.expression.value.StringValue
+import program.expression.value.*
 
 class Maps : Test() {
     override fun body(): String {
         return """
-            map = Map([
-                "a" to 1,
-                "b" to 2,
-                "c" to 3,
-            ])
+            map = {
+                "a": 1,
+                "b": 2,
+                "c": 3,
+            }
             
             b = map["b"]
             keys = map.keys()
@@ -24,6 +21,12 @@ class Maps : Test() {
             for entry in map {
                 total += entry.second
             }
+            
+            map2 = Map([
+                "a" to 1,
+                "b" to 2,
+                "c" to 3,
+            ])
         """.trimIndent()
     }
 
@@ -61,6 +64,16 @@ class Maps : Test() {
                 ),
             ),
             Expect("total", IntegerValue(6)),
+            Expect(
+                "map2",
+                MapValue(
+                    mutableMapOf(
+                        StringValue("a") to IntegerValue(1),
+                        StringValue("b") to IntegerValue(2),
+                        StringValue("c") to IntegerValue(3),
+                    ),
+                ),
+            ),
         )
     }
 }
