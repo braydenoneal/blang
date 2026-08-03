@@ -17,8 +17,7 @@
         - maybe also an infix operator as shorthand to run an imported program's function in the
           imported program (`a::test()` runs in `a` and `a.test()` runs locally)
         - note that multiple programs could be accessing a single program in the same tick
-    - immutable variables
-    - list destructuring?
+    - immutable variables?
     - allow del as an alternative to `.remove()` functions (`del someList[3]`)
     - switch/when/match statement
     - selective imports (`import b from a`)
@@ -26,15 +25,15 @@
     - breakpoints
     - support for variable length arguments `mapOf(Pair(), Pair(), Pair(), etc.)`
     - optional/nullable or just null handling features
+    - list destructuring?
     - struct destructuring? (order dependant)
     - struct destructuring? (name dependant)
-    - struct variable name shorthand (`id` instead of `id: id`)
     - struct operator overloading
-    - static types?
-    - method annotations?
     - enums?
-    - generics?
     - list comprehension?
+    - static types?
+    - features like kotlin reflection?
+    - generics?
     - in-language errors, exceptions?
     - interfaces?
     - struct inheritance/traits?
