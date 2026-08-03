@@ -13,6 +13,12 @@ fun main() {
             print(b[1:4])
             print(a[4:1])
             print(b[4:1])
+            print(a[:4])
+            print(a[1:])
+            print(a[:])
+            print(b[:4])
+            print(b[1:])
+            print(b[:])
         """.trimIndent(),
     )
 

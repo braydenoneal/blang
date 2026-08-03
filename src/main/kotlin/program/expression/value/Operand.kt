@@ -90,18 +90,18 @@ abstract class Operand<T> : Expression() {
         return toList()[asIndex(item)]
     }
 
-    fun sliceList(from: Value<*>, to: Value<*>): List<Value<*>> {
-        val fromIndex = asIndex(from)
-        val toIndex = asIndex(to)
+    fun sliceList(from: Value<*>?, to: Value<*>?): List<Value<*>> {
+        val fromIndex = asIndex(from ?: IntegerValue(0))
+        val toIndex = asIndex(to ?: IntegerValue(size() - 1))
 
         if (fromIndex > toIndex) {
-            return toList().subList(asIndex(to), asIndex(from)).reversed().toMutableList()
+            return toList().subList(toIndex, fromIndex).reversed().toMutableList()
         }
 
-        return toList().subList(asIndex(from), asIndex(to))
+        return toList().subList(fromIndex, toIndex)
     }
 
-    fun slice(from: Value<*>, to: Value<*>): Value<*> {
+    fun slice(from: Value<*>?, to: Value<*>?): Value<*> {
         return fromList(sliceList(from, to))
     }
 

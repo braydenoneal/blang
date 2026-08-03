@@ -5,11 +5,11 @@ import program.expression.value.Value
 
 class SliceExpression(
     val left: Expression,
-    val from: Expression,
-    val to: Expression,
+    val from: Expression?,
+    val to: Expression?,
 ) : Expression() {
     override fun innerEvaluate(program: Program): Value<*> {
-        return left.evaluate(program).slice(from.evaluate(program), to.evaluate(program))
+        return left.evaluate(program).slice(from?.evaluate(program), to?.evaluate(program))
     }
 
     override fun toString(): String {

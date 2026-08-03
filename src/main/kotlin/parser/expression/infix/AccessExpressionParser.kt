@@ -1,5 +1,6 @@
 package parser.expression.infix
 
+import parser.ParseException
 import parser.Parser
 import parser.expression.ExpressionParser
 import parser.tokenizer.Token
@@ -10,16 +11,16 @@ import program.expression.SliceExpression
 
 class AccessExpressionParser(override val precedence: Int) : InfixParser {
     override fun parse(parser: Parser, spanStart: Int, token: Token, left: Expression): Expression {
-        val index = ExpressionParser.parse(parser, precedence, true)
+        val index = if (parser.peekIs(Type.COLON)) null else ExpressionParser.parse(parser, precedence, true)
 
         if (parser.peekIs(Type.COLON)) {
             parser.next()
-            val to = ExpressionParser.parse(parser, precedence, true)
+            val to = if (parser.peekIs(Type.RIGHT_SQUARE_BRACE)) null else ExpressionParser.parse(parser, precedence, true)
             parser.expect(Type.RIGHT_SQUARE_BRACE)
             return SliceExpression(left, index, to)
         }
 
         parser.expect(Type.RIGHT_SQUARE_BRACE)
-        return AccessExpression(left, index)
+        return AccessExpression(left, index ?: throw ParseException("Access expression must have an index"))
     }
 }

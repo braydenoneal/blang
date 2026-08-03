@@ -21,7 +21,7 @@
     - implement toPair base function (`to(other) -> pair`)
     - list destructuring?
     - allow del as an alternative to `.remove()` functions (`del someList[3]`)
-    - switch statement
+    - switch/when/match statement
     - selective imports (`import b from a`)
     - better error messages
     - breakpoints
