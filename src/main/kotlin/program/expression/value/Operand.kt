@@ -86,7 +86,7 @@ abstract class Operand<T> : Expression() {
         return wrapIndex(item.cast<IntegerValue>().value)
     }
 
-    fun get(item: Value<*>): Value<*> {
+    open fun get(item: Value<*>): Value<*> {
         return toList()[asIndex(item)]
     }
 
@@ -101,7 +101,7 @@ abstract class Operand<T> : Expression() {
         return toList().subList(fromIndex, toIndex)
     }
 
-    fun slice(from: Value<*>?, to: Value<*>?): Value<*> {
+    open fun slice(from: Value<*>?, to: Value<*>?): Value<*> {
         return fromList(sliceList(from, to))
     }
 

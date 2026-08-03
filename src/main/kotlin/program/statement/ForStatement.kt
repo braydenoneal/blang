@@ -2,7 +2,6 @@ package program.statement
 
 import program.Program
 import program.expression.Expression
-import program.expression.value.IntegerValue
 import program.expression.value.Value
 
 class ForStatement(
@@ -25,7 +24,7 @@ class ForStatement(
             return this
         }
 
-        val item = value.get(IntegerValue(index))
+        val item = value.toList()[index]
         program.scope.set(itemName, item)
 
         val result = statements.runNext(program)

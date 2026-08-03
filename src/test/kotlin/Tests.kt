@@ -31,6 +31,7 @@ object Tests {
             Comments(),
             InfixFunctions(),
             Pairs(),
+            Maps(),
         )
     }
 

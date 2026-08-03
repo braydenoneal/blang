@@ -5,10 +5,22 @@ fun main() {
     Program.initialize()
     val program = Program(
         """
-            a = "one" to 2
-            print(a)
-            print(a.first)
-            print(a.second)
+            a = Map([
+                "a" to 1,
+                "b" to 2,
+                "c" to 3,
+            ])
+            
+            print(a["a"])
+            print(a["b"])
+            print(a["c"])
+            print(a.keys())
+            print(a.values())
+            print(a.entries())
+            
+            for entry in a {
+                print(entry)
+            }
         """.trimIndent(),
     )
 
