@@ -1,7 +1,6 @@
 package program.expression.value
 
 import program.Program
-import program.RunException
 import program.expression.Arguments
 
 class StringValue(value: String) : Value<String>(value) {
@@ -15,34 +14,12 @@ class StringValue(value: String) : Value<String>(value) {
         return StringValue(value + other)
     }
 
-    override fun iteratorGet(index: Int): Value<*> {
-        return StringValue(value[index].toString())
+    override fun toList(): List<Value<*>> {
+        return value.map { StringValue(it.toString()) }.toList()
     }
 
-    override fun iteratorSize(): Int {
-        return value.length
-    }
-
-    fun wrapIndex(index: Int): Int {
-        var index = index
-
-        if (index >= value.length) {
-            throw RunException("Index $index out of range for string of length ${value.length}", span)
-        }
-
-        while (index < 0) {
-            index += value.length
-        }
-
-        return index
-    }
-
-    fun asIndex(item: Value<*>): Int {
-        return wrapIndex(item.cast<IntegerValue>().value)
-    }
-
-    override fun get(item: Value<*>): Value<*> {
-        return StringValue(value[asIndex(item)].toString())
+    override fun fromList(list: List<Value<*>>): Value<*> {
+        return StringValue(list.joinToString("") { it.cast<StringValue>().value })
     }
 
     override fun getFunction(program: Program, name: String): ((Program, Arguments) -> Value<*>)? {
@@ -53,12 +30,9 @@ class StringValue(value: String) : Value<String>(value) {
             "length" -> ::length
             "substring" -> ::substring
             "lines" -> ::lines
+            "reversed" -> ::reversed
             else -> super.getFunction(program, name)
         }
-    }
-
-    override fun contains(item: Value<*>): Boolean {
-        return value.contains(item.cast<StringValue>().value)
     }
 
     fun contains(program: Program, arguments: Arguments): Value<*> {
@@ -108,5 +82,14 @@ class StringValue(value: String) : Value<String>(value) {
     ): Value<*> {
         val lines: MutableList<Value<*>> = value.lines().map { string -> StringValue(string) }.toMutableList()
         return ListValue(lines)
+    }
+
+    fun reversed(
+        @Suppress("unused")
+        program: Program,
+        @Suppress("unused")
+        arguments: Arguments,
+    ): Value<*> {
+        return StringValue(value.reversed())
     }
 }

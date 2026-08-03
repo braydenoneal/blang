@@ -2,6 +2,7 @@ package program.statement
 
 import program.Program
 import program.expression.Expression
+import program.expression.value.IntegerValue
 import program.expression.value.Value
 
 class ForStatement(
@@ -18,13 +19,13 @@ class ForStatement(
         }
 
         val value = value!!
-        val size = value.iteratorSize()
+        val size = value.size()
 
         if (index >= size) {
             return this
         }
 
-        val item = value.iteratorGet(index)
+        val item = value.get(IntegerValue(index))
         program.scope.set(itemName, item)
 
         val result = statements.runNext(program)

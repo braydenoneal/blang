@@ -19,7 +19,6 @@
         - note that multiple programs could be accessing a single program in the same tick
     - immutable variables
     - implement toPair base function (`to(other) -> pair`)
-    - list slicing
     - list destructuring?
     - allow del as an alternative to `.remove()` functions (`del someList[3]`)
     - switch statement

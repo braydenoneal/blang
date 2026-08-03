@@ -33,6 +33,7 @@ class Lists : Test() {
             negativeIndex = [0, 1, 2][-1]
             negativeIndex1 = [0, 1, 2][-3]
             negativeIndex2 = [0, 1, 2][-5]
+            slice = [0, 1, 2, 3, 4, 5, 6][1:4]
         """.trimIndent()
     }
 
@@ -52,6 +53,7 @@ class Lists : Test() {
             Expect("negativeIndex", IntegerValue(2)),
             Expect("negativeIndex1", IntegerValue(0)),
             Expect("negativeIndex2", IntegerValue(1)),
+            Expect("slice", ListValue(mutableListOf(IntegerValue(1), IntegerValue(2), IntegerValue(3)))),
         )
     }
 }

@@ -7,12 +7,8 @@ import program.expression.value.util.Range
 class RangeValue(value: Range) : Value<Range>(value) {
     override fun typeString(): String = "range"
 
-    override fun iteratorGet(index: Int): Value<*> {
-        return IntegerValue(value.start + index * value.step)
-    }
-
-    override fun iteratorSize(): Int {
-        return (value.end - value.start) / value.step
+    override fun toList(): List<Value<*>> {
+        return (value.start..<value.end step value.step).toList().map { IntegerValue(it) }
     }
 
     override fun getItem(program: Program, name: String): Value<*>? {

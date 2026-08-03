@@ -91,14 +91,6 @@ abstract class Value<T>(open val value: T) : Operand<T>(), Callable {
         return function.invoke(program, arguments)
     }
 
-    open fun iteratorGet(index: Int): Value<*> {
-        throw RunException("$capitalType does not implement iterator get", span)
-    }
-
-    open fun iteratorSize(): Int {
-        throw RunException("$capitalType does not implement iterator size", span)
-    }
-
     open fun getStatic(): Static? {
         return null
     }

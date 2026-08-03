@@ -5,27 +5,14 @@ fun main() {
     Program.initialize()
     val program = Program(
         """
-            struct Test(a, b, c) {
-                fn test() {
-                    return self.b
-                }
-                
-                static {
-                    val TEST = 27
-                    
-                    fn test2() {
-                        return 1
-                    }
-                }
-            }
-            
-            a = Test(1, 2, 3)
-            print(a.c)
-            print(a.test())
-            print(Test.TEST)
-            print(Test.test2())
-            print(a.TEST)
-            print(a.test2())
+            a = "0123456"
+            b = [0, 1, 2, 3, 4, 5, 6]
+            print('{a[1]}, {a[4]}')
+            print('{b[1]}, {b[4]}')
+            print(a[1:4])
+            print(b[1:4])
+            print(a[4:1])
+            print(b[4:1])
         """.trimIndent(),
     )
 

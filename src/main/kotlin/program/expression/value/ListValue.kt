@@ -21,26 +21,8 @@ class ListValue(value: MutableList<Value<*>>) : Value<MutableList<Value<*>>>(val
         return "$print]"
     }
 
-    fun wrapIndex(index: Int): Int {
-        var index = index
-
-        if (index >= value.size) {
-            throw RunException("Index $index out of range for list of size ${value.size}", span)
-        }
-
-        while (index < 0) {
-            index += value.size
-        }
-
-        return index
-    }
-
-    fun asIndex(item: Value<*>): Int {
-        return wrapIndex(item.cast<IntegerValue>().value)
-    }
-
-    override fun get(item: Value<*>): Value<*> {
-        return value[asIndex(item)]
+    override fun toList(): List<Value<*>> {
+        return value
     }
 
     override fun set(item: Value<*>, setValue: Value<*>): Value<*> {
@@ -55,14 +37,6 @@ class ListValue(value: MutableList<Value<*>>) : Value<MutableList<Value<*>>>(val
         }
     }
 
-    override fun iteratorGet(index: Int): Value<*> {
-        return value[wrapIndex(index)]
-    }
-
-    override fun iteratorSize(): Int {
-        return value.size
-    }
-
     override fun getFunction(program: Program, name: String): ((Program, Arguments) -> Value<*>)? {
         return when (name) {
             "append" -> ::append
@@ -71,6 +45,8 @@ class ListValue(value: MutableList<Value<*>>) : Value<MutableList<Value<*>>>(val
             "insert" -> ::insert
             "pop" -> ::pop
             "remove" -> ::remove
+            "reversed" -> ::reversed
+            "reverse" -> ::reverse
             else -> super.getFunction(program, name)
         }
     }
@@ -88,10 +64,6 @@ class ListValue(value: MutableList<Value<*>>) : Value<MutableList<Value<*>>>(val
         }
 
         throw RunException("Expression is not a list", span)
-    }
-
-    override fun contains(item: Value<*>): Boolean {
-        return value.contains(item)
     }
 
     fun contains(program: Program, arguments: Arguments): Value<*> {
@@ -124,6 +96,25 @@ class ListValue(value: MutableList<Value<*>>) : Value<MutableList<Value<*>>>(val
             value.remove(removeValue)
         }
 
+        return this
+    }
+
+    fun reversed(
+        @Suppress("unused")
+        program: Program,
+        @Suppress("unused")
+        arguments: Arguments,
+    ): Value<*> {
+        return ListValue(value.reversed().toMutableList())
+    }
+
+    fun reverse(
+        @Suppress("unused")
+        program: Program,
+        @Suppress("unused")
+        arguments: Arguments,
+    ): Value<*> {
+        value.reverse()
         return this
     }
 

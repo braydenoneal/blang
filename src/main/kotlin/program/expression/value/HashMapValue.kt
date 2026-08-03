@@ -14,10 +14,6 @@ class HashMapValue(value: HashMap<Value<*>, Value<*>>) : Value<HashMap<Value<*>,
         return "$mapString}"
     }
 
-    override fun get(item: Value<*>): Value<*> {
-        return Null.VALUE
-    }
-
     override fun set(item: Value<*>, setValue: Value<*>): Value<*> {
         return Null.VALUE
     }

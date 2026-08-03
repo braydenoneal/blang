@@ -48,14 +48,6 @@ abstract class Operand<T> : Expression() {
         throw RunException("Value does not implement truth", span)
     }
 
-    open fun get(item: Value<*>): Value<*> {
-        throw RunException("Value does not implement get", span)
-    }
-
-    open fun set(item: Value<*>, setValue: Value<*>): Value<*> {
-        throw RunException("Value does not implement set", span)
-    }
-
     open fun equalsOther(other: T): Boolean {
         throw RunException("Value does not implement equals", span)
     }
@@ -64,7 +56,60 @@ abstract class Operand<T> : Expression() {
         throw RunException("Value does not implement rangeTo", span)
     }
 
+    open fun toList(): List<Value<*>> {
+        throw RunException("Value does not implement asList", span)
+    }
+
+    open fun fromList(list: List<Value<*>>): Value<*> {
+        return ListValue(list.toMutableList())
+    }
+
+    fun size(): Int {
+        return toList().size
+    }
+
+    fun wrapIndex(index: Int): Int {
+        var index = index
+
+        if (index >= size()) {
+            throw RunException("Index $index out of range for list of size ${size()}", span)
+        }
+
+        while (index < 0) {
+            index += size()
+        }
+
+        return index
+    }
+
+    fun asIndex(item: Value<*>): Int {
+        return wrapIndex(item.cast<IntegerValue>().value)
+    }
+
+    fun get(item: Value<*>): Value<*> {
+        return toList()[asIndex(item)]
+    }
+
+    fun sliceList(from: Value<*>, to: Value<*>): List<Value<*>> {
+        val fromIndex = asIndex(from)
+        val toIndex = asIndex(to)
+
+        if (fromIndex > toIndex) {
+            return toList().subList(asIndex(to), asIndex(from)).reversed().toMutableList()
+        }
+
+        return toList().subList(asIndex(from), asIndex(to))
+    }
+
+    fun slice(from: Value<*>, to: Value<*>): Value<*> {
+        return fromList(sliceList(from, to))
+    }
+
     open fun contains(item: Value<*>): Boolean {
-        throw RunException("Value does not implement contains", span)
+        return item in toList()
+    }
+
+    open fun set(item: Value<*>, setValue: Value<*>): Value<*> {
+        throw RunException("Value does not implement set", span)
     }
 }

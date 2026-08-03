@@ -11,6 +11,7 @@ class Strings : Test() {
             d = "1" + 6
             e = "1\"2\{3{2 + 2}5\"6\}7{4 + 4}9\"A\}B"
             f = "1\"2\{3{2 + 2}5\"6\}7"
+            g = "0123456"[1:4]
         """.trimIndent()
     }
 
@@ -22,6 +23,7 @@ class Strings : Test() {
             Expect("d", StringValue("16")),
             Expect("e", StringValue("1\"2{345\"6}789\"A}B")),
             Expect("f", StringValue("1\"2{345\"6}7")),
+            Expect("g", StringValue("123")),
         )
     }
 }
