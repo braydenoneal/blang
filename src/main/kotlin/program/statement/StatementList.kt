@@ -33,6 +33,7 @@ class StatementList(
 
     fun clear() {
         statements.clear()
+        index = 0
     }
 
     override fun toString(): String {

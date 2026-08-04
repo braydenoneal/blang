@@ -59,7 +59,7 @@ class IdentifierValue(value: String) : Value<String>(value) {
 
         // Imported namespace variable
         for (importStatement in program.imports) {
-            if (importStatement.name == name) {
+            if (importStatement.name == value) {
                 val importProgram = program.getCustomImportProgram(importStatement)
                 val variable = importProgram.topScope.variables[name]
 
@@ -99,7 +99,7 @@ class IdentifierValue(value: String) : Value<String>(value) {
 
         // Imported namespace function
         for (importStatement in program.imports) {
-            if (importStatement.name == name) {
+            if (importStatement.name == value) {
                 val importProgram = program.getCustomImportProgram(importStatement)
                 val function = importProgram.functions[name]
 
