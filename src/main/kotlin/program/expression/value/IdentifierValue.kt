@@ -3,7 +3,7 @@ package program.expression.value
 import program.Program
 import program.RunException
 import program.expression.Arguments
-import program.expression.BuiltinFunctions
+import program.expression.builtin.BuiltinFunctions
 import program.expression.value.util.Struct
 
 class IdentifierValue(value: String) : Value<String>(value) {
@@ -130,6 +130,6 @@ class IdentifierValue(value: String) : Value<String>(value) {
         }
 
         // Builtin function
-        return BuiltinFunctions.builtins[value]?.invoke(program, arguments) ?: throw RunException("Identifier '$value' does not refer to anything", span)
+        return BuiltinFunctions.builtins[value]?.call() ?: throw RunException("Identifier '$value' does not refer to anything", span)
     }
 }

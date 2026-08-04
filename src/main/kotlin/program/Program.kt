@@ -1,6 +1,7 @@
 package program
 
 import parser.Parser
+import program.expression.builtin.BuiltinFunctions
 import program.expression.value.FunctionValue
 import program.expression.value.Static
 import program.expression.value.util.StructDefinition
@@ -100,6 +101,7 @@ open class Program(
     companion object {
         fun initialize() {
             Parser.initialize()
+            BuiltinFunctions.initialize()
             Static.initialize()
         }
     }
