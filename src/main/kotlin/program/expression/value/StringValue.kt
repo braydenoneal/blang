@@ -25,12 +25,12 @@ class StringValue(value: String) : Value<String>(value) {
     override fun innerCallFunction(program: Program, arguments: Arguments, name: String, local: Boolean): Value<*> {
         return when (name) {
             "contains" -> contains(program, arguments)
-            "uppercase" -> uppercase(program, arguments)
-            "lowercase" -> lowercase(program, arguments)
-            "length" -> length(program, arguments)
+            "uppercase" -> uppercase()
+            "lowercase" -> lowercase()
+            "length" -> length()
             "substring" -> substring(program, arguments)
-            "lines" -> lines(program, arguments)
-            "reversed" -> reversed(program, arguments)
+            "lines" -> lines()
+            "reversed" -> reversed()
             else -> super.innerCallFunction(program, arguments, name, local)
         }
     }
@@ -41,15 +41,15 @@ class StringValue(value: String) : Value<String>(value) {
         return BooleanValue(value.contains(item, ignoreCase))
     }
 
-    fun uppercase(@Suppress("unused") program: Program, @Suppress("unused") arguments: Arguments): Value<*> {
+    fun uppercase(): Value<*> {
         return StringValue(value.uppercase())
     }
 
-    fun lowercase(@Suppress("unused") program: Program, @Suppress("unused") arguments: Arguments): Value<*> {
+    fun lowercase(): Value<*> {
         return StringValue(value.lowercase())
     }
 
-    fun length(@Suppress("unused") program: Program, @Suppress("unused") arguments: Arguments): Value<*> {
+    fun length(): Value<*> {
         return IntegerValue(value.length)
     }
 
@@ -59,12 +59,12 @@ class StringValue(value: String) : Value<String>(value) {
         return StringValue(value.substring(start, end))
     }
 
-    fun lines(@Suppress("unused") program: Program, @Suppress("unused") arguments: Arguments): Value<*> {
+    fun lines(): Value<*> {
         val lines: MutableList<Value<*>> = value.lines().map { string -> StringValue(string) }.toMutableList()
         return ListValue(lines)
     }
 
-    fun reversed(@Suppress("unused") program: Program, @Suppress("unused") arguments: Arguments): Value<*> {
+    fun reversed(): Value<*> {
         return StringValue(value.reversed())
     }
 }

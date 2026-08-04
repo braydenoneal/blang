@@ -34,22 +34,22 @@ class MapValue(value: MutableMap<Value<*>, Value<*>>) : Value<MutableMap<Value<*
 
     override fun innerCallFunction(program: Program, arguments: Arguments, name: String, local: Boolean): Value<*> {
         return when (name) {
-            "keys" -> keys(program, arguments)
-            "values" -> values(program, arguments)
-            "entries" -> entries(program, arguments)
+            "keys" -> keys()
+            "values" -> values()
+            "entries" -> entries()
             else -> super.innerCallFunction(program, arguments, name, local)
         }
     }
 
-    fun keys(@Suppress("unused") program: Program, @Suppress("unused") arguments: Arguments): Value<*> {
+    fun keys(): Value<*> {
         return ListValue(value.keys.toMutableList())
     }
 
-    fun values(@Suppress("unused") program: Program, @Suppress("unused") arguments: Arguments): Value<*> {
+    fun values(): Value<*> {
         return ListValue(value.values.toMutableList())
     }
 
-    fun entries(@Suppress("unused") program: Program, @Suppress("unused") arguments: Arguments): Value<*> {
+    fun entries(): Value<*> {
         return ListValue(toList().toMutableList())
     }
 

@@ -33,10 +33,10 @@ class ListValue(value: MutableList<Value<*>>) : Value<MutableList<Value<*>>>(val
             "containsAll" -> containsAll(program, arguments)
             "contains" -> contains(program, arguments)
             "insert" -> insert(program, arguments)
-            "pop" -> pop(program, arguments)
+            "pop" -> pop()
             "remove" -> remove(program, arguments)
-            "reversed" -> reversed(program, arguments)
-            "reverse" -> reverse(program, arguments)
+            "reversed" -> reversed()
+            "reverse" -> reverse()
             else -> super.innerCallFunction(program, arguments, name, local)
         }
     }
@@ -67,7 +67,7 @@ class ListValue(value: MutableList<Value<*>>) : Value<MutableList<Value<*>>>(val
         return this
     }
 
-    fun pop(@Suppress("unused") program: Program, @Suppress("unused") arguments: Arguments): Value<*> {
+    fun pop(): Value<*> {
         value.removeLast()
         return this
     }
@@ -84,11 +84,11 @@ class ListValue(value: MutableList<Value<*>>) : Value<MutableList<Value<*>>>(val
         return this
     }
 
-    fun reversed(@Suppress("unused") program: Program, @Suppress("unused") arguments: Arguments): Value<*> {
+    fun reversed(): Value<*> {
         return ListValue(value.reversed().toMutableList())
     }
 
-    fun reverse(@Suppress("unused") program: Program, @Suppress("unused") arguments: Arguments): Value<*> {
+    fun reverse(): Value<*> {
         value.reverse()
         return this
     }

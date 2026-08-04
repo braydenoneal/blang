@@ -67,13 +67,13 @@ abstract class Value<T>(open val value: T) : Operand<T>(), Callable {
 
     fun callBaseFunction(program: Program, arguments: Arguments, name: String): Value<*>? {
         return when (name) {
-            "toString" -> toStringValue(program, arguments)
+            "toString" -> toStringValue()
             "to" -> to(program, arguments)
             else -> null
         }
     }
 
-    fun toStringValue(@Suppress("unused") program: Program, @Suppress("unused") arguments: Arguments): Value<*> {
+    fun toStringValue(): Value<*> {
         return StringValue(toString())
     }
 

@@ -50,12 +50,12 @@ class FloatValue(value: Float) : Value<Float>(value) {
 
     override fun innerCallFunction(program: Program, arguments: Arguments, name: String, local: Boolean): Value<*> {
         return when (name) {
-            "toInt" -> toInt(program, arguments)
+            "toInt" -> toInt()
             else -> super.innerCallFunction(program, arguments, name, local)
         }
     }
 
-    fun toInt(@Suppress("unused") program: Program, @Suppress("unused") arguments: Arguments): Value<*> {
+    fun toInt(): Value<*> {
         return IntegerValue(value.toInt())
     }
 }
