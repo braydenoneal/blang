@@ -13,6 +13,8 @@
     - accessing imports just change which program is passed to the rest of the expression?
     - auto registration with reflection and annotations?
 - features
+    - inferred constructors? (`placeBlock(0, 1, 0, "stone")` instead of `placeBlock(BlockPos(0, 1, 0), Block("stone"))`)
+        - likely requires typing
     - reimplement function references
     - statement to specify an action program to run statements in (`in a { print("Hi") }`)
         - note that multiple programs could be accessing a single program in the same tick
@@ -31,6 +33,7 @@
     - enums?
     - list comprehension?
     - static types?
+    - function definition overloading (`print()` and `print(string)`)
     - features like kotlin reflection?
     - generics?
     - in-language errors, exceptions?
