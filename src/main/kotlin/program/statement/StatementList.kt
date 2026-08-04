@@ -6,12 +6,13 @@ class StatementList(
     val statements: MutableList<Statement> = mutableListOf(),
     var index: Int = 0,
 ) {
-    fun runNext(program: Program): Statement {
+    context(program: Program)
+    fun runNext(): Statement {
         if (statements.isEmpty()) {
             return EmptyStatement()
         }
 
-        val result = statements[index].execute(program)
+        val result = statements[index].execute()
         index++
 
         if (result is ReturnStatement || result is BreakStatement || result is ContinueStatement) {

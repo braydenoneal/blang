@@ -22,22 +22,24 @@ class StringValue(value: String) : Value<String>(value) {
         return StringValue(list.joinToString("") { it.cast<StringValue>().value })
     }
 
-    override fun innerCallFunction(program: Program, arguments: Arguments, name: String, local: Boolean): Value<*> {
+    context(program: Program, arguments: Arguments)
+    override fun innerCallFunction(name: String, local: Boolean): Value<*> {
         return when (name) {
-            "contains" -> contains(program, arguments)
+            "contains" -> contains()
             "uppercase" -> uppercase()
             "lowercase" -> lowercase()
             "length" -> length()
-            "substring" -> substring(program, arguments)
+            "substring" -> substring()
             "lines" -> lines()
             "reversed" -> reversed()
-            else -> super.innerCallFunction(program, arguments, name, local)
+            else -> super.innerCallFunction(name, local)
         }
     }
 
-    fun contains(program: Program, arguments: Arguments): Value<*> {
-        val item = arguments.get<StringValue>(program, "value").value
-        val ignoreCase = arguments.get<BooleanValue>(program, "ignoreCase", BooleanValue(false)).value
+    context(program: Program, arguments: Arguments)
+    fun contains(): Value<*> {
+        val item = arguments.get<StringValue>("value").value
+        val ignoreCase = arguments.get<BooleanValue>("ignoreCase", BooleanValue(false)).value
         return BooleanValue(value.contains(item, ignoreCase))
     }
 
@@ -53,9 +55,10 @@ class StringValue(value: String) : Value<String>(value) {
         return IntegerValue(value.length)
     }
 
-    fun substring(program: Program, arguments: Arguments): Value<*> {
-        val start = arguments.get<IntegerValue>(program, "start").value
-        val end = arguments.get<IntegerValue>(program, "end").value
+    context(program: Program, arguments: Arguments)
+    fun substring(): Value<*> {
+        val start = arguments.get<IntegerValue>("start").value
+        val end = arguments.get<IntegerValue>("end").value
         return StringValue(value.substring(start, end))
     }
 

@@ -8,8 +8,9 @@ class SliceExpression(
     val from: Expression?,
     val to: Expression?,
 ) : Expression() {
-    override fun innerEvaluate(program: Program): Value<*> {
-        return left.evaluate(program).slice(from?.evaluate(program), to?.evaluate(program))
+    context(program: Program)
+    override fun innerEvaluate(): Value<*> {
+        return left.evaluate().slice(from?.evaluate(), to?.evaluate())
     }
 
     override fun toString(): String {

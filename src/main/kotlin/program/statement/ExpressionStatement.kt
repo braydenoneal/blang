@@ -4,8 +4,9 @@ import program.Program
 import program.expression.Expression
 
 class ExpressionStatement(val expression: Expression) : Statement() {
-    override fun innerExecute(program: Program): Statement {
-        expression.evaluate(program)
+    context(program: Program)
+    override fun innerExecute(): Statement {
+        expression.evaluate()
         return this
     }
 

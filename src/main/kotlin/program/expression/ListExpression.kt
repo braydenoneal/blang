@@ -8,14 +8,15 @@ class ListExpression(
     val expressions: MutableList<Expression>,
     val computed: MutableList<Value<*>> = mutableListOf(),
 ) : Expression() {
-    override fun innerEvaluate(program: Program): Value<*> {
+    context(program: Program)
+    override fun innerEvaluate(): Value<*> {
         val values: MutableList<Value<*>> = mutableListOf()
 
         for (i in expressions.indices) {
             if (computed.size > i) {
                 values.add(computed[i])
             } else {
-                val value = expressions[i].evaluate(program)
+                val value = expressions[i].evaluate()
                 values.add(value)
                 computed.add(value)
             }
@@ -24,7 +25,8 @@ class ListExpression(
         return ListValue(values)
     }
 
-    override fun done(program: Program) {
+    context(program: Program)
+    override fun done() {
         computed.clear()
     }
 

@@ -7,8 +7,9 @@ class AccessExpression(
     val left: Expression,
     val right: Expression,
 ) : Expression() {
-    override fun innerEvaluate(program: Program): Value<*> {
-        return left.evaluate(program).get(right.evaluate(program))
+    context(program: Program)
+    override fun innerEvaluate(): Value<*> {
+        return left.evaluate().get(right.evaluate())
     }
 
     override fun toString(): String {

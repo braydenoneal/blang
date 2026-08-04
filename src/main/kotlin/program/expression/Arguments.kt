@@ -21,13 +21,14 @@ class Arguments(
         return this
     }
 
-    fun getAny(program: Program, name: String, default: Value<*>? = null): Value<*> {
+    context(program: Program)
+    fun getAny(name: String, default: Value<*>? = null): Value<*> {
         if (computed.containsKey(name)) {
             return computed[name]!!
         }
 
         if (namelessArguments.size > index) {
-            val value = namelessArguments[index].evaluate(program)
+            val value = namelessArguments[index].evaluate()
             index++
             computed[name] = value
             return value
@@ -35,7 +36,7 @@ class Arguments(
 
         for (argument in namedArguments) {
             if (argument.key == name) {
-                val value = argument.value.evaluate(program)
+                val value = argument.value.evaluate()
                 computed[name] = value
                 return value
             }
@@ -49,8 +50,9 @@ class Arguments(
         return default
     }
 
-    inline fun <reified T : Value<*>> get(program: Program, name: String, default: T? = null): T {
-        return getAny(program, name, default).cast<T>()
+    context(program: Program)
+    inline fun <reified T : Value<*>> get(name: String, default: T? = null): T {
+        return getAny(name, default).cast<T>()
     }
 
     fun abort() {

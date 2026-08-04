@@ -9,8 +9,9 @@ class UnaryOperatorExpression(
     val operator: String,
     val operand: Expression,
 ) : Expression() {
-    override fun innerEvaluate(program: Program): Value<*> {
-        val value = operand.evaluate(program)
+    context(program: Program)
+    override fun innerEvaluate(): Value<*> {
+        val value = operand.evaluate()
 
         return when (operator) {
             "-" -> value.negative()

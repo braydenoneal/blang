@@ -7,15 +7,18 @@ import program.expression.value.util.Function
 class FunctionValue(value: Function) : Value<Function>(value) {
     override fun typeString(): String = "function"
 
-    override fun innerCall(program: Program, arguments: Arguments): Value<*> {
-        return value.innerCall(program, arguments)
+    context(program: Program, arguments: Arguments)
+    override fun innerCall(): Value<*> {
+        return value.innerCall()
     }
 
-    override fun abort(program: Program, arguments: Arguments) {
-        value.abort(program, arguments)
+    context(program: Program, arguments: Arguments)
+    override fun abort() {
+        value.abort()
     }
 
-    override fun done(program: Program, arguments: Arguments) {
-        value.done(program, arguments)
+    context(program: Program, arguments: Arguments)
+    override fun done() {
+        value.done()
     }
 }

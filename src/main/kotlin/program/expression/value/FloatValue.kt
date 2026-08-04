@@ -48,10 +48,11 @@ class FloatValue(value: Float) : Value<Float>(value) {
         return value.compareTo(other)
     }
 
-    override fun innerCallFunction(program: Program, arguments: Arguments, name: String, local: Boolean): Value<*> {
+    context(program: Program, arguments: Arguments)
+    override fun innerCallFunction(name: String, local: Boolean): Value<*> {
         return when (name) {
             "toInt" -> toInt()
-            else -> super.innerCallFunction(program, arguments, name, local)
+            else -> super.innerCallFunction(name, local)
         }
     }
 

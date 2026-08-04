@@ -7,7 +7,8 @@ import program.expression.Arguments
 import java.util.Locale.getDefault
 
 abstract class Value<T>(open val value: T) : Operand<T>(), Callable {
-    override fun innerEvaluate(program: Program): Value<*> {
+    context(program: Program)
+    override fun innerEvaluate(): Value<*> {
         return this
     }
 
@@ -53,7 +54,8 @@ abstract class Value<T>(open val value: T) : Operand<T>(), Callable {
         throw RunException("Values are not the same type", span)
     }
 
-    open fun getItem(program: Program, name: String): Value<*> {
+    context(program: Program)
+    open fun getItem(name: String): Value<*> {
         return getStatic()?.getItem(name) ?: throw RunException("Value has no item '$name'", span)
     }
 
@@ -61,14 +63,16 @@ abstract class Value<T>(open val value: T) : Operand<T>(), Callable {
         throw RunException("$capitalType has no assignable item $name", span)
     }
 
-    override fun innerCallFunction(program: Program, arguments: Arguments, name: String, local: Boolean): Value<*> {
-        return callBaseFunction(program, arguments, name) ?: getStatic()?.innerCallFunction(program, arguments, name) ?: throw RunException("$capitalType has no function '$name'")
+    context(program: Program, arguments: Arguments)
+    override fun innerCallFunction(name: String, local: Boolean): Value<*> {
+        return callBaseFunction(name) ?: getStatic()?.innerCallFunction(name) ?: throw RunException("$capitalType has no function '$name'")
     }
 
-    fun callBaseFunction(program: Program, arguments: Arguments, name: String): Value<*>? {
+    context(program: Program, arguments: Arguments)
+    fun callBaseFunction(name: String): Value<*>? {
         return when (name) {
             "toString" -> toStringValue()
-            "to" -> to(program, arguments)
+            "to" -> to()
             else -> null
         }
     }
@@ -77,8 +81,9 @@ abstract class Value<T>(open val value: T) : Operand<T>(), Callable {
         return StringValue(toString())
     }
 
-    fun to(program: Program, arguments: Arguments): Value<*> {
-        return PairValue(this to arguments.getAny(program, "second"))
+    context(program: Program, arguments: Arguments)
+    fun to(): Value<*> {
+        return PairValue(this to arguments.getAny("second"))
     }
 
     open fun getStatic(): Static? {

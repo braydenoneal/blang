@@ -9,14 +9,15 @@ class WhileStatement(
     val statements: StatementList,
     var conditionValue: Value<*>? = null,
 ) : Statement() {
-    override fun innerExecute(program: Program): Statement {
+    context(program: Program)
+    override fun innerExecute(): Statement {
         if (conditionValue == null) {
-            val conditionResult = condition.evaluate(program)
+            val conditionResult = condition.evaluate()
             conditionValue = conditionResult
         }
 
         if (conditionValue!!.truth()) {
-            val statement = statements.runNext(program)
+            val statement = statements.runNext()
 
             if (statement is ReturnStatement || statement is BreakStatement) {
                 return statement
@@ -29,7 +30,8 @@ class WhileStatement(
         return this
     }
 
-    override fun done(program: Program) {
+    context(program: Program)
+    override fun done() {
         conditionValue = null
     }
 

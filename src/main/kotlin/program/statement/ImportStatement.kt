@@ -6,7 +6,8 @@ class ImportStatement(
     val identifiers: MutableList<String>,
     val name: String,
 ) : Statement() {
-    override fun innerExecute(program: Program): Statement {
+    context(program: Program)
+    override fun innerExecute(): Statement {
         program.addImport(this)
         return this
     }

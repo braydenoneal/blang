@@ -5,7 +5,8 @@ import program.expression.value.IdentifierValue
 import program.expression.value.Value
 
 class IdentifierExpression(val name: String) : Expression() {
-    override fun innerEvaluate(program: Program): Value<*> {
+    context(program: Program)
+    override fun innerEvaluate(): Value<*> {
         val variable = program.scope.getNullable(name)
 
         if (variable != null) {

@@ -12,8 +12,9 @@ class StructValue(value: Struct) : Value<Struct>(value) {
         return value.variables.toString()
     }
 
-    override fun getItem(program: Program, name: String): Value<*> {
-        return value.variables[name] ?: value.definition.staticVariables[name]?.evaluate(program) ?: super.getItem(program, name)
+    context(program: Program)
+    override fun getItem(name: String): Value<*> {
+        return value.variables[name] ?: value.definition.staticVariables[name]?.evaluate() ?: super.getItem(name)
     }
 
     override fun assignItem(name: String, setValue: Value<*>): Value<*> {
@@ -25,10 +26,11 @@ class StructValue(value: Struct) : Value<Struct>(value) {
         throw RunException("Value does not have variable '$name'")
     }
 
-    override fun innerCallFunction(program: Program, arguments: Arguments, name: String, local: Boolean): Value<*> {
+    context(program: Program, arguments: Arguments)
+    override fun innerCallFunction(name: String, local: Boolean): Value<*> {
         arguments.hasSelf = true
         arguments.namedArguments["self"] = this
-        val function = value.definition.functions[name] ?: value.definition.staticFunctions[name] ?: return super.innerCallFunction(program, arguments, name, local)
-        return function.value.call(program, arguments)
+        val function = value.definition.functions[name] ?: value.definition.staticFunctions[name] ?: return super.innerCallFunction(name, local)
+        return function.value.call()
     }
 }

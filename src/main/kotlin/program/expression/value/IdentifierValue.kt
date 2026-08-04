@@ -9,7 +9,8 @@ import program.expression.value.util.Struct
 class IdentifierValue(value: String) : Value<String>(value) {
     override fun typeString(): String = "identifier"
 
-    override fun getItem(program: Program, name: String): Value<*> {
+    context(program: Program)
+    override fun getItem(name: String): Value<*> {
         // Struct static variable
         val structDefinition = program.getStruct(value)
 
@@ -17,7 +18,7 @@ class IdentifierValue(value: String) : Value<String>(value) {
             val item = structDefinition.staticVariables[name]
 
             if (item != null) {
-                return item.evaluate(program)
+                return item.evaluate()
             }
         }
 
@@ -46,10 +47,11 @@ class IdentifierValue(value: String) : Value<String>(value) {
             }
         }
 
-        return super.getItem(program, name)
+        return super.getItem(name)
     }
 
-    override fun innerCallFunction(program: Program, arguments: Arguments, name: String, local: Boolean): Value<*> {
+    context(program: Program, arguments: Arguments)
+    override fun innerCallFunction(name: String, local: Boolean): Value<*> {
         // Struct static function
         val structDefinition = program.getStruct(value)
 
@@ -57,7 +59,7 @@ class IdentifierValue(value: String) : Value<String>(value) {
             val item = structDefinition.staticFunctions[name]
 
             if (item != null) {
-                return item.value.call(program, arguments)
+                return item.value.call()
             }
         }
 
@@ -67,15 +69,17 @@ class IdentifierValue(value: String) : Value<String>(value) {
                 val importProgram = program.getCustomImportProgram(importStatement)
                 val function = importProgram.functions[name]
 
-                if (function != null) {
-                    if (local) {
-                        importProgram.actionProgram = program
-                        val value = function.value.call(importProgram, arguments)
-                        importProgram.actionProgram = importProgram
-                        return value
-                    }
+                context(importProgram) {
+                    if (function != null) {
+                        if (local) {
+                            importProgram.actionProgram = program
+                            val value = function.value.call()
+                            importProgram.actionProgram = importProgram
+                            return value
+                        }
 
-                    return function.value.call(importProgram, arguments)
+                        return function.value.call()
+                    }
                 }
 
                 break
@@ -86,13 +90,14 @@ class IdentifierValue(value: String) : Value<String>(value) {
         val staticCompanion = Static.staticCompanions[value]
 
         if (staticCompanion != null) {
-            return staticCompanion.innerCallFunction(program, arguments, name)
+            return staticCompanion.innerCallFunction(name)
         }
 
-        return super.innerCallFunction(program, arguments, name, local)
+        return super.innerCallFunction(name, local)
     }
 
-    override fun innerCall(program: Program, arguments: Arguments): Value<*> {
+    context(program: Program, arguments: Arguments)
+    override fun innerCall(): Value<*> {
         // Struct constructor
         val structDefinition = program.getStruct(value)
 
@@ -100,11 +105,11 @@ class IdentifierValue(value: String) : Value<String>(value) {
             val variables = mutableMapOf<String, Value<*>>()
 
             for (name in structDefinition.parameters) {
-                variables[name] = arguments.getAny(program, name)
+                variables[name] = arguments.getAny(name)
             }
 
             for ((name, default) in structDefinition.defaultParameters) {
-                variables[name] = arguments.getAny(program, name, default.evaluate(program))
+                variables[name] = arguments.getAny(name, default.evaluate())
             }
 
             return StructValue(Struct(structDefinition, variables))
@@ -114,14 +119,14 @@ class IdentifierValue(value: String) : Value<String>(value) {
         val function = program.functions[value]
 
         if (function != null) {
-            return function.call(program, arguments)
+            return function.call()
         }
 
         // Builtin constructor
         val staticCompanion = Static.staticCompanions[value]
 
         if (staticCompanion != null) {
-            return staticCompanion.call(program, arguments)
+            return staticCompanion.call()
         }
 
         // Builtin function

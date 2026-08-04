@@ -11,24 +11,27 @@ class RangeValue(value: Range) : Value<Range>(value) {
         return (value.start..<value.end step value.step).toList().map { IntegerValue(it) }
     }
 
-    override fun getItem(program: Program, name: String): Value<*> {
+    context(program: Program)
+    override fun getItem(name: String): Value<*> {
         return when (name) {
             "start" -> IntegerValue(value.start)
             "end" -> IntegerValue(value.end)
             "step" -> IntegerValue(value.step)
-            else -> super.getItem(program, name)
+            else -> super.getItem(name)
         }
     }
 
-    override fun innerCallFunction(program: Program, arguments: Arguments, name: String, local: Boolean): Value<*> {
+    context(program: Program, arguments: Arguments)
+    override fun innerCallFunction(name: String, local: Boolean): Value<*> {
         return when (name) {
-            "step" -> step(program, arguments)
-            else -> super.innerCallFunction(program, arguments, name, local)
+            "step" -> step()
+            else -> super.innerCallFunction(name, local)
         }
     }
 
-    fun step(program: Program, arguments: Arguments): Value<*> {
-        val step = arguments.get<IntegerValue>(program, "value").value
+    context(program: Program, arguments: Arguments)
+    fun step(): Value<*> {
+        val step = arguments.get<IntegerValue>("value").value
         return RangeValue(Range(value.start, value.end, step))
     }
 
@@ -39,10 +42,11 @@ class RangeValue(value: Range) : Value<Range>(value) {
     companion object : Static {
         override val name: String = "Range"
 
-        override fun innerCall(program: Program, arguments: Arguments): Value<*> {
-            val start = arguments.get<IntegerValue>(program, "start", IntegerValue(0)).value
-            val end = arguments.get<IntegerValue>(program, "end").value
-            val step = arguments.get<IntegerValue>(program, "step", IntegerValue(1)).value
+        context(program: Program, arguments: Arguments)
+        override fun innerCall(): Value<*> {
+            val start = arguments.get<IntegerValue>("start", IntegerValue(0)).value
+            val end = arguments.get<IntegerValue>("end").value
+            val step = arguments.get<IntegerValue>("step", IntegerValue(1)).value
             return RangeValue(Range(start, end, step))
         }
     }

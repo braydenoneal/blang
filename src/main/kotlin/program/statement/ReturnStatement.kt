@@ -5,8 +5,9 @@ import program.expression.Expression
 import program.expression.value.Value
 
 class ReturnStatement(val expression: Expression) : Statement() {
-    fun returnValue(program: Program): Value<*> {
-        return expression.evaluate(program)
+    context(program: Program)
+    fun returnValue(): Value<*> {
+        return expression.evaluate()
     }
 
     override fun toString(): String {

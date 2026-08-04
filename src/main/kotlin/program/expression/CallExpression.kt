@@ -8,23 +8,29 @@ class CallExpression(
     val arguments: Arguments,
     var leftValue: Value<*>? = null,
 ) : Expression() {
-    override fun innerEvaluate(program: Program): Value<*> {
+    context(program: Program)
+    override fun innerEvaluate(): Value<*> {
         if (left is DotExpression) {
             if (leftValue == null) {
-                leftValue = left.left.evaluate(program)
+                leftValue = left.left.evaluate()
             }
 
-            return leftValue!!.callFunction(program, arguments, left.right, left.local)
+            context(arguments) {
+                return leftValue!!.callFunction(left.right, left.local)
+            }
         }
 
         if (leftValue == null) {
-            leftValue = left.evaluate(program)
+            leftValue = left.evaluate()
         }
 
-        return leftValue!!.call(program, arguments)
+        context(arguments) {
+            return leftValue!!.call()
+        }
     }
 
-    override fun done(program: Program) {
+    context(program: Program)
+    override fun done() {
         leftValue = null
     }
 

@@ -9,7 +9,8 @@ class StringExpression(
     val finalString: String,
     var values: MutableList<String> = mutableListOf(),
 ) : Expression() {
-    override fun innerEvaluate(program: Program): Value<*> {
+    context(program: Program)
+    override fun innerEvaluate(): Value<*> {
         val totalString = StringBuilder()
 
         for (i in stringExpressionPairs.indices) {
@@ -19,7 +20,7 @@ class StringExpression(
             if (i < values.size) {
                 value = values[i]
             } else {
-                value = expression.evaluate(program).toString()
+                value = expression.evaluate().toString()
                 values.add(value)
             }
 
@@ -30,7 +31,8 @@ class StringExpression(
         return StringValue(totalString.toString())
     }
 
-    override fun done(program: Program) {
+    context(program: Program)
+    override fun done() {
         values.clear()
     }
 

@@ -10,8 +10,9 @@ class AssignExpression(
     val right: Expression,
     var local: Boolean = false,
 ) : Expression() {
-    override fun innerEvaluate(program: Program): Value<*> {
-        val value = right.evaluate(program)
+    context(program: Program)
+    override fun innerEvaluate(): Value<*> {
+        val value = right.evaluate()
 
         when (left) {
             is IdentifierExpression -> {
@@ -24,37 +25,38 @@ class AssignExpression(
                 }
 
                 val previous = program.scope.get(left.name, span)
-                return program.scope.set(left.name, augmentAssign(program, previous, value))
+                return program.scope.set(left.name, augmentAssign(previous, value))
             }
 
             is AccessExpression -> {
-                val operand = left.left.evaluate(program)
-                val item = left.right.evaluate(program)
+                val operand = left.left.evaluate()
+                val item = left.right.evaluate()
 
                 if (operator == "=") {
                     return operand.set(item, value)
                 }
 
                 val previous = operand.get(item)
-                return operand.set(item, augmentAssign(program, previous, value))
+                return operand.set(item, augmentAssign(previous, value))
             }
 
             is DotExpression -> {
-                val leftValue = left.left.evaluate(program)
+                val leftValue = left.left.evaluate()
 
                 if (operator == "=") {
                     return leftValue.assignItem(left.right, value)
                 }
 
-                val previous = leftValue.getItem(program, left.right)
-                return leftValue.assignItem(left.right, augmentAssign(program, previous, value))
+                val previous = leftValue.getItem(left.right)
+                return leftValue.assignItem(left.right, augmentAssign(previous, value))
             }
 
             else -> throw RunException("Expression is not assignable", span)
         }
     }
 
-    fun augmentAssign(program: Program, previous: Value<*>, setValue: Value<*>): Value<*> {
+    context(program: Program)
+    fun augmentAssign(previous: Value<*>, setValue: Value<*>): Value<*> {
         val arithmeticOperator = when (operator) {
             "-=" -> "-"
             "+=" -> "+"
@@ -65,7 +67,7 @@ class AssignExpression(
             else -> throw RunException("Unrecognized operator", span)
         }
 
-        return BinaryOperatorExpression(arithmeticOperator, previous, setValue).evaluate(program)
+        return BinaryOperatorExpression(arithmeticOperator, previous, setValue).evaluate()
     }
 
     override fun toString(): String {

@@ -8,15 +8,16 @@ class MapExpression(
     val expressions: MutableList<Pair<Expression, Expression>>,
     val computed: MutableList<Pair<Value<*>, Value<*>>> = mutableListOf(),
 ) : Expression() {
-    override fun innerEvaluate(program: Program): Value<*> {
+    context(program: Program)
+    override fun innerEvaluate(): Value<*> {
         val map = mutableMapOf<Value<*>, Value<*>>()
 
         for (i in expressions.indices) {
             if (computed.size > i) {
                 map[computed[i].first] = computed[i].second
             } else {
-                val key = expressions[i].first.evaluate(program)
-                val value = expressions[i].second.evaluate(program)
+                val key = expressions[i].first.evaluate()
+                val value = expressions[i].second.evaluate()
                 map[key] = value
                 computed.add(key to value)
             }
@@ -25,7 +26,8 @@ class MapExpression(
         return MapValue(map)
     }
 
-    override fun done(program: Program) {
+    context(program: Program)
+    override fun done() {
         computed.clear()
     }
 

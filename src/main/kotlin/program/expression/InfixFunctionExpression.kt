@@ -9,15 +9,19 @@ class InfixFunctionExpression(
     val arguments: Arguments,
     var leftValue: Value<*>? = null,
 ) : Expression() {
-    override fun innerEvaluate(program: Program): Value<*> {
+    context(program: Program)
+    override fun innerEvaluate(): Value<*> {
         if (leftValue == null) {
-            leftValue = left.evaluate(program)
+            leftValue = left.evaluate()
         }
 
-        return leftValue!!.withSpan(span).callFunction(program, arguments, name)
+        context(arguments) {
+            return leftValue!!.withSpan(span).callFunction(name)
+        }
     }
 
-    override fun done(program: Program) {
+    context(program: Program)
+    override fun done() {
         leftValue = null
     }
 

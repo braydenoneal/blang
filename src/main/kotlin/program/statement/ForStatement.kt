@@ -11,9 +11,10 @@ class ForStatement(
     var value: Value<*>? = null,
     var index: Int = 0,
 ) : Statement() {
-    override fun innerExecute(program: Program): Statement {
+    context(program: Program)
+    override fun innerExecute(): Statement {
         if (value == null) {
-            val listResult = expression.evaluate(program)
+            val listResult = expression.evaluate()
             value = listResult
         }
 
@@ -27,7 +28,7 @@ class ForStatement(
         val item = value.toList()[index]
         program.scope.set(itemName, item)
 
-        val result = statements.runNext(program)
+        val result = statements.runNext()
 
         if (result is ReturnStatement || result is BreakStatement) {
             return result as? ReturnStatement ?: this
@@ -42,7 +43,8 @@ class ForStatement(
         throw IncompleteException()
     }
 
-    override fun done(program: Program) {
+    context(program: Program)
+    override fun done() {
         value = null
         index = 0
     }

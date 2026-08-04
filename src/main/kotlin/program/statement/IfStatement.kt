@@ -11,27 +11,28 @@ class IfStatement(
     val elseStatement: ElseStatement?,
     var conditionValue: Value<*>?,
 ) : Statement() {
-    override fun innerExecute(program: Program): Statement {
+    context(program: Program)
+    override fun innerExecute(): Statement {
         if (conditionValue == null) {
-            val conditionResult = condition.evaluate(program)
+            val conditionResult = condition.evaluate()
             conditionValue = conditionResult
         }
 
         if (conditionValue!!.truth()) {
-            val result = statements.runNext(program)
+            val result = statements.runNext()
             return result
         }
 
         for (elseIfStatement in elseIfStatements) {
             if (elseIfStatement.conditionValue == null) {
-                val elseIfStatementConditionResult = elseIfStatement.condition.evaluate(program)
+                val elseIfStatementConditionResult = elseIfStatement.condition.evaluate()
                 elseIfStatement.conditionValue = elseIfStatementConditionResult
             }
 
             val elseIfValue = elseIfStatement.conditionValue
 
             if (elseIfValue!!.truth()) {
-                val result = elseIfStatement.statements.runNext(program)
+                val result = elseIfStatement.statements.runNext()
                 return result
             }
         }
@@ -40,11 +41,12 @@ class IfStatement(
             return this
         }
 
-        val result = elseStatement.statements.runNext(program)
+        val result = elseStatement.statements.runNext()
         return result
     }
 
-    override fun done(program: Program) {
+    context(program: Program)
+    override fun done() {
         conditionValue = null
 
         for (elseIfStatement in elseIfStatements) {

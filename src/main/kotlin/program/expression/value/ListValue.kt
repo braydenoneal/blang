@@ -20,34 +20,38 @@ class ListValue(value: MutableList<Value<*>>) : Value<MutableList<Value<*>>>(val
         return setValue
     }
 
-    override fun getItem(program: Program, name: String): Value<*> {
+    context(program: Program)
+    override fun getItem(name: String): Value<*> {
         return when (name) {
             "size" -> IntegerValue(value.size)
-            else -> super.getItem(program, name)
+            else -> super.getItem(name)
         }
     }
 
-    override fun innerCallFunction(program: Program, arguments: Arguments, name: String, local: Boolean): Value<*> {
+    context(program: Program, arguments: Arguments)
+    override fun innerCallFunction(name: String, local: Boolean): Value<*> {
         return when (name) {
-            "append" -> append(program, arguments)
-            "containsAll" -> containsAll(program, arguments)
-            "contains" -> contains(program, arguments)
-            "insert" -> insert(program, arguments)
+            "append" -> append()
+            "containsAll" -> containsAll()
+            "contains" -> contains()
+            "insert" -> insert()
             "pop" -> pop()
-            "remove" -> remove(program, arguments)
+            "remove" -> remove()
             "reversed" -> reversed()
             "reverse" -> reverse()
-            else -> super.innerCallFunction(program, arguments, name, local)
+            else -> super.innerCallFunction(name, local)
         }
     }
 
-    fun append(program: Program, arguments: Arguments): Value<*> {
-        value.add(arguments.getAny(program, "value"))
+    context(program: Program, arguments: Arguments)
+    fun append(): Value<*> {
+        value.add(arguments.getAny("value"))
         return this
     }
 
-    fun containsAll(program: Program, arguments: Arguments): Value<*> {
-        val nextListValue = arguments.getAny(program, "value")
+    context(program: Program, arguments: Arguments)
+    fun containsAll(): Value<*> {
+        val nextListValue = arguments.getAny("value")
 
         if (nextListValue is ListValue) {
             return BooleanValue(value.containsAll(nextListValue.value))
@@ -56,13 +60,15 @@ class ListValue(value: MutableList<Value<*>>) : Value<MutableList<Value<*>>>(val
         throw RunException("Expression is not a list", span)
     }
 
-    fun contains(program: Program, arguments: Arguments): Value<*> {
-        return BooleanValue(value.contains(arguments.getAny(program, "value")))
+    context(program: Program, arguments: Arguments)
+    fun contains(): Value<*> {
+        return BooleanValue(value.contains(arguments.getAny("value")))
     }
 
-    fun insert(program: Program, arguments: Arguments): Value<*> {
-        val index = arguments.get<IntegerValue>(program, "index").value
-        val insertValue = arguments.getAny(program, "value")
+    context(program: Program, arguments: Arguments)
+    fun insert(): Value<*> {
+        val index = arguments.get<IntegerValue>("index").value
+        val insertValue = arguments.getAny("value")
         value.add(index, insertValue)
         return this
     }
@@ -72,8 +78,9 @@ class ListValue(value: MutableList<Value<*>>) : Value<MutableList<Value<*>>>(val
         return this
     }
 
-    fun remove(program: Program, arguments: Arguments): Value<*> {
-        val removeValue = arguments.getAny(program, "value")
+    context(program: Program, arguments: Arguments)
+    fun remove(): Value<*> {
+        val removeValue = arguments.getAny("value")
 
         if (removeValue is IntegerValue) {
             value.removeAt(removeValue.value)

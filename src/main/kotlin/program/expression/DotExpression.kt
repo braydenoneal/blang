@@ -8,8 +8,9 @@ class DotExpression(
     val right: String,
     val local: Boolean,
 ) : Expression() {
-    override fun innerEvaluate(program: Program): Value<*> {
-        return left.evaluate(program).getItem(program, right)
+    context(program: Program)
+    override fun innerEvaluate(): Value<*> {
+        return left.evaluate().getItem(right)
     }
 
     override fun toString(): String {

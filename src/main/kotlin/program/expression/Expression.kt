@@ -14,20 +14,26 @@ abstract class Expression {
         return this
     }
 
-    open fun evaluate(program: Program): Value<*> {
+    context(program: Program)
+    open fun evaluate(): Value<*> {
         try {
-            val value = innerEvaluate(program).withSpan(span)
-            done(program)
+            val value = innerEvaluate().withSpan(span)
+            done()
             return value
         } catch (_: IncompleteException) {
-            abort(program)
+            abort()
             throw IncompleteException()
         }
     }
 
-    abstract fun innerEvaluate(program: Program): Value<*>
+    context(program: Program)
+    abstract fun innerEvaluate(): Value<*>
 
-    open fun abort(program: Program) {}
+    context(program: Program)
+    open fun abort() {
+    }
 
-    open fun done(program: Program) {}
+    context(program: Program)
+    open fun done() {
+    }
 }

@@ -10,19 +10,21 @@ class PairValue(value: Pair<Value<*>, Value<*>>) : Value<Pair<Value<*>, Value<*>
         return "${value.first} to ${value.second}"
     }
 
-    override fun getItem(program: Program, name: String): Value<*> {
+    context(program: Program)
+    override fun getItem(name: String): Value<*> {
         return when (name) {
             "first" -> value.first
             "second" -> value.second
-            else -> super.getItem(program, name)
+            else -> super.getItem(name)
         }
     }
 
     companion object : Static {
         override val name: String = "Pair"
 
-        override fun innerCall(program: Program, arguments: Arguments): Value<*> {
-            return PairValue(arguments.getAny(program, "first") to arguments.getAny(program, "second"))
+        context(program: Program, arguments: Arguments)
+        override fun innerCall(): Value<*> {
+            return PairValue(arguments.getAny("first") to arguments.getAny("second"))
         }
     }
 }

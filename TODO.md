@@ -1,7 +1,6 @@
 ## Todo
 
 - code cleanup
-    - store program in arguments and pass around only arguments?
     - documentation for classes and functions
     - convert mutable lists and maps to immutable if they can be immutable
     - separate parsed AST from executing program? (source code -parse→ ast -run→ execution)

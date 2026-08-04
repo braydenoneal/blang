@@ -17,7 +17,8 @@ class Function(
     var scope: Scope? = null,
     var running: Boolean = false,
 ) : Callable {
-    override fun innerCall(program: Program, arguments: Arguments): Value<*> {
+    context(program: Program, arguments: Arguments)
+    override fun innerCall(): Value<*> {
         if (scope == null) {
             scope = Scope(program.scopes.last())
         }
@@ -25,18 +26,18 @@ class Function(
         val scope = scope!!
 
         if (arguments.hasSelf) {
-            scope.setLocal("self", arguments.getAny(program, "self"))
+            scope.setLocal("self", arguments.getAny("self"))
         }
 
         for (name in parameters) {
             if (name !in scope.variables) {
-                scope.setLocal(name, arguments.getAny(program, name))
+                scope.setLocal(name, arguments.getAny(name))
             }
         }
 
         for ((name, expression) in defaultParameters) {
             if (name !in scope.variables) {
-                scope.setLocal(name, arguments.getAny(program, name, expression.evaluate(program)))
+                scope.setLocal(name, arguments.getAny(name, expression.evaluate()))
             }
         }
 
@@ -48,16 +49,17 @@ class Function(
         program.addScope(scope)
 
         var returnValue: Value<*> = Null.VALUE
-        val statement = statements.runNext(program)
+        val statement = statements.runNext()
 
         if (statement is ReturnStatement) {
-            returnValue = statement.returnValue(program)
+            returnValue = statement.returnValue()
         }
 
         return returnValue
     }
 
-    override fun abort(program: Program, arguments: Arguments) {
+    context(program: Program, arguments: Arguments)
+    override fun abort() {
         if (running) {
             program.endScope()
         } else {
@@ -65,7 +67,8 @@ class Function(
         }
     }
 
-    override fun done(program: Program, arguments: Arguments) {
+    context(program: Program, arguments: Arguments)
+    override fun done() {
         scope = null
         running = false
         arguments.done()

@@ -9,9 +9,10 @@ class BinaryOperatorExpression(
     val left: Expression,
     val right: Expression,
 ) : Expression() {
-    override fun innerEvaluate(program: Program): Value<*> {
-        var a = left.evaluate(program)
-        var b = right.evaluate(program)
+    context(program: Program)
+    override fun innerEvaluate(): Value<*> {
+        var a = left.evaluate()
+        var b = right.evaluate()
 
         when {
             a is IntegerValue && b is FloatValue -> a = FloatValue(a.value.toFloat())

@@ -12,22 +12,28 @@ abstract class Statement {
         return this
     }
 
-    open fun execute(program: Program): Statement {
+    context(program: Program)
+    open fun execute(): Statement {
         try {
-            val statement = innerExecute(program)
-            done(program)
+            val statement = innerExecute()
+            done()
             return statement
         } catch (_: IncompleteException) {
-            abort(program)
+            abort()
             throw IncompleteException()
         }
     }
 
-    open fun innerExecute(program: Program): Statement {
+    context(program: Program)
+    open fun innerExecute(): Statement {
         return this
     }
 
-    open fun abort(program: Program) {}
+    context(program: Program)
+    open fun abort() {
+    }
 
-    open fun done(program: Program) {}
+    context(program: Program)
+    open fun done() {
+    }
 }
