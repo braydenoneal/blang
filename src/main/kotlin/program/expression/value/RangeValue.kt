@@ -39,7 +39,7 @@ class RangeValue(value: Range) : Value<Range>(value) {
     companion object : Static {
         override val name: String = "Range"
 
-        override fun call(program: Program, arguments: Arguments): Value<*> {
+        override fun innerCall(program: Program, arguments: Arguments): Value<*> {
             val start = arguments.get<IntegerValue>(program, "start", IntegerValue(0)).value
             val end = arguments.get<IntegerValue>(program, "end").value
             val step = arguments.get<IntegerValue>(program, "step", IntegerValue(1)).value

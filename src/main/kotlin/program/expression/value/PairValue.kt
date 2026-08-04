@@ -21,7 +21,7 @@ class PairValue(value: Pair<Value<*>, Value<*>>) : Value<Pair<Value<*>, Value<*>
     companion object : Static {
         override val name: String = "Pair"
 
-        override fun call(program: Program, arguments: Arguments): Value<*> {
+        override fun innerCall(program: Program, arguments: Arguments): Value<*> {
             return PairValue(arguments.getAny(program, "first") to arguments.getAny(program, "second"))
         }
     }

@@ -71,7 +71,7 @@ class MapValue(value: MutableMap<Value<*>, Value<*>>) : Value<MutableMap<Value<*
     companion object : Static {
         override val name: String = "Map"
 
-        override fun call(program: Program, arguments: Arguments): Value<*> {
+        override fun innerCall(program: Program, arguments: Arguments): Value<*> {
             val map = mutableMapOf<Value<*>, Value<*>>()
 
             for (pair in arguments.get<ListValue>(program, "pairs").value) {
