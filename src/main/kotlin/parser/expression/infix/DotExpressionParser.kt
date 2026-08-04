@@ -9,6 +9,7 @@ import program.expression.Expression
 class DotExpressionParser(override val precedence: Int) : InfixParser {
     override fun parse(parser: Parser, spanStart: Int, token: Token, left: Expression): Expression {
         val right = parser.expect(Type.IDENTIFIER)
-        return DotExpression(left, right)
+        val local = token.type == Type.DOT
+        return DotExpression(left, right, local)
     }
 }

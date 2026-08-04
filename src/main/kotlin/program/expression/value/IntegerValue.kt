@@ -52,10 +52,10 @@ class IntegerValue(value: Int) : Value<Int>(value) {
         return RangeValue(Range(value, other, 1))
     }
 
-    override fun getFunction(program: Program, name: String): ((Program, Arguments) -> Value<*>)? {
+    override fun innerCallFunction(program: Program, arguments: Arguments, name: String, local: Boolean): Value<*> {
         return when (name) {
-            "toFloat" -> ::toFloat
-            else -> super.getFunction(program, name)
+            "toFloat" -> toFloat(program, arguments)
+            else -> super.innerCallFunction(program, arguments, name, local)
         }
     }
 

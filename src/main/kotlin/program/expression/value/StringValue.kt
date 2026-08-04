@@ -22,16 +22,16 @@ class StringValue(value: String) : Value<String>(value) {
         return StringValue(list.joinToString("") { it.cast<StringValue>().value })
     }
 
-    override fun getFunction(program: Program, name: String): ((Program, Arguments) -> Value<*>)? {
+    override fun innerCallFunction(program: Program, arguments: Arguments, name: String, local: Boolean): Value<*> {
         return when (name) {
-            "contains" -> ::contains
-            "uppercase" -> ::uppercase
-            "lowercase" -> ::lowercase
-            "length" -> ::length
-            "substring" -> ::substring
-            "lines" -> ::lines
-            "reversed" -> ::reversed
-            else -> super.getFunction(program, name)
+            "contains" -> contains(program, arguments)
+            "uppercase" -> uppercase(program, arguments)
+            "lowercase" -> lowercase(program, arguments)
+            "length" -> length(program, arguments)
+            "substring" -> substring(program, arguments)
+            "lines" -> lines(program, arguments)
+            "reversed" -> reversed(program, arguments)
+            else -> super.innerCallFunction(program, arguments, name, local)
         }
     }
 

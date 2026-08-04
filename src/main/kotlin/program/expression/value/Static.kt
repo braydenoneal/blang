@@ -1,21 +1,9 @@
 package program.expression.value
 
-import program.Program
-import program.RunException
-import program.expression.Arguments
-
-interface Static {
+interface Static : Callable {
     val name: String
 
-    fun constructor(program: Program, arguments: Arguments): Value<*> {
-        throw RunException("$name does not implement constructor", arguments.span)
-    }
-
     fun getItem(name: String): Value<*>? {
-        return null
-    }
-
-    fun getFunction(name: String): ((Program, Arguments) -> Value<*>)? {
         return null
     }
 

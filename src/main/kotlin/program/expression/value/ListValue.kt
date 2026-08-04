@@ -30,24 +30,24 @@ class ListValue(value: MutableList<Value<*>>) : Value<MutableList<Value<*>>>(val
         return setValue
     }
 
-    override fun getItem(program: Program, name: String): Value<*>? {
+    override fun getItem(program: Program, name: String): Value<*> {
         return when (name) {
             "size" -> IntegerValue(value.size)
             else -> super.getItem(program, name)
         }
     }
 
-    override fun getFunction(program: Program, name: String): ((Program, Arguments) -> Value<*>)? {
+    override fun innerCallFunction(program: Program, arguments: Arguments, name: String, local: Boolean): Value<*> {
         return when (name) {
-            "append" -> ::append
-            "containsAll" -> ::containsAll
-            "contains" -> ::contains
-            "insert" -> ::insert
-            "pop" -> ::pop
-            "remove" -> ::remove
-            "reversed" -> ::reversed
-            "reverse" -> ::reverse
-            else -> super.getFunction(program, name)
+            "append" -> append(program, arguments)
+            "containsAll" -> containsAll(program, arguments)
+            "contains" -> contains(program, arguments)
+            "insert" -> insert(program, arguments)
+            "pop" -> pop(program, arguments)
+            "remove" -> remove(program, arguments)
+            "reversed" -> reversed(program, arguments)
+            "reverse" -> reverse(program, arguments)
+            else -> super.innerCallFunction(program, arguments, name, local)
         }
     }
 

@@ -32,12 +32,12 @@ class MapValue(value: MutableMap<Value<*>, Value<*>>) : Value<MutableMap<Value<*
         throw RunException("Maps cannot be sliced")
     }
 
-    override fun getFunction(program: Program, name: String): ((Program, Arguments) -> Value<*>)? {
+    override fun innerCallFunction(program: Program, arguments: Arguments, name: String, local: Boolean): Value<*> {
         return when (name) {
-            "keys" -> ::keys
-            "values" -> ::values
-            "entries" -> ::entries
-            else -> super.getFunction(program, name)
+            "keys" -> keys(program, arguments)
+            "values" -> values(program, arguments)
+            "entries" -> entries(program, arguments)
+            else -> super.innerCallFunction(program, arguments, name, local)
         }
     }
 
@@ -71,7 +71,7 @@ class MapValue(value: MutableMap<Value<*>, Value<*>>) : Value<MutableMap<Value<*
     companion object : Static {
         override val name: String = "Map"
 
-        override fun constructor(program: Program, arguments: Arguments): Value<*> {
+        override fun call(program: Program, arguments: Arguments): Value<*> {
             val map = mutableMapOf<Value<*>, Value<*>>()
 
             for (pair in arguments.get<ListValue>(program, "pairs").value) {

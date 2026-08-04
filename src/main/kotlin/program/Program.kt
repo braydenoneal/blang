@@ -19,6 +19,7 @@ open class Program(
     open val scopes: MutableList<Scope> = mutableListOf(),
 ) {
     var wait = false
+    var actionProgram = this
 
     fun run(sleep: Boolean = false) {
         if (!parsed) {
@@ -75,10 +76,6 @@ open class Program(
 
     fun addStruct(name: String, struct: StructDefinition) {
         structs[name] = struct
-    }
-
-    fun getFunction(name: String): FunctionValue? {
-        return functions[name]
     }
 
     fun getStruct(name: String): StructDefinition? {

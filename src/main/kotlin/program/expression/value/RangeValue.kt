@@ -11,7 +11,7 @@ class RangeValue(value: Range) : Value<Range>(value) {
         return (value.start..<value.end step value.step).toList().map { IntegerValue(it) }
     }
 
-    override fun getItem(program: Program, name: String): Value<*>? {
+    override fun getItem(program: Program, name: String): Value<*> {
         return when (name) {
             "start" -> IntegerValue(value.start)
             "end" -> IntegerValue(value.end)
@@ -20,10 +20,10 @@ class RangeValue(value: Range) : Value<Range>(value) {
         }
     }
 
-    override fun getFunction(program: Program, name: String): ((Program, Arguments) -> Value<*>)? {
+    override fun innerCallFunction(program: Program, arguments: Arguments, name: String, local: Boolean): Value<*> {
         return when (name) {
-            "step" -> ::step
-            else -> super.getFunction(program, name)
+            "step" -> step(program, arguments)
+            else -> super.innerCallFunction(program, arguments, name, local)
         }
     }
 
@@ -39,7 +39,7 @@ class RangeValue(value: Range) : Value<Range>(value) {
     companion object : Static {
         override val name: String = "Range"
 
-        override fun constructor(program: Program, arguments: Arguments): Value<*> {
+        override fun call(program: Program, arguments: Arguments): Value<*> {
             val start = arguments.get<IntegerValue>(program, "start", IntegerValue(0)).value
             val end = arguments.get<IntegerValue>(program, "end").value
             val step = arguments.get<IntegerValue>(program, "step", IntegerValue(1)).value

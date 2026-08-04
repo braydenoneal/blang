@@ -39,6 +39,7 @@ interface InfixParser {
             register(Type.LEFT_PARENTHESIS, CallExpressionParser(8))
             register(Type.LEFT_SQUARE_BRACE, AccessExpressionParser(9))
             register(Type.DOT, DotExpressionParser(9))
+            register(Type.COLON_COLON, DotExpressionParser(9))
         }
     }
 }

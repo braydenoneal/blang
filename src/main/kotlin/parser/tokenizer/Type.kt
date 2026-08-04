@@ -50,6 +50,7 @@ enum class Type(val regex: Pattern) {
     COMMA(Pattern.compile("""^,""")),
     SEMICOLON(Pattern.compile("""^;""")),
     NEWLINE(Pattern.compile("""^\n+[ \n\t\r]*""")),
+    COLON_COLON(Pattern.compile("""^:{2}""")),
     COLON(Pattern.compile("""^:""")),
     BANG(Pattern.compile("""^!""")),
     PLUS_PLUS(Pattern.compile("""^\+{2}""")),

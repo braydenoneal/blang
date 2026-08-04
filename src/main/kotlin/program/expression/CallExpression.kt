@@ -9,6 +9,14 @@ class CallExpression(
     var leftValue: Value<*>? = null,
 ) : Expression() {
     override fun innerEvaluate(program: Program): Value<*> {
+        if (left is DotExpression) {
+            if (leftValue == null) {
+                leftValue = left.left.evaluate(program)
+            }
+
+            return leftValue!!.callFunction(program, arguments, left.right, left.local)
+        }
+
         if (leftValue == null) {
             leftValue = left.evaluate(program)
         }

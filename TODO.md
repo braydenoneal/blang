@@ -13,9 +13,8 @@
     - accessing imports just change which program is passed to the rest of the expression?
     - auto registration with reflection and annotations?
 - features
-    - statement to specify an imported program to run a function in (`in a { print("Hi") }`)
-        - maybe also an infix operator as shorthand to run an imported program's function in the
-          imported program (`a::test()` runs in `a` and `a.test()` runs locally)
+    - reimplement function references
+    - statement to specify an action program to run statements in (`in a { print("Hi") }`)
         - note that multiple programs could be accessing a single program in the same tick
     - immutable variables?
     - allow del as an alternative to `.remove()` functions (`del someList[3]`)

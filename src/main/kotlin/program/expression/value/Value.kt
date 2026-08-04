@@ -4,7 +4,6 @@ import parser.tokenizer.Span
 import program.Program
 import program.RunException
 import program.expression.Arguments
-import program.expression.value.util.ValueIdentifier
 import java.util.Locale.getDefault
 
 abstract class Value<T>(open val value: T) : Operand<T>(), Callable {
@@ -54,26 +53,22 @@ abstract class Value<T>(open val value: T) : Operand<T>(), Callable {
         throw RunException("Values are not the same type", span)
     }
 
-    open fun getItem(program: Program, name: String): Value<*>? {
-        return null
-    }
-
-    fun getIdentifier(program: Program, name: String): Value<*> {
-        return (getItem(program, name) ?: getStatic()?.getItem(name) ?: ValueIdentifierValue(ValueIdentifier(this, name))).withSpan(span)
+    open fun getItem(program: Program, name: String): Value<*> {
+        return getStatic()?.getItem(name) ?: throw RunException("Value has no item '$name'", span)
     }
 
     open fun assignItem(name: String, setValue: Value<*>): Value<*> {
         throw RunException("$capitalType has no assignable item $name", span)
     }
 
-    open fun getFunction(program: Program, name: String): ((Program, Arguments) -> Value<*>)? {
-        return null
+    override fun innerCallFunction(program: Program, arguments: Arguments, name: String, local: Boolean): Value<*> {
+        return callBaseFunction(program, arguments, name) ?: getStatic()?.innerCallFunction(program, arguments, name) ?: throw RunException("$capitalType has no function '$name'")
     }
 
-    fun getBaseFunction(name: String): ((Program, Arguments) -> Value<*>)? {
+    fun callBaseFunction(program: Program, arguments: Arguments, name: String): Value<*>? {
         return when (name) {
-            "toString" -> ::toStringValue
-            "to" -> ::to
+            "toString" -> toStringValue(program, arguments)
+            "to" -> to(program, arguments)
             else -> null
         }
     }
@@ -89,11 +84,6 @@ abstract class Value<T>(open val value: T) : Operand<T>(), Callable {
 
     fun to(program: Program, arguments: Arguments): Value<*> {
         return PairValue(this to arguments.getAny(program, "second"))
-    }
-
-    open fun callFunction(program: Program, arguments: Arguments, name: String): Value<*> {
-        val function = getFunction(program, name) ?: getBaseFunction(name) ?: getStatic()?.getFunction(name) ?: throw RunException("$capitalType has no function '$name'")
-        return function.invoke(program, arguments)
     }
 
     open fun getStatic(): Static? {
