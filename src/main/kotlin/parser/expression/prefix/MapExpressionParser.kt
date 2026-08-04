@@ -8,13 +8,14 @@ import program.expression.Expression
 import program.expression.MapExpression
 
 class MapExpressionParser : PrefixParser {
-    override fun parse(parser: Parser, spanStart: Int, token: Token): Expression {
+    context(parser: Parser)
+    override fun parse(spanStart: Int, token: Token): Expression {
         val map = mutableListOf<Pair<Expression, Expression>>()
 
         while (!parser.peekIs(Type.RIGHT_CURLY_BRACE)) {
-            val key = ExpressionParser.parse(parser, 0, true)
+            val key = ExpressionParser.parse(0, true)
             parser.expect(Type.COLON)
-            val value = ExpressionParser.parse(parser, 0, true)
+            val value = ExpressionParser.parse(0, true)
             map.add(key to value)
 
             if (!parser.peekIs(Type.RIGHT_CURLY_BRACE)) {

@@ -8,7 +8,8 @@ import program.expression.Expression
 interface InfixParser {
     val precedence: Int
 
-    fun parse(parser: Parser, spanStart: Int, token: Token, left: Expression): Expression
+    context(parser: Parser)
+    fun parse(spanStart: Int, token: Token, left: Expression): Expression
 
     companion object {
         val infixParsers: MutableMap<Type, InfixParser> = mutableMapOf()

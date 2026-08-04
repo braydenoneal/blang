@@ -8,8 +8,9 @@ import program.expression.Expression
 import program.expression.InfixFunctionExpression
 
 class InfixFunctionExpressionParser(override val precedence: Int) : InfixParser {
-    override fun parse(parser: Parser, spanStart: Int, token: Token, left: Expression): Expression {
-        val right = ExpressionParser.parse(parser, precedence, true)
+    context(parser: Parser)
+    override fun parse(spanStart: Int, token: Token, left: Expression): Expression {
+        val right = ExpressionParser.parse(precedence, true)
         val arguments = Arguments(mutableListOf(right), mutableMapOf()).withSpan(spanStart, parser)
         return InfixFunctionExpression(token.value, left, arguments)
     }

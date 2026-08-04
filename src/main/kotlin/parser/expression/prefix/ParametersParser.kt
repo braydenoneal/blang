@@ -6,7 +6,8 @@ import parser.tokenizer.Type
 import program.expression.Expression
 
 object ParametersParser {
-    fun parse(parser: Parser, isStatement: Boolean = true, hasParameters: Boolean = true): Pair<MutableList<String>, MutableList<Pair<String, Expression>>> {
+    context(parser: Parser)
+    fun parse(isStatement: Boolean = true, hasParameters: Boolean = true): Pair<MutableList<String>, MutableList<Pair<String, Expression>>> {
         val parameters: MutableList<String> = mutableListOf()
         val defaultParameters: MutableList<Pair<String, Expression>> = mutableListOf()
 
@@ -21,7 +22,7 @@ object ParametersParser {
 
             if (parser.peekIs(Type.EQUALS)) {
                 parser.expect(Type.EQUALS)
-                defaultParameters.add(parameterName to ExpressionParser.parse(parser))
+                defaultParameters.add(parameterName to ExpressionParser.parse())
             } else {
                 parameters.add(parameterName)
             }

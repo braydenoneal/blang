@@ -13,9 +13,10 @@ import program.statement.StaticStatement
 import program.statement.StructStatement
 
 class StructStatementParser : StatementParser {
-    override fun parse(parser: Parser, spanStart: Int): Statement {
+    context(parser: Parser)
+    override fun parse(spanStart: Int): Statement {
         val name = parser.expect(Type.IDENTIFIER)
-        val (parameters, defaultParameters) = ParametersParser.parse(parser, isStatement = true, hasParameters = true)
+        val (parameters, defaultParameters) = ParametersParser.parse(isStatement = true, hasParameters = true)
         parser.expect(Type.LEFT_CURLY_BRACE)
         val functions: MutableMap<String, FunctionValue> = mutableMapOf()
         var staticFunctions: MutableMap<String, FunctionValue> = mutableMapOf()
@@ -23,7 +24,7 @@ class StructStatementParser : StatementParser {
         var parsedStatic = false
 
         while (!(parser.peekIs(Type.RIGHT_CURLY_BRACE))) {
-            when (val statement = StatementParser.parse(parser)) {
+            when (val statement = StatementParser.parse()) {
                 is FunctionStatement -> functions[statement.name] = FunctionValue(statement.function)
                 is StaticStatement -> {
                     if (parsedStatic) {

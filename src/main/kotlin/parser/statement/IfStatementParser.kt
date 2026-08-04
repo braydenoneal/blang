@@ -10,39 +10,41 @@ import program.statement.Statement
 import program.statement.StatementList
 
 class IfStatementParser : StatementParser {
-    override fun parse(parser: Parser, spanStart: Int): Statement {
+    context(parser: Parser)
+    override fun parse(spanStart: Int): Statement {
         val statements = StatementList()
         val elseIfStatements: MutableList<ElseIfStatement> = mutableListOf()
         var elseStatement: ElseStatement? = null
-        val condition = ExpressionParser.parse(parser)
+        val condition = ExpressionParser.parse()
         parser.expect(Type.LEFT_CURLY_BRACE)
 
         while (!parser.peekIs(Type.RIGHT_CURLY_BRACE)) {
-            statements.add(StatementParser.parse(parser))
+            statements.add(StatementParser.parse())
         }
 
         parser.expect(Type.RIGHT_CURLY_BRACE)
 
         while (parser.peekIs(Type.ELIF_KEYWORD)) {
-            elseIfStatements.add(parseElseIfStatement(parser))
+            elseIfStatements.add(parseElseIfStatement())
         }
 
         if (parser.peekIs(Type.ELSE_KEYWORD)) {
-            elseStatement = parseElseStatement(parser)
+            elseStatement = parseElseStatement()
         }
 
         return IfStatement(condition, statements, elseIfStatements, elseStatement, null)
     }
 
-    fun parseElseIfStatement(parser: Parser): ElseIfStatement {
+    context(parser: Parser)
+    fun parseElseIfStatement(): ElseIfStatement {
         val statements = StatementList()
 
         parser.expect(Type.ELIF_KEYWORD)
-        val condition = ExpressionParser.parse(parser)
+        val condition = ExpressionParser.parse()
         parser.expect(Type.LEFT_CURLY_BRACE)
 
         while (!parser.peekIs(Type.RIGHT_CURLY_BRACE)) {
-            statements.add(StatementParser.parse(parser))
+            statements.add(StatementParser.parse())
         }
 
         parser.expect(Type.RIGHT_CURLY_BRACE)
@@ -50,14 +52,15 @@ class IfStatementParser : StatementParser {
         return ElseIfStatement(condition, statements, null)
     }
 
-    fun parseElseStatement(parser: Parser): ElseStatement {
+    context(parser: Parser)
+    fun parseElseStatement(): ElseStatement {
         val statements = StatementList()
 
         parser.expect(Type.ELSE_KEYWORD)
         parser.expect(Type.LEFT_CURLY_BRACE)
 
         while (!parser.peekIs(Type.RIGHT_CURLY_BRACE)) {
-            statements.add(StatementParser.parse(parser))
+            statements.add(StatementParser.parse())
         }
 
         parser.expect(Type.RIGHT_CURLY_BRACE)

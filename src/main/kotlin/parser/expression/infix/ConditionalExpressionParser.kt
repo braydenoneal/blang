@@ -8,10 +8,11 @@ import program.expression.Expression
 import program.expression.IfElseExpression
 
 class ConditionalExpressionParser(override val precedence: Int) : InfixParser {
-    override fun parse(parser: Parser, spanStart: Int, token: Token, left: Expression): Expression {
-        val middle = ExpressionParser.parse(parser, precedence)
+    context(parser: Parser)
+    override fun parse(spanStart: Int, token: Token, left: Expression): Expression {
+        val middle = ExpressionParser.parse(precedence)
         parser.expect(Type.ELSE_KEYWORD)
-        val right = ExpressionParser.parse(parser, precedence - 1)
+        val right = ExpressionParser.parse(precedence - 1)
         return IfElseExpression(middle, left, right)
     }
 }

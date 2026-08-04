@@ -7,10 +7,11 @@ import program.statement.Statement
 import program.statement.StaticVariableStatement
 
 class StaticVariableStatementParser : StatementParser {
-    override fun parse(parser: Parser, spanStart: Int): Statement {
+    context(parser: Parser)
+    override fun parse(spanStart: Int): Statement {
         val name = parser.expect(Type.IDENTIFIER)
         parser.expect(Type.EQUALS)
-        val expression = ExpressionParser.parse(parser)
+        val expression = ExpressionParser.parse()
         return StaticVariableStatement(name, expression)
     }
 }

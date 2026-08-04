@@ -8,15 +8,16 @@ import program.statement.Statement
 import program.statement.StatementList
 
 class ForStatementParser : StatementParser {
-    override fun parse(parser: Parser, spanStart: Int): Statement {
+    context(parser: Parser)
+    override fun parse(spanStart: Int): Statement {
         val statements = StatementList()
         val itemName = parser.expect(Type.IDENTIFIER)
         parser.expect(Type.IN_KEYWORD)
-        val expression = ExpressionParser.parse(parser)
+        val expression = ExpressionParser.parse()
         parser.expect(Type.LEFT_CURLY_BRACE)
 
         while (!(parser.peekIs(Type.RIGHT_CURLY_BRACE))) {
-            statements.add(StatementParser.parse(parser))
+            statements.add(StatementParser.parse())
         }
 
         parser.expect(Type.RIGHT_CURLY_BRACE)

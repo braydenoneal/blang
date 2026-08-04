@@ -6,7 +6,8 @@ import parser.tokenizer.Type
 import program.expression.Expression
 
 interface PrefixParser {
-    fun parse(parser: Parser, spanStart: Int, token: Token): Expression
+    context(parser: Parser)
+    fun parse(spanStart: Int, token: Token): Expression
 
     companion object {
         val prefixParsers: MutableMap<Type, PrefixParser> = mutableMapOf()

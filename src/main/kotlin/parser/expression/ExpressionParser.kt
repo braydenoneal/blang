@@ -9,22 +9,24 @@ import parser.expression.prefix.PrefixParser.Companion.prefixParsers
 import program.expression.Expression
 
 object ExpressionParser {
-    fun parse(parser: Parser, precedence: Int = 0, skipNewline: Boolean = false): Expression {
+    context(parser: Parser)
+    fun parse(precedence: Int = 0, skipNewline: Boolean = false): Expression {
         val spanStart = parser.spanStart()
         val token = parser.next()
         val prefixParser = prefixParsers[token.type] ?: throw ParseException("Invalid prefix token '${token.value}'", parser.spanFrom(spanStart))
-        var left = prefixParser.parse(parser, spanStart, token).withSpan(spanStart, parser)
+        var left = prefixParser.parse(spanStart, token).withSpan(spanStart, parser)
 
-        while (precedence < nextPrecedence(parser, skipNewline)) {
+        while (precedence < nextPrecedence(skipNewline)) {
             val token = parser.next()
             val infixParser = infixParsers[token.type] ?: throw ParseException("Invalid infix token '${token.value}'", parser.spanFrom(spanStart))
-            left = infixParser.parse(parser, spanStart, token, left).withSpan(spanStart, parser)
+            left = infixParser.parse(spanStart, token, left).withSpan(spanStart, parser)
         }
 
         return left
     }
 
-    fun nextPrecedence(parser: Parser, skipNewline: Boolean): Int {
+    context(parser: Parser)
+    fun nextPrecedence(skipNewline: Boolean): Int {
         val token = if (skipNewline) parser.peek() else parser.peekAllowNewline()
         val parser = infixParsers[token.type]
 

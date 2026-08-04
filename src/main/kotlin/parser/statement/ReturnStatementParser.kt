@@ -8,10 +8,11 @@ import program.statement.ReturnStatement
 import program.statement.Statement
 
 class ReturnStatementParser : StatementParser {
-    override fun parse(parser: Parser, spanStart: Int): Statement {
+    context(parser: Parser)
+    override fun parse(spanStart: Int): Statement {
         val expression = when (parser.peekAllowNewline().type) {
             Type.SEMICOLON, Type.NEWLINE, Type.RIGHT_CURLY_BRACE -> Null.VALUE
-            else -> ExpressionParser.parse(parser)
+            else -> ExpressionParser.parse()
         }
         parser.expectStatementEnd()
         return ReturnStatement(expression)

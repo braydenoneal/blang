@@ -9,20 +9,21 @@ import program.statement.ReturnStatement
 import program.statement.StatementList
 
 object FunctionParser {
-    fun parse(parser: Parser, isStatement: Boolean = true, hasParameters: Boolean = true): Function {
-        val (parameters, defaultParameters) = ParametersParser.parse(parser, isStatement, hasParameters)
+    context(parser: Parser)
+    fun parse(isStatement: Boolean = true, hasParameters: Boolean = true): Function {
+        val (parameters, defaultParameters) = ParametersParser.parse(isStatement, hasParameters)
         val statements = StatementList()
 
         if (parser.peekIs(Type.LEFT_CURLY_BRACE)) {
             parser.next()
 
             while (!parser.peekIs(Type.RIGHT_CURLY_BRACE)) {
-                statements.add(StatementParser.parse(parser))
+                statements.add(StatementParser.parse())
             }
 
             parser.expect(Type.RIGHT_CURLY_BRACE)
         } else {
-            statements.add(ReturnStatement(ExpressionParser.parse(parser)))
+            statements.add(ReturnStatement(ExpressionParser.parse()))
         }
 
         return Function(parameters, defaultParameters, statements)

@@ -8,9 +8,10 @@ import program.statement.FunctionStatement
 import program.statement.Statement
 
 class FunctionStatementParser : StatementParser {
-    override fun parse(parser: Parser, spanStart: Int): Statement {
+    context(parser: Parser)
+    override fun parse(spanStart: Int): Statement {
         val name = parser.expect(Type.IDENTIFIER)
-        val function = FunctionParser.parse(parser)
+        val function = FunctionParser.parse()
         parser.program.addFunction(name, FunctionValue(function))
         return FunctionStatement(name, function)
     }

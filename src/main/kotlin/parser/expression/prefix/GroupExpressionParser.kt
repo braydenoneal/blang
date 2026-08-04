@@ -7,8 +7,9 @@ import parser.tokenizer.Type
 import program.expression.Expression
 
 class GroupExpressionParser : PrefixParser {
-    override fun parse(parser: Parser, spanStart: Int, token: Token): Expression {
-        val expression = ExpressionParser.parse(parser, 0, true)
+    context(parser: Parser)
+    override fun parse(spanStart: Int, token: Token): Expression {
+        val expression = ExpressionParser.parse(0, true)
         parser.expect(Type.RIGHT_PARENTHESIS)
         return expression
     }

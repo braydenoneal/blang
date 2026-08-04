@@ -8,11 +8,12 @@ import program.expression.Expression
 import program.expression.ListExpression
 
 class ListExpressionParser : PrefixParser {
-    override fun parse(parser: Parser, spanStart: Int, token: Token): Expression {
+    context(parser: Parser)
+    override fun parse(spanStart: Int, token: Token): Expression {
         val expressions: MutableList<Expression> = mutableListOf()
 
         while (!parser.peekIs(Type.RIGHT_SQUARE_BRACE)) {
-            expressions.add(ExpressionParser.parse(parser, 0, true))
+            expressions.add(ExpressionParser.parse(0, true))
 
             if (!parser.peekIs(Type.RIGHT_SQUARE_BRACE)) {
                 parser.expect(Type.COMMA)

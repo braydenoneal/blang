@@ -25,7 +25,7 @@ open class Parser(val program: Program) {
         program.scopes.add(Scope(null))
 
         while (!peekIs(Type.END_OF_FILE)) {
-            program.statements.add(StatementParser.parse(this))
+            program.statements.add(StatementParser.parse())
         }
 
         program.parsed = true

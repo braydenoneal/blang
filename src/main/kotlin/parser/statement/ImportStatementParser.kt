@@ -6,7 +6,8 @@ import program.statement.ImportStatement
 import program.statement.Statement
 
 class ImportStatementParser : StatementParser {
-    override fun parse(parser: Parser, spanStart: Int): Statement {
+    context(parser: Parser)
+    override fun parse(spanStart: Int): Statement {
         val identifiers: MutableList<String> = mutableListOf()
         var name: String = parser.expect(Type.IDENTIFIER)
         identifiers.add(name)

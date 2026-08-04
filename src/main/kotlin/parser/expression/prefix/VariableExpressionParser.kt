@@ -8,8 +8,9 @@ import program.expression.AssignExpression
 import program.expression.Expression
 
 class VariableExpressionParser : PrefixParser {
-    override fun parse(parser: Parser, spanStart: Int, token: Token): Expression {
-        val expression = ExpressionParser.parse(parser, 0)
+    context(parser: Parser)
+    override fun parse(spanStart: Int, token: Token): Expression {
+        val expression = ExpressionParser.parse(0)
 
         if (expression !is AssignExpression) {
             throw ParseException("Variable expression expected an assign expression", parser.spanFrom(spanStart))

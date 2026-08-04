@@ -46,7 +46,7 @@ open class Program(
 
         while (true) {
             try {
-                context(this) { this.statements.runNext() }
+                statements.runNext()
                 return true
             } catch (_: IncompleteException) {
                 if (wait) {

@@ -8,13 +8,14 @@ import parser.tokenizer.Type
 import program.expression.*
 
 class CallExpressionParser(override val precedence: Int) : InfixParser {
-    override fun parse(parser: Parser, spanStart: Int, token: Token, left: Expression): Expression {
+    context(parser: Parser)
+    override fun parse(spanStart: Int, token: Token, left: Expression): Expression {
         val namelessArguments: MutableList<Expression> = mutableListOf()
         val namedArguments: MutableMap<String, Expression> = mutableMapOf()
         var parseDefaults = false
 
         while (!parser.peekIs(Type.RIGHT_PARENTHESIS)) {
-            val expression: Expression = ExpressionParser.parse(parser, 0, true)
+            val expression: Expression = ExpressionParser.parse(0, true)
 
             if (expression is AssignExpression && expression.operator == "=") {
                 parseDefaults = true

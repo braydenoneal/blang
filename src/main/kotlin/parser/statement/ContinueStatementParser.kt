@@ -5,7 +5,8 @@ import program.statement.ContinueStatement
 import program.statement.Statement
 
 class ContinueStatementParser : StatementParser {
-    override fun parse(parser: Parser, spanStart: Int): Statement {
+    context(parser: Parser)
+    override fun parse(spanStart: Int): Statement {
         parser.expectStatementEnd()
         return ContinueStatement()
     }

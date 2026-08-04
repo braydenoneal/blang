@@ -6,7 +6,8 @@ import program.expression.Expression
 import program.expression.value.FunctionValue
 
 class FunctionValueParser : PrefixParser {
-    override fun parse(parser: Parser, spanStart: Int, token: Token): Expression {
-        return FunctionValue(FunctionParser.parse(parser, false))
+    context(parser: Parser)
+    override fun parse(spanStart: Int, token: Token): Expression {
+        return FunctionValue(FunctionParser.parse(false))
     }
 }

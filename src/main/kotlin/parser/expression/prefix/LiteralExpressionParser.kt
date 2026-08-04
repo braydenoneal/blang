@@ -12,7 +12,8 @@ import program.expression.value.StringValue
 import program.expression.value.util.Null
 
 class LiteralExpressionParser : PrefixParser {
-    override fun parse(parser: Parser, spanStart: Int, token: Token): Expression {
+    context(parser: Parser)
+    override fun parse(spanStart: Int, token: Token): Expression {
         return when (token.type) {
             Type.BOOLEAN -> BooleanValue(token.value == "true")
             Type.QUOTE -> StringValue(token.value)

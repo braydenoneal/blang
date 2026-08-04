@@ -7,7 +7,8 @@ import program.statement.DeleteStatement
 import program.statement.Statement
 
 class DeleteStatementParser : StatementParser {
-    override fun parse(parser: Parser, spanStart: Int): Statement {
+    context(parser: Parser)
+    override fun parse(spanStart: Int): Statement {
         if (!parser.peekIs(Type.IDENTIFIER)) {
             throw ParseException("Expression is not an identifier", parser.spanFrom(spanStart))
         }
