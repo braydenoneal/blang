@@ -55,12 +55,7 @@ class FloatValue(value: Float) : Value<Float>(value) {
         }
     }
 
-    fun toInt(
-        @Suppress("unused")
-        program: Program,
-        @Suppress("unused")
-        arguments: Arguments,
-    ): Value<*> {
+    fun toInt(@Suppress("unused") program: Program, @Suppress("unused") arguments: Arguments): Value<*> {
         return IntegerValue(value.toInt())
     }
 }

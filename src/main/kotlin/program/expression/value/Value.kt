@@ -73,12 +73,7 @@ abstract class Value<T>(open val value: T) : Operand<T>(), Callable {
         }
     }
 
-    fun toStringValue(
-        @Suppress("unused")
-        program: Program,
-        @Suppress("unused")
-        arguments: Arguments,
-    ): Value<*> {
+    fun toStringValue(@Suppress("unused") program: Program, @Suppress("unused") arguments: Arguments): Value<*> {
         return StringValue(toString())
     }
 

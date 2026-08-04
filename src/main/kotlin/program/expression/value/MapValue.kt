@@ -41,30 +41,15 @@ class MapValue(value: MutableMap<Value<*>, Value<*>>) : Value<MutableMap<Value<*
         }
     }
 
-    fun keys(
-        @Suppress("unused")
-        program: Program,
-        @Suppress("unused")
-        arguments: Arguments,
-    ): Value<*> {
+    fun keys(@Suppress("unused") program: Program, @Suppress("unused") arguments: Arguments): Value<*> {
         return ListValue(value.keys.toMutableList())
     }
 
-    fun values(
-        @Suppress("unused")
-        program: Program,
-        @Suppress("unused")
-        arguments: Arguments,
-    ): Value<*> {
+    fun values(@Suppress("unused") program: Program, @Suppress("unused") arguments: Arguments): Value<*> {
         return ListValue(value.values.toMutableList())
     }
 
-    fun entries(
-        @Suppress("unused")
-        program: Program,
-        @Suppress("unused")
-        arguments: Arguments,
-    ): Value<*> {
+    fun entries(@Suppress("unused") program: Program, @Suppress("unused") arguments: Arguments): Value<*> {
         return ListValue(toList().toMutableList())
     }
 

@@ -59,12 +59,7 @@ class IntegerValue(value: Int) : Value<Int>(value) {
         }
     }
 
-    fun toFloat(
-        @Suppress("unused")
-        program: Program,
-        @Suppress("unused")
-        arguments: Arguments,
-    ): Value<*> {
+    fun toFloat(@Suppress("unused") program: Program, @Suppress("unused") arguments: Arguments): Value<*> {
         return FloatValue(value.toFloat())
     }
 }

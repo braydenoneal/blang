@@ -67,12 +67,7 @@ class ListValue(value: MutableList<Value<*>>) : Value<MutableList<Value<*>>>(val
         return this
     }
 
-    fun pop(
-        @Suppress("unused")
-        program: Program,
-        @Suppress("unused")
-        arguments: Arguments,
-    ): Value<*> {
+    fun pop(@Suppress("unused") program: Program, @Suppress("unused") arguments: Arguments): Value<*> {
         value.removeLast()
         return this
     }
@@ -89,21 +84,11 @@ class ListValue(value: MutableList<Value<*>>) : Value<MutableList<Value<*>>>(val
         return this
     }
 
-    fun reversed(
-        @Suppress("unused")
-        program: Program,
-        @Suppress("unused")
-        arguments: Arguments,
-    ): Value<*> {
+    fun reversed(@Suppress("unused") program: Program, @Suppress("unused") arguments: Arguments): Value<*> {
         return ListValue(value.reversed().toMutableList())
     }
 
-    fun reverse(
-        @Suppress("unused")
-        program: Program,
-        @Suppress("unused")
-        arguments: Arguments,
-    ): Value<*> {
+    fun reverse(@Suppress("unused") program: Program, @Suppress("unused") arguments: Arguments): Value<*> {
         value.reverse()
         return this
     }

@@ -41,30 +41,15 @@ class StringValue(value: String) : Value<String>(value) {
         return BooleanValue(value.contains(item, ignoreCase))
     }
 
-    fun uppercase(
-        @Suppress("unused")
-        program: Program,
-        @Suppress("unused")
-        arguments: Arguments,
-    ): Value<*> {
+    fun uppercase(@Suppress("unused") program: Program, @Suppress("unused") arguments: Arguments): Value<*> {
         return StringValue(value.uppercase())
     }
 
-    fun lowercase(
-        @Suppress("unused")
-        program: Program,
-        @Suppress("unused")
-        arguments: Arguments,
-    ): Value<*> {
+    fun lowercase(@Suppress("unused") program: Program, @Suppress("unused") arguments: Arguments): Value<*> {
         return StringValue(value.lowercase())
     }
 
-    fun length(
-        @Suppress("unused")
-        program: Program,
-        @Suppress("unused")
-        arguments: Arguments,
-    ): Value<*> {
+    fun length(@Suppress("unused") program: Program, @Suppress("unused") arguments: Arguments): Value<*> {
         return IntegerValue(value.length)
     }
 
@@ -74,22 +59,12 @@ class StringValue(value: String) : Value<String>(value) {
         return StringValue(value.substring(start, end))
     }
 
-    fun lines(
-        @Suppress("unused")
-        program: Program,
-        @Suppress("unused")
-        arguments: Arguments,
-    ): Value<*> {
+    fun lines(@Suppress("unused") program: Program, @Suppress("unused") arguments: Arguments): Value<*> {
         val lines: MutableList<Value<*>> = value.lines().map { string -> StringValue(string) }.toMutableList()
         return ListValue(lines)
     }
 
-    fun reversed(
-        @Suppress("unused")
-        program: Program,
-        @Suppress("unused")
-        arguments: Arguments,
-    ): Value<*> {
+    fun reversed(@Suppress("unused") program: Program, @Suppress("unused") arguments: Arguments): Value<*> {
         return StringValue(value.reversed())
     }
 }
