@@ -8,17 +8,7 @@ class ListValue(value: MutableList<Value<*>>) : Value<MutableList<Value<*>>>(val
     override fun typeString(): String = "list"
 
     override fun toString(): String {
-        val print = StringBuilder("[")
-
-        for (i in value.indices) {
-            print.append(value[i].toString())
-
-            if (i < value.size - 1) {
-                print.append(", ")
-            }
-        }
-
-        return "$print]"
+        return "[${value.joinToString()}]"
     }
 
     override fun toList(): List<Value<*>> {
