@@ -71,3 +71,8 @@ context(program: Program, arguments: Arguments)
 inline fun <reified T : Value<*>> Callable.get(name: String, default: T? = null): T {
     return arguments.get<T>(name, default)
 }
+
+context(program: Program, arguments: Arguments)
+inline fun <reified T : Value<*>> Callable.getNullable(name: String): T? {
+    return arguments.getNullable<T>(name)
+}

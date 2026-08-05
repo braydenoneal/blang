@@ -22,7 +22,7 @@ class Arguments(
     }
 
     context(program: Program)
-    fun getAny(name: String, default: Value<*>? = null): Value<*> {
+    fun getAnyNullable(name: String): Value<*>? {
         if (computed.containsKey(name)) {
             return computed[name]!!
         }
@@ -42,6 +42,17 @@ class Arguments(
             }
         }
 
+        return null
+    }
+
+    context(program: Program)
+    fun getAny(name: String, default: Value<*>? = null): Value<*> {
+        val value = getAnyNullable(name)
+
+        if (value != null) {
+            return value
+        }
+
         if (default == null) {
             throw RunException("Missing argument $name", span)
         }
@@ -53,6 +64,11 @@ class Arguments(
     context(program: Program)
     inline fun <reified T : Value<*>> get(name: String, default: T? = null): T {
         return getAny(name, default).cast<T>()
+    }
+
+    context(program: Program)
+    inline fun <reified T : Value<*>> getNullable(name: String): T? {
+        return getAnyNullable(name)?.cast<T>()
     }
 
     fun abort() {
