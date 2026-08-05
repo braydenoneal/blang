@@ -3,16 +3,13 @@ package program.expression.builtin
 import program.Program
 import program.RunException
 import program.expression.Arguments
-import program.expression.value.Callable
-import program.expression.value.FloatValue
-import program.expression.value.IntegerValue
-import program.expression.value.Value
+import program.expression.value.*
 import kotlin.math.roundToInt
 
 object Round : Callable {
     context(program: Program, arguments: Arguments)
     override fun innerCall(): Value<*> {
-        val value = arguments.getAny("value")
+        val value = getAny("value")
 
         if (value is IntegerValue) {
             return value

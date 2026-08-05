@@ -60,3 +60,14 @@ interface Callable {
         arguments.done()
     }
 }
+
+@Suppress("UnusedReceiverParameter")
+context(program: Program, arguments: Arguments)
+fun Callable.getAny(name: String, default: Value<*>? = null): Value<*> {
+    return arguments.getAny(name, default)
+}
+
+context(program: Program, arguments: Arguments)
+inline fun <reified T : Value<*>> Callable.get(name: String, default: T? = null): T {
+    return arguments.get<T>(name, default)
+}

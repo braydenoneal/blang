@@ -3,17 +3,14 @@ package program.expression.builtin
 import program.Program
 import program.RunException
 import program.expression.Arguments
-import program.expression.value.Callable
-import program.expression.value.FloatValue
-import program.expression.value.IntegerValue
-import program.expression.value.Value
+import program.expression.value.*
 import kotlin.math.max
 
 object Maximum : Callable {
     context(program: Program, arguments: Arguments)
     override fun innerCall(): Value<*> {
-        var a = arguments.getAny("a")
-        var b = arguments.getAny("b")
+        var a = getAny("a")
+        var b = getAny("b")
 
         if (a is IntegerValue && b is FloatValue) {
             a = FloatValue(a.value.toFloat())

@@ -38,8 +38,8 @@ class StringValue(value: String) : Value<String>(value) {
 
     context(program: Program, arguments: Arguments)
     fun contains(): Value<*> {
-        val item = arguments.get<StringValue>("value").value
-        val ignoreCase = arguments.get<BooleanValue>("ignoreCase", BooleanValue(false)).value
+        val item = get<StringValue>("value").value
+        val ignoreCase = get<BooleanValue>("ignoreCase", BooleanValue(false)).value
         return BooleanValue(value.contains(item, ignoreCase))
     }
 
@@ -57,8 +57,8 @@ class StringValue(value: String) : Value<String>(value) {
 
     context(program: Program, arguments: Arguments)
     fun substring(): Value<*> {
-        val start = arguments.get<IntegerValue>("start").value
-        val end = arguments.get<IntegerValue>("end").value
+        val start = get<IntegerValue>("start").value
+        val end = get<IntegerValue>("end").value
         return StringValue(value.substring(start, end))
     }
 

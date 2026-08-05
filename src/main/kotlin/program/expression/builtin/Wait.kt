@@ -5,13 +5,14 @@ import program.expression.Arguments
 import program.expression.value.Callable
 import program.expression.value.IntegerValue
 import program.expression.value.Value
+import program.expression.value.get
 import program.expression.value.util.Null
 import program.statement.IncompleteException
 
 object Wait : Callable {
     context(program: Program, arguments: Arguments)
     override fun innerCall(): Value<*> {
-        val value = arguments.get<IntegerValue>("value", IntegerValue(1))
+        val value = get<IntegerValue>("value", IntegerValue(1))
 
         arguments.counter++
 

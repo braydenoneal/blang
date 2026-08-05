@@ -83,7 +83,7 @@ abstract class Value<T>(open val value: T) : Operand<T>(), Callable {
 
     context(program: Program, arguments: Arguments)
     fun to(): Value<*> {
-        return PairValue(this to arguments.getAny("second"))
+        return PairValue(this to getAny("second"))
     }
 
     open fun getStatic(): Static? {

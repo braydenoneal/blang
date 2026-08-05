@@ -61,7 +61,7 @@ class MapValue(value: MutableMap<Value<*>, Value<*>>) : Value<MutableMap<Value<*
         override fun innerCall(): Value<*> {
             val map = mutableMapOf<Value<*>, Value<*>>()
 
-            for (pair in arguments.get<ListValue>("pairs").value) {
+            for (pair in get<ListValue>("pairs").value) {
                 val (first, second) = pair.cast<PairValue>().value
                 map[first] = second
             }

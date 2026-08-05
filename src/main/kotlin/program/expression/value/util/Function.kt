@@ -7,6 +7,7 @@ import program.expression.Arguments
 import program.expression.Expression
 import program.expression.value.Callable
 import program.expression.value.Value
+import program.expression.value.getAny
 import program.statement.ReturnStatement
 import program.statement.StatementList
 
@@ -26,18 +27,18 @@ class Function(
         val scope = scope!!
 
         if (arguments.hasSelf) {
-            scope.setLocal("self", arguments.getAny("self"))
+            scope.setLocal("self", getAny("self"))
         }
 
         for (name in parameters) {
             if (name !in scope.variables) {
-                scope.setLocal(name, arguments.getAny(name))
+                scope.setLocal(name, getAny(name))
             }
         }
 
         for ((name, expression) in defaultParameters) {
             if (name !in scope.variables) {
-                scope.setLocal(name, arguments.getAny(name, expression.evaluate()))
+                scope.setLocal(name, getAny(name, expression.evaluate()))
             }
         }
 

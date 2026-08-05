@@ -45,13 +45,13 @@ class ListValue(value: MutableList<Value<*>>) : Value<MutableList<Value<*>>>(val
 
     context(program: Program, arguments: Arguments)
     fun append(): Value<*> {
-        value.add(arguments.getAny("value"))
+        value.add(getAny("value"))
         return this
     }
 
     context(program: Program, arguments: Arguments)
     fun containsAll(): Value<*> {
-        val nextListValue = arguments.getAny("value")
+        val nextListValue = getAny("value")
 
         if (nextListValue is ListValue) {
             return BooleanValue(value.containsAll(nextListValue.value))
@@ -62,13 +62,13 @@ class ListValue(value: MutableList<Value<*>>) : Value<MutableList<Value<*>>>(val
 
     context(program: Program, arguments: Arguments)
     fun contains(): Value<*> {
-        return BooleanValue(value.contains(arguments.getAny("value")))
+        return BooleanValue(value.contains(getAny("value")))
     }
 
     context(program: Program, arguments: Arguments)
     fun insert(): Value<*> {
-        val index = arguments.get<IntegerValue>("index").value
-        val insertValue = arguments.getAny("value")
+        val index = get<IntegerValue>("index").value
+        val insertValue = getAny("value")
         value.add(index, insertValue)
         return this
     }
@@ -80,7 +80,7 @@ class ListValue(value: MutableList<Value<*>>) : Value<MutableList<Value<*>>>(val
 
     context(program: Program, arguments: Arguments)
     fun remove(): Value<*> {
-        val removeValue = arguments.getAny("value")
+        val removeValue = getAny("value")
 
         if (removeValue is IntegerValue) {
             value.removeAt(removeValue.value)

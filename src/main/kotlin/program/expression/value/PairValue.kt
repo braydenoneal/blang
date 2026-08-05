@@ -24,7 +24,7 @@ class PairValue(value: Pair<Value<*>, Value<*>>) : Value<Pair<Value<*>, Value<*>
 
         context(program: Program, arguments: Arguments)
         override fun innerCall(): Value<*> {
-            return PairValue(arguments.getAny("first") to arguments.getAny("second"))
+            return PairValue(getAny("first") to getAny("second"))
         }
     }
 }

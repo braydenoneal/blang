@@ -31,7 +31,7 @@ class RangeValue(value: Range) : Value<Range>(value) {
 
     context(program: Program, arguments: Arguments)
     fun step(): Value<*> {
-        val step = arguments.get<IntegerValue>("value").value
+        val step = get<IntegerValue>("value").value
         return RangeValue(Range(value.start, value.end, step))
     }
 
@@ -44,9 +44,9 @@ class RangeValue(value: Range) : Value<Range>(value) {
 
         context(program: Program, arguments: Arguments)
         override fun innerCall(): Value<*> {
-            val start = arguments.get<IntegerValue>("start", IntegerValue(0)).value
-            val end = arguments.get<IntegerValue>("end").value
-            val step = arguments.get<IntegerValue>("step", IntegerValue(1)).value
+            val start = get<IntegerValue>("start", IntegerValue(0)).value
+            val end = get<IntegerValue>("end").value
+            val step = get<IntegerValue>("step", IntegerValue(1)).value
             return RangeValue(Range(start, end, step))
         }
     }

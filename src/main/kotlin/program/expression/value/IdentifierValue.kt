@@ -105,11 +105,11 @@ class IdentifierValue(value: String) : Value<String>(value) {
             val variables = mutableMapOf<String, Value<*>>()
 
             for (name in structDefinition.parameters) {
-                variables[name] = arguments.getAny(name)
+                variables[name] = getAny(name)
             }
 
             for ((name, default) in structDefinition.defaultParameters) {
-                variables[name] = arguments.getAny(name, default.evaluate())
+                variables[name] = getAny(name, default.evaluate())
             }
 
             return StructValue(Struct(structDefinition, variables))
