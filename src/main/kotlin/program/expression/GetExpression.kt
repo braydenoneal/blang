@@ -1,9 +1,9 @@
 package program.expression
 
 import program.Program
-import program.expression.value.FunctionValue
 import program.expression.value.Value
-import program.expression.value.util.Function
+import program.expression.value.function.Function
+import program.expression.value.function.FunctionValue
 
 class GetExpression(val function: Function) : Expression() {
     context(program: Program)

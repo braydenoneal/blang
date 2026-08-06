@@ -2,7 +2,7 @@ package program
 
 import parser.tokenizer.Span
 import program.expression.value.Value
-import program.expression.value.util.Null
+import program.expression.value.nullvalue.Null
 
 class Scope(
     val parent: Scope?,

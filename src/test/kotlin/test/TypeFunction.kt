@@ -1,6 +1,6 @@
 package testing.test
 
-import program.expression.value.StringValue
+import program.expression.value.string.StringValue
 
 class TypeFunction : Test() {
     override fun body(): String {
@@ -18,14 +18,14 @@ class TypeFunction : Test() {
 
     override fun expects(): List<Expect> {
         return listOf(
-            Expect("boolean", StringValue("boolean")),
-            Expect("float", StringValue("float")),
-            Expect("function", StringValue("function")),
-            Expect("integer", StringValue("integer")),
-            Expect("list", StringValue("list")),
-            Expect("nullType", StringValue("null")),
-            Expect("range", StringValue("range")),
-            Expect("string", StringValue("string")),
+            Expect("boolean", StringValue("Boolean")),
+            Expect("float", StringValue("Float")),
+            Expect("function", StringValue("Function")),
+            Expect("integer", StringValue("Integer")),
+            Expect("list", StringValue("List")),
+            Expect("nullType", StringValue("Null")),
+            Expect("range", StringValue("Range")),
+            Expect("string", StringValue("String")),
         )
     }
 }

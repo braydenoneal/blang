@@ -3,10 +3,13 @@ package program.expression.builtin
 import program.Program
 import program.RunException
 import program.expression.Arguments
-import program.expression.value.*
+import program.expression.value.Value
+import program.expression.value.floatvalue.FloatValue
+import program.expression.value.getAny
+import program.expression.value.integer.IntegerValue
 import kotlin.math.min
 
-object Minimum : Callable {
+object Minimum : Builtin() {
     context(program: Program, arguments: Arguments)
     override fun innerCall(): Value<*> {
         var a = getAny("a")

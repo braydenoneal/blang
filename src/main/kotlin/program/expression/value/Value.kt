@@ -4,7 +4,6 @@ import parser.tokenizer.Span
 import program.Program
 import program.RunException
 import program.expression.Arguments
-import java.util.Locale.getDefault
 
 abstract class Value<T>(open val value: T) : Operand<T>(), Callable {
     context(program: Program)
@@ -37,12 +36,8 @@ abstract class Value<T>(open val value: T) : Operand<T>(), Callable {
         return value == other
     }
 
-    abstract fun typeString(): String
-
-    val capitalType get(): String = typeString().replaceFirstChar { it.titlecase(getDefault()) }
-
     inline fun <reified T : Value<*>> cast(): T {
-        return this as? T ?: throw RunException("$capitalType is not of type ${T::class}", span)
+        return this as? T ?: throw RunException("${static.name} is not of type ${T::class}", span)
     }
 
     @Suppress("UNCHECKED_CAST")
@@ -56,37 +51,17 @@ abstract class Value<T>(open val value: T) : Operand<T>(), Callable {
 
     context(program: Program)
     open fun getItem(name: String): Value<*> {
-        return getStatic()?.getItem(name) ?: throw RunException("Value has no item '$name'", span)
+        throw RunException("Value has no item '$name'", span)
     }
 
     open fun assignItem(name: String, setValue: Value<*>): Value<*> {
-        throw RunException("$capitalType has no assignable item $name", span)
+        throw RunException("${static.name} has no assignable item $name", span)
     }
 
     context(program: Program, arguments: Arguments)
     override fun innerCallFunction(name: String, local: Boolean): Value<*> {
-        return callBaseFunction(name) ?: getStatic()?.innerCallFunction(name) ?: throw RunException("$capitalType has no function '$name'")
+        throw RunException("${static.name} has no function '$name'")
     }
 
-    context(program: Program, arguments: Arguments)
-    fun callBaseFunction(name: String): Value<*>? {
-        return when (name) {
-            "toString" -> toStringValue()
-            "to" -> to()
-            else -> null
-        }
-    }
-
-    fun toStringValue(): Value<*> {
-        return StringValue(toString())
-    }
-
-    context(program: Program, arguments: Arguments)
-    fun to(): Value<*> {
-        return PairValue(this to getAny("second"))
-    }
-
-    open fun getStatic(): Static? {
-        return null
-    }
+    abstract val static: Static<out Value<T>>
 }

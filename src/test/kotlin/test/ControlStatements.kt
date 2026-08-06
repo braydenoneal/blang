@@ -1,8 +1,8 @@
 package testing.test
 
-import program.expression.value.BooleanValue
-import program.expression.value.IntegerValue
-import program.expression.value.util.Null
+import program.expression.value.booleanvalue.BooleanValue
+import program.expression.value.integer.IntegerValue
+import program.expression.value.nullvalue.Null
 
 class ControlStatements : Test() {
     override fun body(): String {

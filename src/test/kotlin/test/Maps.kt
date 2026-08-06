@@ -1,6 +1,10 @@
 package testing.test
 
-import program.expression.value.*
+import program.expression.value.integer.IntegerValue
+import program.expression.value.list.ListValue
+import program.expression.value.map.MapValue
+import program.expression.value.pair.PairValue
+import program.expression.value.string.StringValue
 
 class Maps : Test() {
     override fun body(): String {
@@ -12,9 +16,9 @@ class Maps : Test() {
             }
             
             b = map["b"]
-            keys = map.keys()
-            values = map.values()
-            entries = map.entries()
+            keys = map.keys
+            values = map.values
+            entries = map.entries
             
             total = 0
             

@@ -1,8 +1,8 @@
 package program.expression
 
 import program.Program
-import program.expression.value.StringValue
 import program.expression.value.Value
+import program.expression.value.string.StringValue
 
 class StringExpression(
     val stringExpressionPairs: MutableList<Pair<String, Expression>>,

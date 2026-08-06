@@ -1,8 +1,8 @@
 package program.expression
 
 import program.Program
-import program.expression.value.IdentifierValue
 import program.expression.value.Value
+import program.expression.value.identifier.IdentifierValue
 
 class IdentifierExpression(val name: String) : Expression() {
     context(program: Program)

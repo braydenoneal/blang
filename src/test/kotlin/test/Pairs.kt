@@ -1,8 +1,8 @@
 package testing.test
 
-import program.expression.value.IntegerValue
-import program.expression.value.PairValue
-import program.expression.value.StringValue
+import program.expression.value.integer.IntegerValue
+import program.expression.value.pair.PairValue
+import program.expression.value.string.StringValue
 
 class Pairs : Test() {
     override fun body(): String {

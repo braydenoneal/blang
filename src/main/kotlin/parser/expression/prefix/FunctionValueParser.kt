@@ -3,7 +3,7 @@ package parser.expression.prefix
 import parser.Parser
 import parser.tokenizer.Token
 import program.expression.Expression
-import program.expression.value.FunctionValue
+import program.expression.value.function.FunctionValue
 
 class FunctionValueParser : PrefixParser {
     context(parser: Parser)

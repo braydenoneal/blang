@@ -3,7 +3,7 @@ package parser.statement
 import parser.Parser
 import parser.expression.prefix.FunctionParser
 import parser.tokenizer.Type
-import program.expression.value.FunctionValue
+import program.expression.value.function.FunctionValue
 import program.statement.FunctionStatement
 import program.statement.Statement
 

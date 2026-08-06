@@ -1,6 +1,6 @@
 package testing.test
 
-import program.expression.value.IntegerValue
+import program.expression.value.integer.IntegerValue
 
 class ForLoops : Test() {
     override fun body(): String {

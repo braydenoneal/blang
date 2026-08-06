@@ -5,11 +5,11 @@ import parser.Parser
 import parser.tokenizer.Token
 import parser.tokenizer.Type
 import program.expression.Expression
-import program.expression.value.BooleanValue
-import program.expression.value.FloatValue
-import program.expression.value.IntegerValue
-import program.expression.value.StringValue
-import program.expression.value.util.Null
+import program.expression.value.booleanvalue.BooleanValue
+import program.expression.value.floatvalue.FloatValue
+import program.expression.value.integer.IntegerValue
+import program.expression.value.nullvalue.Null
+import program.expression.value.string.StringValue
 
 class LiteralExpressionParser : PrefixParser {
     context(parser: Parser)

@@ -2,13 +2,12 @@ package program.expression.builtin
 
 import program.Program
 import program.expression.Arguments
-import program.expression.value.Callable
-import program.expression.value.StringValue
 import program.expression.value.Value
 import program.expression.value.getAny
-import program.expression.value.util.Null
+import program.expression.value.nullvalue.Null
+import program.expression.value.string.StringValue
 
-object Print : Callable {
+object Print : Builtin() {
     context(program: Program, arguments: Arguments)
     override fun innerCall(): Value<*> {
         val value = getAny("value", StringValue(""))

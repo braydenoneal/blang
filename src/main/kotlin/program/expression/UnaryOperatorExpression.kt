@@ -2,8 +2,8 @@ package program.expression
 
 import program.Program
 import program.RunException
-import program.expression.value.BooleanValue
 import program.expression.value.Value
+import program.expression.value.booleanvalue.BooleanValue
 
 class UnaryOperatorExpression(
     val operator: String,

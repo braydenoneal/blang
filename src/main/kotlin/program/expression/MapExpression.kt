@@ -1,8 +1,8 @@
 package program.expression
 
 import program.Program
-import program.expression.value.MapValue
 import program.expression.value.Value
+import program.expression.value.map.MapValue
 
 class MapExpression(
     val expressions: MutableList<Pair<Expression, Expression>>,

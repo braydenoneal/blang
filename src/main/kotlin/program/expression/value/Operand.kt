@@ -2,6 +2,8 @@ package program.expression.value
 
 import program.RunException
 import program.expression.Expression
+import program.expression.value.integer.IntegerValue
+import program.expression.value.list.ListValue
 
 abstract class Operand<T> : Expression() {
     open fun negative(): Value<*> {

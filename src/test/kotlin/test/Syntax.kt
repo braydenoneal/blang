@@ -1,7 +1,7 @@
 package testing.test
 
-import program.expression.value.IntegerValue
-import program.expression.value.ListValue
+import program.expression.value.integer.IntegerValue
+import program.expression.value.list.ListValue
 
 class Syntax : Test() {
     override fun body(): String {

@@ -1,8 +1,8 @@
 package testing.test
 
-import program.expression.value.BooleanValue
-import program.expression.value.FloatValue
-import program.expression.value.IntegerValue
+import program.expression.value.booleanvalue.BooleanValue
+import program.expression.value.floatvalue.FloatValue
+import program.expression.value.integer.IntegerValue
 
 class Operations : Test() {
     override fun body(): String {

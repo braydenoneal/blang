@@ -5,7 +5,7 @@ fun main() {
     Program.initialize()
     val program = Program(
         """
-            print([0, "one", false, 0.1, { 0: 1 }, "two"])
+            [].size
         """.trimIndent(),
     )
 

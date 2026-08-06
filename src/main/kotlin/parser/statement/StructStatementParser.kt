@@ -5,8 +5,8 @@ import parser.Parser
 import parser.expression.prefix.ParametersParser
 import parser.tokenizer.Type
 import program.expression.Expression
-import program.expression.value.FunctionValue
-import program.expression.value.util.StructDefinition
+import program.expression.value.function.FunctionValue
+import program.expression.value.struct.StructDefinition
 import program.statement.FunctionStatement
 import program.statement.Statement
 import program.statement.StaticStatement

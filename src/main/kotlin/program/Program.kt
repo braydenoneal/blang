@@ -2,9 +2,9 @@ package program
 
 import parser.Parser
 import program.expression.builtin.BuiltinFunctions
-import program.expression.value.FunctionValue
 import program.expression.value.Static
-import program.expression.value.util.StructDefinition
+import program.expression.value.function.FunctionValue
+import program.expression.value.struct.StructDefinition
 import program.statement.ImportStatement
 import program.statement.IncompleteException
 import program.statement.StatementList

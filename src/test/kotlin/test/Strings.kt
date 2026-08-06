@@ -1,6 +1,6 @@
 package testing.test
 
-import program.expression.value.StringValue
+import program.expression.value.string.StringValue
 
 class Strings : Test() {
     override fun body(): String {

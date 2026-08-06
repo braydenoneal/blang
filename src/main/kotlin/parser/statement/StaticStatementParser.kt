@@ -4,7 +4,7 @@ import parser.ParseException
 import parser.Parser
 import parser.tokenizer.Type
 import program.expression.Expression
-import program.expression.value.FunctionValue
+import program.expression.value.function.FunctionValue
 import program.statement.FunctionStatement
 import program.statement.Statement
 import program.statement.StaticStatement

@@ -1,8 +1,8 @@
 package testing.test
 
-import program.expression.value.FloatValue
-import program.expression.value.IntegerValue
-import program.expression.value.StringValue
+import program.expression.value.floatvalue.FloatValue
+import program.expression.value.integer.IntegerValue
+import program.expression.value.string.StringValue
 
 class MathFunctions : Test() {
     override fun body(): String {

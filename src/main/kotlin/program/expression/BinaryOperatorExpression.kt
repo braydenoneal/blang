@@ -2,7 +2,11 @@ package program.expression
 
 import program.Program
 import program.RunException
-import program.expression.value.*
+import program.expression.value.Value
+import program.expression.value.booleanvalue.BooleanValue
+import program.expression.value.floatvalue.FloatValue
+import program.expression.value.integer.IntegerValue
+import program.expression.value.string.StringValue
 
 class BinaryOperatorExpression(
     val operator: String,
