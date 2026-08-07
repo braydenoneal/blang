@@ -14,6 +14,7 @@ class VariableAssignment : Test() {
             d += 1
             d -= 2
             `if` = 3
+            `abc 123 !@#` = 4
         """.trimIndent()
     }
 
@@ -24,6 +25,7 @@ class VariableAssignment : Test() {
             Expect("c", IntegerValue(1)),
             Expect("d", IntegerValue(-1)),
             Expect("if", IntegerValue(3)),
+            Expect("abc 123 !@#", IntegerValue(4)),
         )
     }
 }
